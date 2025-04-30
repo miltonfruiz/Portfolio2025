@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUser, FaUserShield, FaUserCog } from "react-icons/fa"; // Iconos de Font Awesome
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
   const buttonBaseClasses =
-    "w-full md:w-48 px-6 py-2 rounded-md font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "text-sm flex items-center justify-center gap-2 w-full md:w-48 px-6 py-3 rounded-md font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
   const buttonVariantClasses = {
     guest: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
     user: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
@@ -24,6 +25,7 @@ const WelcomeScreen = () => {
           className={`${buttonBaseClasses} ${buttonVariantClasses.guest}`}
           aria-label="Acceder como invitado"
         >
+          <FaUser className="w-3 h-3" aria-hidden="true" />
           Invitado
         </button>
         <button
@@ -31,6 +33,7 @@ const WelcomeScreen = () => {
           className={`${buttonBaseClasses} ${buttonVariantClasses.user}`}
           aria-label="Acceder como usuario"
         >
+          <FaUserShield className="w-4 h-4" aria-hidden="true" />
           Usuario
         </button>
         <button
@@ -38,11 +41,11 @@ const WelcomeScreen = () => {
           className={`${buttonBaseClasses} ${buttonVariantClasses.admin}`}
           aria-label="Acceder como administrador"
         >
+          <FaUserCog className="w-4 h-4" aria-hidden="true" />
           Administrador
         </button>
       </div>
     </div>
   );
 };
-
 export default WelcomeScreen;
