@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const WelcomeScreen = () => {
   const navigate = useNavigate();
   const buttonBaseClasses =
-    "w-full md:w-48 px-6 py-3 rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "w-full md:w-48 px-6 py-2 rounded-md font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
   const buttonVariantClasses = {
     guest: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
     user: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
