@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { FaUser, FaUserShield, FaUserCog } from "react-icons/fa"; // Iconos de Font Awesome
+import { FaUser, FaUserShield, FaUserCog } from "react-icons/fa";
 
 const WelcomeScreen = () => {
-  const navigate = useNavigate();
   const buttonBaseClasses =
     "text-sm flex items-center justify-center gap-2 w-full md:w-48 px-6 py-3 rounded-md font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
   const buttonVariantClasses = {
