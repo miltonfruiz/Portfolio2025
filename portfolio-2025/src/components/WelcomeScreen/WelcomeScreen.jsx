@@ -1,49 +1,55 @@
 import React from "react";
-import { FaUser, FaUserShield, FaUserCog } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 const WelcomeScreen = () => {
+  const navigate = useNavigate();
   const buttonBaseClasses =
-    "text-sm flex items-center justify-center gap-2 w-full md:w-48 px-6 py-3 rounded-md font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2";
-  const buttonVariantClasses = {
-    guest: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
-    user: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    admin: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+    "flex items-center justify-center gap-3 w-full md:w-56 px-8 py-3 rounded-xl font-bold transition-all duration-500 border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black";
+  const buttonVariants = {
+    yes: "bg-onyx text-gold-light border-gold-light hover:shadow-gold-glow hover:-translate-y-1",
+    no: "bg-onyx text-platinum border-platinum hover:shadow-platinum-glow hover:-translate-y-1",
   };
-  const handleButtonClick = (role) => {
-    console.log(`Rol seleccionado: ${role}`);
+  const handleResponse = (response) => {
+    console.log(`Respuesta: ${response}`);
+    if (response === "yes") {
+      navigate("/auth");
+    } else {
+      document.querySelector("h1").classList.add("animate-shake");
+      setTimeout(() => {
+        document.querySelector("h1").classList.remove("animate-shake");
+      }, 500);
+    }
   };
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-blue-900 p-4">
-      <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-8 animate-fade-in">
-        ¿Estás listo para esto?
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black p-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('https://assets.codepen.io/939494/neon-grid.png')] opacity-20"></div>
+
+      <h1 className="text-5xl md:text-6xl font-bold text-center text-gold-light mb-12 z-10 animate-neon-pulse">
+        ¿Estás list@ para esto?
       </h1>
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full max-w-md">
+
+      <div className="flex flex-col md:flex-row gap-6 w-full max-w-lg z-10">
         <button
-          onClick={() => handleButtonClick("guest")}
-          className={`${buttonBaseClasses} ${buttonVariantClasses.guest}`}
-          aria-label="Acceder como invitado"
+          onClick={() => handleResponse("yes")}
+          className={`${buttonBaseClasses} ${buttonVariants.yes}`}
+          aria-label="Sí, continuar"
         >
-          <FaUser className="w-3 h-3" aria-hidden="true" />
-          Invitado
+          <FaCheck className="w-5 h-5 text-gold-light animate-pulse" />
+          <span className="text-gold-light">Sí</span>
         </button>
+
         <button
-          onClick={() => handleButtonClick("user")}
-          className={`${buttonBaseClasses} ${buttonVariantClasses.user}`}
-          aria-label="Acceder como usuario"
+          onClick={() => handleResponse("no")}
+          className={`${buttonBaseClasses} ${buttonVariants.no}`}
+          aria-label="No, cancelar"
         >
-          <FaUserShield className="w-4 h-4" aria-hidden="true" />
-          Usuario
-        </button>
-        <button
-          onClick={() => handleButtonClick("admin")}
-          className={`${buttonBaseClasses} ${buttonVariantClasses.admin}`}
-          aria-label="Acceder como administrador"
-        >
-          <FaUserCog className="w-4 h-4" aria-hidden="true" />
-          Administrador
+          <FaTimes className="w-5 h-5 text-platinum" />
+          <span className="text-platinum">No</span>
         </button>
       </div>
     </div>
   );
 };
+
 export default WelcomeScreen;
