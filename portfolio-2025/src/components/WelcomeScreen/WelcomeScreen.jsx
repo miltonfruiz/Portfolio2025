@@ -1,56 +1,142 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaTerminal, FaMoon } from "react-icons/fa";
 import "./WelcomeScreen.css";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
+  const [glitchActive, setGlitchActive] = useState(false);
+  const [textElements, setTextElements] = useState({
+    title: "$ ./bienvenid@.sh",
+    subtitle: "# ¿Estás list@?",
+    terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
+    footer:
+      "SYSTEM READY • [USER: miltonfruiz] • [PASSWORD: ******] • LOADING TERMINAL: 100% • MEMORY: 64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%",
+  });
   const buttonBaseClasses =
-    "flex items-center justify-center gap-3 w-full md:w-64 px-8 py-4 rounded-none font-mono font-bold transition-all duration-200 border-2 hover:-translate-y-0.5 focus:outline-none";
+    "flex items-center justify-center gap-1 sm:gap-2 md:gap-3 w-full sm:w-auto md:w-48 rounded-none font-mono font-bold transition-all duration-200 border-2 hover:-translate-y-0.5 focus:outline-none";
+  const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
+  const triggerGlitch = () => {
+    setGlitchActive(true);
+    const originalTexts = { ...textElements };
+    let iterations = 0;
+    const glitchInterval = setInterval(() => {
+      setTextElements({
+        title: glitchText(originalTexts.title, iterations, 8),
+        subtitle: glitchText(originalTexts.subtitle, iterations, 5),
+        terminal: glitchText(originalTexts.terminal, iterations, 10),
+        footer: glitchText(originalTexts.footer, iterations, 15),
+      });
+      iterations++;
+      if (iterations > 10) {
+        clearInterval(glitchInterval);
+        setTextElements(originalTexts);
+        setGlitchActive(false);
+      }
+    }, 50);
+  };
+  const glitchText = (text, iterations, intensity) => {
+    return text
+      .split("")
+      .map((char, index) => {
+        if (index < iterations || Math.random() > intensity / 10) return char;
+        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+      })
+      .join("");
+  };
   const handleAccess = (type) => {
     console.log(`[SYSTEM] Access: ${type.toUpperCase()}`);
-    if (type === "login") navigate("/auth");
+    triggerGlitch();
+    setTimeout(() => {
+      if (type === "login") navigate("/auth");
+    }, 500);
   };
+  useEffect(() => {
+    const randomGlitch = setInterval(() => {
+      if (Math.random() > 0.7) triggerGlitch();
+    }, 8000 + Math.random() * 7000);
+    return () => clearInterval(randomGlitch);
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
       <div className="scanlines" />
       <div className="crt-overlay" />
       <div className="crt-curvature" />
+      {glitchActive && (
+        <>
+          <div className="absolute inset-0 bg-cyber-primary opacity-10 z-20 pointer-events-none"></div>
+          <div className="glitch-lines absolute inset-0 z-20 pointer-events-none"></div>
+        </>
+      )}
       <div className="relative z-10 text-center mb-12">
-        <div className="font-mono text-cyber-primary text-sm md:text-base mb-2 tracking-widest">
-          [root@portfolio ~]$ run miltonfruiz.exe
+        <div
+          className={`font-mono text-cyber-primary text-sm md:text-base mb-2 tracking-widest ${
+            glitchActive ? "glitch-effect" : ""
+          }`}
+          data-text={textElements.terminal}
+        >
+          {textElements.terminal}
           <span className="ml-2 animate-terminal-blink">_</span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-mono font-bold text-cyber-primary tracking-tighter">
-          $ ./bienvenid@.sh
+        <h1
+          className={`text-3xl md:text-4xl font-mono font-bold text-cyber-primary tracking-tighter ${
+            glitchActive ? "glitch-effect" : ""
+          }`}
+          data-text={textElements.title}
+        >
+          {textElements.title}
         </h1>
-        <h1 className="text-2xl md:text-base font-mono italic text-cyber-accent mt-6 mb-8">
-          # ¿Est@s listo?
+        <h1
+          className={`text-sm md:text-base font-mono italic text-cyber-accent mt-6 mb-8 ${
+            glitchActive ? "glitch-effect" : ""
+          }`}
+          data-text={textElements.subtitle}
+        >
+          {textElements.subtitle}
         </h1>
       </div>
-      <div className="flex flex-col md:flex-row gap-4 w-full max-w-lg z-10">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-10 justify-center">
         <button
           onClick={() => handleAccess("login")}
-          className={`${buttonBaseClasses} border-cyber-primary text-cyber-primary shadow-hacker-glow`}
+          className={`${buttonBaseClasses} border-cyber-primary text-cyber-primary shadow-hacker-glow ${
+            glitchActive ? "glitch-button" : ""
+          } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Iniciar sesión"
         >
-          <FaTerminal className="text-cyber-primary animate-pulse" />
-          <span className="text-sm">ACCEDER</span>
+          <FaTerminal className="text-[0.6rem] sm:text-[1rem] md:text-[1rem]" />
+          <span
+            className={`ml-1 sm:ml-2 text-xs ${
+              glitchActive ? "glitch-effect-small" : ""
+            }`}
+          >
+            ACCEDER
+          </span>
         </button>
-
         <button
           onClick={() => handleAccess("guest")}
-          className={`${buttonBaseClasses} border-cyber-secondary text-cyber-secondary shadow-hacker-glow-blue`}
+          className={`${buttonBaseClasses} border-cyber-secondary text-cyber-secondary shadow-hacker-glow-blue ${
+            glitchActive ? "glitch-button" : ""
+          } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Modo invitado"
         >
-          <FaMoon className="text-cyber-secondary" />
-          <span className="text-sm">SUSPENDER</span>
+          <FaMoon className="text-[0.6rem] sm:text-[1rem] md:text-[1rem]" />
+          <span
+            className={`ml-1 sm:ml-2 text-xs ${
+              glitchActive ? "glitch-effect-small" : ""
+            }`}
+          >
+            SUSPENDER
+          </span>
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-10 bg-black border-t border-cyber-primary text-cyber-code text-xs font-mono px-4 py-2 overflow-hidden">
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-10 bg-black border-t border-cyber-primary text-cyber-code text-xs font-mono px-4 py-2 overflow-hidden ${
+          glitchActive ? "glitch-effect-footer" : ""
+        }`}
+      >
         <div className="animate-marquee whitespace-nowrap">
-          SYSTEM READY • [USER: miltonfruiz] • LOADING TERMINAL: 100% • MEMORY:
-          64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%
+          {textElements.footer}
         </div>
       </div>
     </div>
