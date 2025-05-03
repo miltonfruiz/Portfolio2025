@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaTerminal, FaMoon } from "react-icons/fa";
+import { FaTerminal, FaMoon, FaSkullCrossbones } from "react-icons/fa";
 import "./WelcomeScreen.css";
+import GlitchSound from "../../Hooks/GlitchSound";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
   const [glitchActive, setGlitchActive] = useState(false);
+  GlitchSound(glitchActive);
   const [textElements, setTextElements] = useState({
-    title: "$ ./bienvenid@.sh",
-    subtitle: "# ¿Estás list@?",
+    title: "$ ./welcome.sh",
+    subtitle: "# Are you ready?",
     terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
     footer:
       "SYSTEM READY • [USER: miltonfruiz] • [PASSWORD: ******] • LOADING TERMINAL: 100% • MEMORY: 64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%",
@@ -18,6 +20,7 @@ const WelcomeScreen = () => {
   const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
   const triggerGlitch = () => {
     setGlitchActive(true);
+    setTimeout(() => setGlitchActive(false), 1000);
     const originalTexts = { ...textElements };
     let iterations = 0;
     const glitchInterval = setInterval(() => {
@@ -88,12 +91,17 @@ const WelcomeScreen = () => {
           {textElements.title}
         </h1>
         <h1
-          className={`text-sm md:text-base font-mono italic text-cyber-accent mt-6 mb-8 ${
+          className={`text-sm md:text-base font-mono italic text-cyber-accent mt-6 mb-8 flex items-center justify-center gap-2 ${
             glitchActive ? "glitch-effect" : ""
           }`}
-          data-text={textElements.subtitle}
+          data-text={`${textElements.subtitle} ☠`}
         >
-          {textElements.subtitle}
+          {" "}
+          <span>{textElements.subtitle}</span>
+          <FaSkullCrossbones
+            className={`inline-block ${glitchActive ? "animate-pulse" : ""}`}
+            size={12}
+          />
         </h1>
       </div>
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-10 justify-center">
@@ -110,7 +118,7 @@ const WelcomeScreen = () => {
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >
-            ACCEDER
+            ACCESS
           </span>
         </button>
         <button
@@ -126,7 +134,7 @@ const WelcomeScreen = () => {
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >
-            SUSPENDER
+            HIBERNATE
           </span>
         </button>
       </div>
