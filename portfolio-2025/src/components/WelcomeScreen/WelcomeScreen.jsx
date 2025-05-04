@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaTerminal, FaMoon, FaSkullCrossbones } from "react-icons/fa";
 import "./WelcomeScreen.css";
 import GlitchSound from "../../Hooks/GlitchSound";
+import MatrixRain from "../MatrixRain/MatrixRain";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const WelcomeScreen = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
+      <MatrixRain speed={10} />
       <div className="scanlines" />
       <div className="crt-overlay" />
       <div className="crt-curvature" />
