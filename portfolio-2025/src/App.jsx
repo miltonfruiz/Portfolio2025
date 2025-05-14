@@ -1,12 +1,11 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import WelcomeScreen from "./components/WelcomeScreen/WelcomeScreen";
+import Presentation from "./pages/Presentation";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<WelcomeScreen />} />
+        <Route path="/" element={<Presentation />} />
       </Routes>
     </Router>
   );
