@@ -180,7 +180,7 @@ const WelcomeScreen = () => {
       >
         <div className="animate-marquee whitespace-nowrap">
           {glitchActive
-            ? "SYSTEM FAILURE: 0x7F • KERNEL PANIC • MEMORY CORRUPTION DETECTED • PLEASE CONTACT SYSTEM ADMINISTRATOR • DANGER!"
+            ? "SYSTEM FAILURE: 0x7F • KERNEL PANIC • MEMORY CORRUPTION DETECTED • PLEASE CONTACT SYSTEM ADMINISTRATOR"
             : textElements.footer}
         </div>
       </div>

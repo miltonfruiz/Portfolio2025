@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        "bad-signal": ["Bad Signal", "monospace"],
+      },
       colors: {
         cyber: {
           primary: "#00ff9d",
@@ -33,4 +36,5 @@ export default {
       },
     },
   },
+  plugins: [],
 };

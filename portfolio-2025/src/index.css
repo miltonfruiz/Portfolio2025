@@ -19,15 +19,13 @@ body {
 @keyframes glitch-appear {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
-  }
-  80% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: blur(2px);
   }
   100% {
     opacity: 0.9;
     transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
   }
 }
 
@@ -35,12 +33,9 @@ body {
   font-family: "Courier New", monospace;
   user-select: none;
 }
-
-/* Efecto adicional para símbolos */
 .glitch-error-element[data-type="symbol"] {
   animation: glitch-appear 0.2s ease-out, glitch-pulse 1s infinite alternate;
 }
-
 @keyframes glitch-pulse {
   from {
     filter: drop-shadow(0 0 2px #ff0000);
@@ -48,4 +43,11 @@ body {
   to {
     filter: drop-shadow(0 0 8px #ff0000);
   }
+}
+@font-face {
+  font-family: "Bad Signal";
+  src: url("/fonts/BadSignal.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }

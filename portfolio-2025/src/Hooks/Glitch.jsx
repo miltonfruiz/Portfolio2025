@@ -1,37 +1,54 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  FaSkull,
+  FaRadiationAlt,
+  FaExclamationTriangle,
+  FaVirus,
+  FaArrowAltCircleDown,
+  FaServer,
+  FaMemory,
+  FaStackOverflow,
+} from "react-icons/fa";
+import { MdOutlineSecurity, MdDangerous } from "react-icons/md";
+import { PiNetworkXFill } from "react-icons/pi";
 
 const Glitch = ({ glitchActive }) => {
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
-  const errorMessages = [
-    "ERROR 0x7F: MEMORY CORRUPTION",
-    "SYSTEM FAILURE: UNAUTHORIZED ACCESS",
-    "CRITICAL PROCESS TERMINATED",
-    "SECURITY VIOLATION DETECTED",
-    "KERNEL PANIC: INVALID OPCODE",
-    "STACK OVERFLOW EXCEPTION",
+  const allIcons = [
+    <FaSkull className="text-red-500" />,
+    <FaRadiationAlt className="text-red-500" />,
+    <FaExclamationTriangle className="text-red-500" />,
+    <FaVirus className="text-red-500" />,
+    <FaArrowAltCircleDown className="text-red-500" />,
+    <FaServer className="text-red-500" />,
+    <FaMemory className="text-red-500" />,
+    <FaStackOverflow className="text-red-500" />,
+    <MdOutlineSecurity className="text-red-500" />,
+    <PiNetworkXFill className="text-red-500" />,
+    <MdDangerous className="text-red-600" />,
   ];
-  const errorSymbols = [
-    "☠️",
-    "⚠️",
-    "⛔",
-    "❌",
-    "💀",
-    "🚫",
-    "☢️",
-    "⚡",
-    "☣️",
-    "ERROR",
-    "404",
-    "ACCESS DENIED",
-    "FAILURE",
-    "0xDEADBEEF",
-    "0xC0FFEE",
-    "SEGFAULT",
-    "KERNEL PANIC",
-  ];
-
-  // Carga el sonido
+  const errorMessages = {
+    critical: [
+      "KERNEL PANIC",
+      "FATAL EXCEPTION",
+      "SYSTEM FAILURE",
+      "CORRUPTED MEMORY",
+    ],
+    security: [
+      "ACCESS DENIED",
+      "SECURITY VIOLATION",
+      "UNAUTHORIZED",
+      "MALWARE DETECTED",
+    ],
+    network: ["NETWORK TIMEOUT", "CONNECTION LOST", "SERVER DOWN", "I/O ERROR"],
+    system: [
+      "STACK OVERFLOW",
+      "INVALID OPCODE",
+      "CONFIG MISMATCH",
+      "MEMORY LEAK",
+    ],
+  };
   useEffect(() => {
     audioRef.current = new Audio("/sounds/glitcherror.mp3");
     audioRef.current.volume = 0.3;
@@ -43,85 +60,97 @@ const Glitch = ({ glitchActive }) => {
     };
   }, []);
 
-  // Maneja la activación del glitch
   useEffect(() => {
     if (glitchActive) {
-      // Reproduce el sonido
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((e) => console.error("Audio error:", e));
-
-      // Genera elementos de error aleatorios
-      const newElements = [];
-      const elementCount = 3 + Math.floor(Math.random() * 4); // 3-6 elementos
-
-      for (let i = 0; i < elementCount; i++) {
-        const type = Math.random() > 0.5 ? "message" : "symbol";
-        const position = {
-          x: Math.random() * 90 + 5, // 5-95%
-          y: Math.random() * 80 + 10, // 10-90%
-        };
-        const duration = 1000 + Math.random() * 2000; // 1-3 segundos
-
-        if (type === "message") {
-          newElements.push({
-            id: Date.now() + i,
-            type: "message",
-            content:
-              errorMessages[Math.floor(Math.random() * errorMessages.length)],
-            position,
-            duration,
-          });
-        } else {
-          newElements.push({
-            id: Date.now() + i,
-            type: "symbol",
-            content:
-              errorSymbols[Math.floor(Math.random() * errorSymbols.length)],
-            position,
-            duration,
-            size: 20 + Math.random() * 40, // 20-60px
-          });
-        }
+      const elements = [];
+      const elementCount = 4 + Math.floor(Math.random() * 3);
+      const iconCount = Math.floor(elementCount / 2);
+      const textCount = elementCount - iconCount;
+      for (let i = 0; i < iconCount; i++) {
+        elements.push(createIconElement());
       }
-
-      setErrorElements(newElements);
-
-      // Limpia los elementos después de su duración
-      const timeoutIds = newElements.map((el) =>
-        setTimeout(() => {
-          setErrorElements((prev) => prev.filter((e) => e.id !== el.id));
-        }, el.duration)
+      for (let i = 0; i < textCount; i++) {
+        elements.push(createTextElement());
+      }
+      setErrorElements(shuffleArray(elements));
+      const timeout = setTimeout(
+        () => setErrorElements([]),
+        1000 + Math.random() * 1000
       );
-
-      return () => timeoutIds.forEach((id) => clearTimeout(id));
-    } else {
-      setErrorElements([]);
+      return () => clearTimeout(timeout);
     }
   }, [glitchActive]);
-
-  // Estilos para los elementos de error
-  const getElementStyle = (element) => ({
-    position: "fixed",
-    left: `${element.position.x}%`,
-    top: `${element.position.y}%`,
-    transform: "translate(-50%, -50%)",
-    fontSize: element.type === "symbol" ? `${element.size}px` : "14px",
-    color: element.type === "symbol" ? "#ff0000" : "#ff5555",
-    fontWeight: "bold",
-    textShadow: "0 0 5px #ff0000",
-    opacity: 0.9,
-    zIndex: 1000,
-    pointerEvents: "none",
-    animation: "glitch-appear 0.2s ease-out",
-  });
-
+  const createIconElement = () => {
+    const icon = allIcons[Math.floor(Math.random() * allIcons.length)];
+    return {
+      id: Date.now() + Math.random(),
+      type: "icon",
+      content: icon,
+      position: getRandomPosition(),
+      size: 24 + Math.random() * 24,
+    };
+  };
+  const createTextElement = () => {
+    const categories = Object.keys(errorMessages);
+    const category = categories[Math.floor(Math.random() * categories.length)];
+    const message =
+      errorMessages[category][
+        Math.floor(Math.random() * errorMessages[category].length)
+      ];
+    return {
+      id: Date.now() + Math.random(),
+      type: "text",
+      content: message,
+      position: getRandomPosition(),
+      size: 12 + Math.random() * 18,
+    };
+  };
+  const getRandomPosition = () => {
+    let x, y;
+    let attempts = 0;
+    const maxAttempts = 10;
+    do {
+      x = 10 + Math.random() * 80;
+      y = 10 + Math.random() * 80;
+      attempts++;
+    } while (hasCollision(x, y) && attempts < maxAttempts);
+    return { x, y };
+  };
+  const hasCollision = (x, y) => {
+    return errorElements.some((el) => {
+      const distance = Math.sqrt(
+        Math.pow(el.position.x - x, 2) + Math.pow(el.position.y - y, 2)
+      );
+      return distance < 15;
+    });
+  };
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
   return (
     <>
       {errorElements.map((element) => (
         <div
           key={element.id}
-          style={getElementStyle(element)}
-          className="glitch-error-element"
+          className="fixed z-50 pointer-events-none animate-glitch-appear font-bad-signal"
+          style={{
+            left: `${element.position.x}%`,
+            top: `${element.position.y}%`,
+            fontSize: `${element.size}px`,
+            transform: "translate(-50%, -50%)",
+            opacity: 0.9,
+            textShadow: element.type === "text" ? "0 0 5px #ff0000" : "none",
+            color: element.type === "text" ? "#ff5555" : "inherit",
+            animationDuration: `${0.5 + Math.random()}s`,
+            letterSpacing: element.type === "text" ? "2px" : "normal",
+          }}
         >
           {element.content}
         </div>
@@ -130,4 +159,4 @@ const Glitch = ({ glitchActive }) => {
   );
 };
 
-export default Glitch;
+export default React.memo(Glitch);
