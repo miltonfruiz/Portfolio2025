@@ -5,12 +5,14 @@ import {
   FaExclamationTriangle,
   FaVirus,
   FaArrowAltCircleDown,
-  FaServer,
   FaMemory,
   FaStackOverflow,
 } from "react-icons/fa";
 import { MdOutlineSecurity, MdDangerous } from "react-icons/md";
 import { PiNetworkXFill } from "react-icons/pi";
+import { RxCross1 } from "react-icons/rx";
+import { GiSharpSmile } from "react-icons/gi";
+import { LuServerOff } from "react-icons/lu";
 
 const Glitch = ({ glitchActive }) => {
   const audioRef = useRef(null);
@@ -21,12 +23,14 @@ const Glitch = ({ glitchActive }) => {
     <FaExclamationTriangle className="text-red-500" />,
     <FaVirus className="text-red-500" />,
     <FaArrowAltCircleDown className="text-red-500" />,
-    <FaServer className="text-red-500" />,
+    <LuServerOff className="text-red-500" />,
     <FaMemory className="text-red-500" />,
     <FaStackOverflow className="text-red-500" />,
     <MdOutlineSecurity className="text-red-500" />,
     <PiNetworkXFill className="text-red-500" />,
     <MdDangerous className="text-red-600" />,
+    <RxCross1 className="text-red-600" />,
+    <GiSharpSmile className="text-red-600" />,
   ];
   const errorMessages = {
     critical: [
@@ -41,7 +45,13 @@ const Glitch = ({ glitchActive }) => {
       "UNAUTHORIZED",
       "MALWARE DETECTED",
     ],
-    network: ["NETWORK TIMEOUT", "CONNECTION LOST", "SERVER DOWN", "I/O ERROR"],
+    network: [
+      "NETWORK TIMEOUT",
+      "CONNECTION LOST",
+      "SERVER DOWN",
+      "I/O ERROR",
+      "NOT FOUND",
+    ],
     system: [
       "STACK OVERFLOW",
       "INVALID OPCODE",
@@ -89,7 +99,7 @@ const Glitch = ({ glitchActive }) => {
       type: "icon",
       content: icon,
       position: getRandomPosition(),
-      size: 24 + Math.random() * 24,
+      size: 18 + Math.random() * 36,
     };
   };
   const createTextElement = () => {
@@ -104,7 +114,7 @@ const Glitch = ({ glitchActive }) => {
       type: "text",
       content: message,
       position: getRandomPosition(),
-      size: 12 + Math.random() * 18,
+      size: 10 + Math.random() * 18,
     };
   };
   const getRandomPosition = () => {
