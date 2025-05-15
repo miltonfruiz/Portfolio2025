@@ -154,7 +154,7 @@ const Glitch = ({ glitchActive }) => {
       type: "error-text",
       content: message,
       position: getRandomPosition(),
-      size: 10 + Math.random() * 18,
+      size: Math.min(14 + Math.random() * 10, 24),
       color: "#ff0020",
     };
   };
@@ -162,12 +162,11 @@ const Glitch = ({ glitchActive }) => {
     const message =
       alertMessages[Math.floor(Math.random() * alertMessages.length)];
     return {
-      className: "glitch-alert-icon",
       id: Date.now() + Math.random(),
       type: "alert-text",
       content: message,
       position: getRandomPosition(),
-      size: 10 + Math.random() * 24,
+      size: Math.min(14 + Math.random() * 12, 28),
       color: "#ffff20",
       font: "Quakerhack",
     };
@@ -181,7 +180,6 @@ const Glitch = ({ glitchActive }) => {
       y = 10 + Math.random() * 80;
       attempts++;
     } while (hasCollision(x, y) && attempts < maxAttempts);
-
     return { x, y };
   };
   const hasCollision = (x, y) => {
@@ -205,12 +203,20 @@ const Glitch = ({ glitchActive }) => {
       {errorElements.map((element) => (
         <div
           key={element.id}
-          className={`fixed z-50 pointer-events-none animate-glitch-appear ${
+          className={`fixed z-50 pointer-events-none ${
+            element.type.includes("text")
+              ? "glitch-text-effect"
+              : "animate-glitch-appear"
+          } ${
             element.type === "alert-text"
               ? "font-quakerhack alert-text"
               : element.type === "error-text"
               ? "font-bad-signal error-text"
               : element.className
+          } ${
+            element.type.includes("text")
+              ? "glitch-text-element"
+              : "glitch-icon-element"
           }`}
           style={{
             left: `${element.position.x}%`,
