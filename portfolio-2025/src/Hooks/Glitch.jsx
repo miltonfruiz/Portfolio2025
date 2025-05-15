@@ -1,64 +1,100 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  FaSkull,
   FaRadiationAlt,
+  FaRadiation,
   FaExclamationTriangle,
   FaVirus,
-  FaArrowAltCircleDown,
   FaMemory,
   FaStackOverflow,
+  FaWifi,
 } from "react-icons/fa";
-import { MdOutlineSecurity, MdDangerous } from "react-icons/md";
+import { MdDangerous, MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { PiNetworkXFill } from "react-icons/pi";
-import { RxCross1 } from "react-icons/rx";
-import { GiSharpSmile } from "react-icons/gi";
-import { LuServerOff } from "react-icons/lu";
+import { ImCross } from "react-icons/im";
+import {
+  GiSharpSmile,
+  GiDevilMask,
+  GiCrossMark,
+  GiCrossedSabres,
+  GiNuclearBomb,
+  GiBurningSkull,
+} from "react-icons/gi";
+import { BsFillSignStopFill } from "react-icons/bs";
+import { IoIosLock } from "react-icons/io";
+import { SiAlienware } from "react-icons/si";
 
 const Glitch = ({ glitchActive }) => {
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
   const allIcons = [
-    <FaSkull className="text-red-500" />,
-    <FaRadiationAlt className="text-red-500" />,
-    <FaExclamationTriangle className="text-red-500" />,
-    <FaVirus className="text-red-500" />,
-    <FaArrowAltCircleDown className="text-red-500" />,
-    <LuServerOff className="text-red-500" />,
-    <FaMemory className="text-red-500" />,
-    <FaStackOverflow className="text-red-500" />,
-    <MdOutlineSecurity className="text-red-500" />,
-    <PiNetworkXFill className="text-red-500" />,
-    <MdDangerous className="text-red-600" />,
-    <RxCross1 className="text-red-600" />,
-    <GiSharpSmile className="text-red-600" />,
+    <FaRadiationAlt className="text-[#ffff00]" />,
+    <FaRadiation className="text-[#ffff00]" />,
+    <FaExclamationTriangle className="text-[#ffff00]" />,
+    <FaVirus className="text-[#ff0000]" />,
+    <MdKeyboardDoubleArrowDown className="text-[#ff0000]" />,
+    <FaMemory className="text-[#ff0000]" />,
+    <FaStackOverflow className="text-[#ff0000]" />,
+    <PiNetworkXFill className="text-[#ff0000]" />,
+    <MdDangerous className="text-[#ff0000]" />,
+    <ImCross className="text-[#ff0000]" />,
+    <GiSharpSmile className="text-[#ff0000]" />,
+    <GiDevilMask className="text-[#ff0000]" />,
+    <BsFillSignStopFill className="text-[#ff0000]" />,
+    <IoIosLock className="text-[#ff0000]" />,
+    <FaWifi className="text-[#ff0000]" />,
+    <GiCrossMark className="text-[#ff0000]" />,
+    <GiCrossedSabres className="text-[#ff0000]" />,
+    <GiNuclearBomb className="text-[#ffff00]" />,
+    <GiBurningSkull className="text-[#ff0000]" />,
+    <SiAlienware className="text-[#ff0000]" />,
   ];
   const errorMessages = {
     critical: [
-      "KERNEL PANIC",
-      "FATAL EXCEPTION",
-      "SYSTEM FAILURE",
-      "CORRUPTED MEMORY",
+      "( K3RNEL P@NIC )",
+      "( FAT@L EXC3PTION )",
+      "( SYST3M F@ILURE )",
+      "( CORRUPT3D MEMORY )",
+      "( SEGMENT@TION FAUL7 )",
     ],
     security: [
-      "ACCESS DENIED",
-      "SECURITY VIOLATION",
-      "UNAUTHORIZED",
-      "MALWARE DETECTED",
+      "( ACCESS DENI3D )",
+      "( S3CURITY VIOL@TION )",
+      "( UN@UTHORIZED )",
+      "( MALW@RE DET3CTED )",
+      "( INTRUSION DETECTED )",
     ],
     network: [
-      "NETWORK TIMEOUT",
-      "CONNECTION LOST",
-      "SERVER DOWN",
-      "I/O ERROR",
-      "NOT FOUND",
+      "( N3TWORK TIMEOUT )",
+      "( CONN3CTION LOST )",
+      "( SERV3R DOWN )",
+      "( I/O ERROR! )",
+      "( NOT FOUND! )",
     ],
     system: [
-      "STACK OVERFLOW",
-      "INVALID OPCODE",
-      "CONFIG MISMATCH",
-      "MEMORY LEAK",
+      "( ST@CK OVERFLOW )",
+      "( INV@LID OPCODE )",
+      "( CONFIG MISM@TCH )",
+      "( M3MORY LE@K! )",
+      "( HARDWARE F@ILURE )",
     ],
   };
+  const alertMessages = [
+    "DO NOT ENTER",
+    "WARNING: DANGER ZONE",
+    "UNAUTHORIZED ACCESS",
+    "SYSTEM BREACH DETECTED",
+    "CRITICAL ALERT",
+    "EMERGENCY LOCKDOWN",
+    "SECURITY PROTOCOL ENGAGED",
+    "TERMINAL LOCKED",
+    "ADMINISTRATOR REQUIRED",
+    "QUARANTINE IN EFFECT",
+    "VIRUS CONTAINMENT FAILURE",
+    "FIREWALL BREACHED",
+    "EXECUTING SAFE MODE",
+    "ILLEGAL OPERATION",
+    "TERMINATE PROCESS",
+  ];
   useEffect(() => {
     audioRef.current = new Audio("/sounds/glitcherror.mp3");
     audioRef.current.volume = 0.3;
@@ -69,21 +105,20 @@ const Glitch = ({ glitchActive }) => {
       }
     };
   }, []);
-
   useEffect(() => {
     if (glitchActive) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((e) => console.error("Audio error:", e));
       const elements = [];
       const elementCount = 4 + Math.floor(Math.random() * 3);
-      const iconCount = Math.floor(elementCount / 2);
-      const textCount = elementCount - iconCount;
-      for (let i = 0; i < iconCount; i++) {
-        elements.push(createIconElement());
-      }
-      for (let i = 0; i < textCount; i++) {
-        elements.push(createTextElement());
-      }
+      const iconCount = Math.floor(elementCount * 0.4);
+      const errorTextCount = Math.floor(elementCount * 0.4);
+      const alertTextCount = elementCount - iconCount - errorTextCount;
+      for (let i = 0; i < iconCount; i++) elements.push(createIconElement());
+      for (let i = 0; i < errorTextCount; i++)
+        elements.push(createErrorTextElement());
+      for (let i = 0; i < alertTextCount; i++)
+        elements.push(createAlertTextElement());
       setErrorElements(shuffleArray(elements));
       const timeout = setTimeout(
         () => setErrorElements([]),
@@ -102,7 +137,7 @@ const Glitch = ({ glitchActive }) => {
       size: 18 + Math.random() * 36,
     };
   };
-  const createTextElement = () => {
+  const createErrorTextElement = () => {
     const categories = Object.keys(errorMessages);
     const category = categories[Math.floor(Math.random() * categories.length)];
     const message =
@@ -111,10 +146,24 @@ const Glitch = ({ glitchActive }) => {
       ];
     return {
       id: Date.now() + Math.random(),
-      type: "text",
+      type: "error-text",
       content: message,
       position: getRandomPosition(),
       size: 10 + Math.random() * 18,
+      color: "#ff0000",
+    };
+  };
+  const createAlertTextElement = () => {
+    const message =
+      alertMessages[Math.floor(Math.random() * alertMessages.length)];
+    return {
+      id: Date.now() + Math.random(),
+      type: "alert-text",
+      content: message,
+      position: getRandomPosition(),
+      size: 10 + Math.random() * 34,
+      color: "#ffff00",
+      font: "Quakerhack",
     };
   };
   const getRandomPosition = () => {
@@ -126,6 +175,7 @@ const Glitch = ({ glitchActive }) => {
       y = 10 + Math.random() * 80;
       attempts++;
     } while (hasCollision(x, y) && attempts < maxAttempts);
+
     return { x, y };
   };
   const hasCollision = (x, y) => {
@@ -149,17 +199,24 @@ const Glitch = ({ glitchActive }) => {
       {errorElements.map((element) => (
         <div
           key={element.id}
-          className="fixed z-50 pointer-events-none animate-glitch-appear font-bad-signal"
+          className={`fixed z-50 pointer-events-none animate-glitch-appear ${
+            element.type === "alert-text"
+              ? "font-quakerhack"
+              : "font-bad-signal"
+          }`}
           style={{
             left: `${element.position.x}%`,
             top: `${element.position.y}%`,
             fontSize: `${element.size}px`,
             transform: "translate(-50%, -50%)",
             opacity: 0.9,
-            textShadow: element.type === "text" ? "0 0 5px #ff0000" : "none",
-            color: element.type === "text" ? "#ff5555" : "inherit",
+            textShadow: element.type.includes("text")
+              ? `0 0 5px ${element.color}`
+              : "none",
+            color: element.color,
             animationDuration: `${0.5 + Math.random()}s`,
-            letterSpacing: element.type === "text" ? "2px" : "normal",
+            letterSpacing: element.type === "alert-text" ? "1px" : "2px",
+            fontWeight: element.type === "alert-text" ? "normal" : "normal",
           }}
         >
           {element.content}

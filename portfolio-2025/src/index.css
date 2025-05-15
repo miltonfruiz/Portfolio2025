@@ -19,16 +19,28 @@ body {
 @keyframes glitch-appear {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-    filter: blur(2px);
+    transform: translate(-50%, -50%) scale(0.5) rotate(5deg);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.1) rotate(-2deg);
   }
   100% {
     opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1);
-    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1) rotate(0);
   }
 }
-
+.alert-pulse {
+  animation: glitch-appear 0.4s ease-out, alert-pulse 1s infinite alternate;
+}
+@keyframes alert-pulse {
+  from {
+    text-shadow: 0 0 5px #ffff00;
+  }
+  to {
+    text-shadow: 0 0 15px #ffff00, 0 0 20px #ffaa00;
+  }
+}
 .glitch-error-element {
   font-family: "Courier New", monospace;
   user-select: none;
@@ -50,4 +62,11 @@ body {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+@font-face {
+  font-family: "Quakerhack";
+  src: url("/fonts/Quakerhack.otf") format("truetype");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
 }

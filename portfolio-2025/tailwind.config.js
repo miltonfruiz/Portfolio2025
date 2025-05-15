@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         "bad-signal": ["Bad Signal", "monospace"],
+        quakerhack: ["Quakerhack", "monospace"],
       },
       colors: {
         cyber: {
