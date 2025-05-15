@@ -2,9 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply font-sans;
+/*---------- Fuentes personalizadas ----------*/
+@font-face {
+  font-family: "Bad Signal";
+  src: url("/fonts/BadSignal.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
+@font-face {
+  font-family: "Quakerhack";
+  src: url("/fonts/Quakerhack.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/*---------- Estilos base ----------*/
+body {
+  @apply font-sans bg-black text-white;
+}
+/*---------- Animaciones principales ----------*/
 @keyframes marquee {
   0% {
     transform: translateX(100%);
@@ -13,58 +30,15 @@ body {
     transform: translateX(-100%);
   }
 }
-.animate-marquee {
-  animation: marquee 20s linear infinite;
-}
 @keyframes glitch-appear {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%);
   }
-
   100% {
     opacity: 0.9;
     transform: translate(-50%, -50%);
   }
-}
-.alert-pulse {
-  animation: glitch-appear 0.4s ease-out, alert-pulse 1s infinite alternate;
-}
-.glitch-icon {
-  animation: glitch-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
-}
-.glitch-alert-icon {
-  animation: alert-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
-}
-@keyframes glitch-pulse {
-  from {
-    filter: drop-shadow(0 0 5px #ff0000);
-  }
-  to {
-    filter: drop-shadow(0 0 15px #ff0000);
-  }
-}
-@keyframes alert-pulse {
-  from {
-    text-shadow: 0 0 5px #ffff00;
-  }
-  to {
-    text-shadow: 0 0 15px #ffff00, 0 0 20px #ffaa00;
-  }
-}
-@font-face {
-  font-family: "Bad Signal";
-  src: url("/fonts/BadSignal.otf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Quakerhack";
-  src: url("/fonts/Quakerhack.otf") format("truetype");
-  font-display: swap;
-  font-weight: normal;
-  font-style: normal;
 }
 @keyframes glitch-blink {
   0%,
@@ -75,7 +49,6 @@ body {
     opacity: 0.2;
   }
 }
-
 @keyframes glitch-shake {
   0%,
   100% {
@@ -93,4 +66,83 @@ body {
   80% {
     transform: translateX(5px);
   }
+}
+/*---------- Animaciones de color ----------*/
+@keyframes error-pulse {
+  from {
+    filter: drop-shadow(0 0 5px #ff0020);
+  }
+  to {
+    filter: drop-shadow(0 0 18px #ff0020);
+  }
+}
+@keyframes warning-pulse {
+  from {
+    filter: drop-shadow(0 0 5px #ffff00);
+  }
+  to {
+    filter: drop-shadow(0 0 18px #ffaa00);
+  }
+}
+@keyframes radiation-pulse {
+  from {
+    filter: drop-shadow(0 0 2px #00ff00);
+  }
+  to {
+    filter: drop-shadow(0 0 8px #00aa00);
+  }
+}
+@keyframes alert-pulse {
+  from {
+    text-shadow: 0 0 5px #ffff20;
+    opacity: 0.8;
+  }
+  to {
+    text-shadow: 0 0 15px #ffff20, 0 0 20px #ffaa00;
+    opacity: 1;
+  }
+}
+/*---------- Clases utilitarias ----------*/
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+.glitch-icon {
+  animation: error-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
+}
+.glitch-alert-icon {
+  animation: alert-pulse 1s infinite alternate, glitch-shake 0.5s infinite;
+}
+.alert-pulse {
+  animation: glitch-appear 0.4s ease-out, alert-pulse 1s infinite alternate;
+}
+/*---------- Sistema de clasificación visual ----------*/
+.error-icon {
+  @apply text-[#ff0020];
+  animation: error-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
+}
+.error-icon-static {
+  @apply text-[#ff0020];
+  animation: error-pulse 0.8s infinite alternate;
+}
+.warning-icon {
+  @apply text-[#ffff00];
+  animation: warning-pulse 0.8s infinite alternate;
+}
+.radiation-icon {
+  @apply text-[#00ff00];
+  animation: radiation-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
+}
+.alert-text {
+  @apply text-[#ffff20] font-quakerhack;
+  text-shadow: 0 0 5px #ffff20;
+  animation: alert-pulse 1s infinite alternate;
+}
+.error-text {
+  @apply text-[#ff0020] font-bad-signal;
+  text-shadow: 0 0 5px #ff0020;
+}
+/*---------- Efecto de inclinación para iconos ----------*/
+.icon-tilt {
+  transform: translate(-50%, -50%) rotate(2deg);
+  animation: glitch-shake 0.5s infinite, glitch-appear 0.3s ease-out;
 }

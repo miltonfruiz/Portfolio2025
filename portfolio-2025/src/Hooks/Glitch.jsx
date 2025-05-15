@@ -27,26 +27,26 @@ const Glitch = ({ glitchActive }) => {
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
   const allIcons = [
-    <FaRadiationAlt className="text-[#ffff00] " />,
-    <FaRadiation className="text-[#ffff00] " />,
-    <FaExclamationTriangle className="text-[#ffff00]" />,
-    <FaVirus className="text-[#ff0020]" />,
-    <MdKeyboardDoubleArrowDown className="text-[#ff0020]" />,
-    <FaMemory className="text-[#ff0020]" />,
-    <FaStackOverflow className="text-[#ff0020]" />,
-    <PiNetworkXFill className="text-[#ff0020]" />,
-    <MdDangerous className="text-[#ff0020]" />,
-    <ImCross className="text-[#ff0020]" />,
-    <GiSharpSmile className="text-[#ff0020]" />,
-    <GiDevilMask className="text-[#ff0020]" />,
-    <BsFillSignStopFill className="text-[#ff0020]" />,
-    <IoIosLock className="text-[#ff0020]" />,
-    <FaWifi className="text-[#ff0020]" />,
-    <GiCrossMark className="text-[#ff0020]" />,
-    <GiCrossedSabres className="text-[#ff0020]" />,
-    <GiNuclearBomb className="text-[#ffff00]" />,
-    <GiBurningSkull className="text-[#ff0020]" />,
-    <SiAlienware className="text-[#ff0020]" />,
+    <FaRadiationAlt className="text-[#ffff00] warning-icon" />,
+    <FaRadiation className="text-[#ffff00] warning-icon" />,
+    <FaExclamationTriangle className="text-[#ffff00] warning-icon" />,
+    <FaVirus className="text-[#ff0020] error-icon-static" />,
+    <MdKeyboardDoubleArrowDown className="text-[#ff0020] error-icon-static" />,
+    <FaMemory className="text-[#ff0020] error-icon-static" />,
+    <FaStackOverflow className="text-[#ff0020] error-icon-static" />,
+    <PiNetworkXFill className="text-[#ff0020] error-icon-static" />,
+    <MdDangerous className="text-[#ff0020] error-icon-static" />,
+    <ImCross className="text-[#ff0020] error-icon-static" />,
+    <GiSharpSmile className="text-[#ff0020] error-icon-static" />,
+    <GiDevilMask className="text-[#ff0020] error-icon-static" />,
+    <BsFillSignStopFill className="text-[#ff0020] error-icon-static" />,
+    <IoIosLock className="text-[#ff0020] error-icon-static" />,
+    <FaWifi className="text-[#ff0020] error-icon-static" />,
+    <GiCrossMark className="text-[#ff0020] error-icon-static" />,
+    <GiCrossedSabres className="text-[#ff0020] error-icon-static" />,
+    <GiNuclearBomb className="text-[#ffff00] warning-icon" />,
+    <GiBurningSkull className="text-[#ff0020] error-icon-static" />,
+    <SiAlienware className="text-[#ff0020] error-icon-static" />,
   ];
   const errorMessages = {
     critical: [
@@ -109,17 +109,21 @@ const Glitch = ({ glitchActive }) => {
     if (glitchActive) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((e) => console.error("Audio error:", e));
+
       const elements = [];
       const elementCount = 4 + Math.floor(Math.random() * 3);
       const iconCount = Math.floor(elementCount * 0.4);
       const errorTextCount = Math.floor(elementCount * 0.4);
       const alertTextCount = elementCount - iconCount - errorTextCount;
+
       for (let i = 0; i < iconCount; i++) elements.push(createIconElement());
       for (let i = 0; i < errorTextCount; i++)
         elements.push(createErrorTextElement());
       for (let i = 0; i < alertTextCount; i++)
         elements.push(createAlertTextElement());
+
       setErrorElements(shuffleArray(elements));
+
       const timeout = setTimeout(
         () => setErrorElements([]),
         1000 + Math.random() * 1000
@@ -127,10 +131,10 @@ const Glitch = ({ glitchActive }) => {
       return () => clearTimeout(timeout);
     }
   }, [glitchActive]);
+
   const createIconElement = () => {
     const icon = allIcons[Math.floor(Math.random() * allIcons.length)];
     return {
-      className: "glitch-icon",
       id: Date.now() + Math.random(),
       type: "icon",
       content: icon,
@@ -201,10 +205,12 @@ const Glitch = ({ glitchActive }) => {
       {errorElements.map((element) => (
         <div
           key={element.id}
-          className={`fixed z-50 pointer-events-none animate-glitch-appear  ${
+          className={`fixed z-50 pointer-events-none animate-glitch-appear ${
             element.type === "alert-text"
-              ? "font-quakerhack"
-              : "font-bad-signal"
+              ? "font-quakerhack alert-text"
+              : element.type === "error-text"
+              ? "font-bad-signal error-text"
+              : element.className
           }`}
           style={{
             left: `${element.position.x}%`,
@@ -212,17 +218,8 @@ const Glitch = ({ glitchActive }) => {
             fontSize: `${element.size}px`,
             transform: "translate(-50%, -50%)",
             opacity: 0.9,
-            textShadow: element.type.includes("text")
-              ? `0 0 5px ${element.color}`
-              : "none",
-            color: element.color,
             animationDuration: `${0.5 + Math.random()}s`,
             letterSpacing: element.type === "alert-text" ? "1px" : "2px",
-            fontWeight: element.type === "alert-text" ? "normal" : "normal",
-            animation:
-              element.type === "alert-text"
-                ? "glitch-appear 0s ease-out, alert-pulse 1s infinite alternate"
-                : "glitch-appear 0s ease-out",
           }}
         >
           {element.content}

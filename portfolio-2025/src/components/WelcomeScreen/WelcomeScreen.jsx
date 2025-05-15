@@ -50,7 +50,6 @@ const WelcomeScreen = () => {
       }
     }, 50);
   };
-
   const glitchText = (text, iterations, intensity) => {
     return text
       .split("")
@@ -60,7 +59,6 @@ const WelcomeScreen = () => {
       })
       .join("");
   };
-
   const handleAccess = (type) => {
     console.log(`[SYSTEM] Access: ${type.toUpperCase()}`);
     triggerGlitch();
@@ -68,42 +66,34 @@ const WelcomeScreen = () => {
       if (type === "login") navigate("/auth");
     }, 500);
   };
-
   useEffect(() => {
     const randomGlitch = setInterval(() => {
       if (Math.random() > 0.7) triggerGlitch();
     }, 8000 + Math.random() * 7000);
     return () => clearInterval(randomGlitch);
   }, []);
-
   return (
     <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
       <MatrixRain speed={10} />
       <div className="scanlines" />
       <div className="crt-overlay" />
       <div className="crt-curvature" />
-
-      {/* Efectos Glitch Mejorados */}
       <Glitch glitchActive={glitchActive} />
-
       {glitchActive && (
         <>
           <div className="absolute inset-0 bg-cyber-primary opacity-10 z-20 pointer-events-none"></div>
           <div className="glitch-lines absolute inset-0 z-20 pointer-events-none"></div>
-
-          {/* Elementos de error emergentes */}
-          <div className="absolute top-1/4 left-1/4 z-30 text-red-500 text-4xl animate-pulse">
+          <div className="absolute top-1/4 left-1/4 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
             <FaBan />
           </div>
-          <div className="absolute top-1/3 right-1/4 z-30 text-red-500 text-4xl animate-pulse">
+          <div className="absolute top-1/3 right-1/4 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
             <GiDeathSkull />
           </div>
-          <div className="absolute bottom-1/3 left-1/3 z-30 text-red-500 text-4xl animate-pulse">
+          <div className="absolute bottom-1/3 left-1/3 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
             <FaRadiation />
           </div>
         </>
       )}
-
       <div className="relative z-10 text-center mb-12">
         <div
           className={`font-mono text-cyber-primary text-sm md:text-base mb-2 tracking-widest ${
@@ -114,7 +104,6 @@ const WelcomeScreen = () => {
           {textElements.terminal}
           <span className="ml-2 animate-terminal-blink">_</span>
         </div>
-
         <h1
           className={`text-3xl md:text-4xl font-mono font-bold text-cyber-primary tracking-tighter ${
             glitchActive ? "glitch-effect" : ""
@@ -123,7 +112,6 @@ const WelcomeScreen = () => {
         >
           {textElements.title}
         </h1>
-
         <h1
           className={`text-sm md:text-base font-mono italic text-cyber-accent mt-6 mb-8 flex items-center justify-center gap-2 ${
             glitchActive ? "glitch-effect" : ""
@@ -136,7 +124,6 @@ const WelcomeScreen = () => {
           />
         </h1>
       </div>
-
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-10 justify-center">
         <button
           onClick={() => handleAccess("login")}
@@ -154,7 +141,6 @@ const WelcomeScreen = () => {
             {glitchActive ? "ERROR_0x7F" : "ACCESS"}
           </span>
         </button>
-
         <button
           onClick={() => handleAccess("guest")}
           className={`${buttonBaseClasses} border-cyber-secondary text-cyber-secondary shadow-hacker-glow-blue ${
@@ -172,7 +158,6 @@ const WelcomeScreen = () => {
           </span>
         </button>
       </div>
-
       <div
         className={`absolute bottom-0 left-0 right-0 h-10 bg-black border-t border-cyber-primary text-cyber-code text-xs font-mono px-4 py-2 overflow-hidden ${
           glitchActive ? "glitch-effect-footer" : ""
