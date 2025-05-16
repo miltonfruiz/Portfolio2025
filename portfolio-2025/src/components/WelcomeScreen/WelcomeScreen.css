@@ -313,6 +313,21 @@ body {
     transform: translate(-50%, -50%) scale(1.02);
   }
 }
+
+.static-content {
+  position: relative;
+  z-index: 50;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.7
+  ); /* Fondo semitransparente para mejor legibilidad */
+  padding: 0.5rem 1rem;
+}
 .glitch-element {
   animation: glitch-flicker 0.3s infinite;
+  pointer-events: none;
+  z-index: 40;
+  will-change: transform;
 }

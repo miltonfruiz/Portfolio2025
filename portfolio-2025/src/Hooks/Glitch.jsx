@@ -3,12 +3,14 @@ import {
   FaRadiationAlt,
   FaRadiation,
   FaExclamationTriangle,
-  FaVirus,
-  FaMemory,
-  FaStackOverflow,
+  FaBug,
   FaWifi,
+  FaUsb,
+  FaBan,
 } from "react-icons/fa";
-import { MdDangerous, MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { FaVirusCovid } from "react-icons/fa6";
+import { SlTarget } from "react-icons/sl";
+import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { PiNetworkXFill } from "react-icons/pi";
 import { ImCross } from "react-icons/im";
 import {
@@ -18,35 +20,44 @@ import {
   GiCrossedSabres,
   GiNuclearBomb,
   GiBurningSkull,
+  GiEvilEyes,
+  GiBleedingEye,
+  GiGooeyEyedSun,
+  GiRollingBomb,
 } from "react-icons/gi";
 import { BsFillSignStopFill } from "react-icons/bs";
 import { IoIosLock } from "react-icons/io";
 import { SiAlienware } from "react-icons/si";
 
-const Glitch = ({ glitchActive }) => {
+const Glitch = ({ glitchActive, getPosition }) => {
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
   const allIcons = [
+    <FaBan className="text-[#ffff00] warning-icon" />,
     <FaRadiationAlt className="text-[#ffff00] warning-icon" />,
     <FaRadiation className="text-[#ffff00] warning-icon" />,
     <FaExclamationTriangle className="text-[#ffff00] warning-icon" />,
-    <FaVirus className="text-[#ff0020] error-icon-static" />,
-    <MdKeyboardDoubleArrowDown className="text-[#ff0020] error-icon-static" />,
-    <FaMemory className="text-[#ff0020] error-icon-static" />,
-    <FaStackOverflow className="text-[#ff0020] error-icon-static" />,
+    <MdKeyboardDoubleArrowDown className="text-[#ffff00] warning-icon" />,
+    <FaVirusCovid className="text-[#ffff00] warning-icon" />,
+    <FaBug className="text-[#ff0020] error-icon-static" />,
     <PiNetworkXFill className="text-[#ff0020] error-icon-static" />,
-    <MdDangerous className="text-[#ff0020] error-icon-static" />,
     <ImCross className="text-[#ff0020] error-icon-static" />,
-    <GiSharpSmile className="text-[#ff0020] error-icon-static" />,
-    <GiDevilMask className="text-[#ff0020] error-icon-static" />,
     <BsFillSignStopFill className="text-[#ff0020] error-icon-static" />,
     <IoIosLock className="text-[#ff0020] error-icon-static" />,
     <FaWifi className="text-[#ff0020] error-icon-static" />,
     <GiCrossMark className="text-[#ff0020] error-icon-static" />,
-    <GiCrossedSabres className="text-[#ff0020] error-icon-static" />,
-    <GiNuclearBomb className="text-[#ffff00] warning-icon" />,
     <GiBurningSkull className="text-[#ff0020] error-icon-static" />,
-    <SiAlienware className="text-[#ff0020] error-icon-static" />,
+    <FaUsb className="text-[#ff0020] error-icon-static" />,
+    <GiDevilMask className="text-[#00ff00] radiation-icon" />,
+    <GiSharpSmile className="text-[#00ff00] radiation-icon" />,
+    <SiAlienware className="text-[#00ff00] radiation-icon" />,
+    <GiCrossedSabres className="text-[#00ff00] radiation-icon" />,
+    <GiNuclearBomb className="text-[#00ff00] radiation-icon" />,
+    <GiEvilEyes className="text-[#00ff00] radiation-icon" />,
+    <GiBleedingEye className="text-[#00ff00] radiation-icon" />,
+    <GiGooeyEyedSun className="text-[#00ff00] radiation-icon" />,
+    <GiRollingBomb className="text-[#00ff00] radiation-icon" />,
+    <SlTarget className="text-[#00ff00] radiation-icon" />,
   ];
   const errorMessages = {
     critical: [
@@ -109,21 +120,17 @@ const Glitch = ({ glitchActive }) => {
     if (glitchActive) {
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((e) => console.error("Audio error:", e));
-
       const elements = [];
       const elementCount = 4 + Math.floor(Math.random() * 3);
       const iconCount = Math.floor(elementCount * 0.4);
       const errorTextCount = Math.floor(elementCount * 0.4);
       const alertTextCount = elementCount - iconCount - errorTextCount;
-
       for (let i = 0; i < iconCount; i++) elements.push(createIconElement());
       for (let i = 0; i < errorTextCount; i++)
         elements.push(createErrorTextElement());
       for (let i = 0; i < alertTextCount; i++)
         elements.push(createAlertTextElement());
-
       setErrorElements(shuffleArray(elements));
-
       const timeout = setTimeout(
         () => setErrorElements([]),
         1000 + Math.random() * 1000
@@ -134,12 +141,19 @@ const Glitch = ({ glitchActive }) => {
 
   const createIconElement = () => {
     const icon = allIcons[Math.floor(Math.random() * allIcons.length)];
+    const defaultPosition = {
+      x: 10 + Math.random() * 80,
+      y: 10 + Math.random() * 70,
+    };
+    const position = getPosition
+      ? getPosition(defaultPosition)
+      : defaultPosition;
     return {
       id: Date.now() + Math.random(),
       type: "icon",
       content: icon,
-      position: getRandomPosition(),
-      size: 18 + Math.random() * 36,
+      position,
+      size: 18 + Math.random() * 40,
     };
   };
   const createErrorTextElement = () => {
@@ -149,46 +163,41 @@ const Glitch = ({ glitchActive }) => {
       errorMessages[category][
         Math.floor(Math.random() * errorMessages[category].length)
       ];
+    const defaultPosition = {
+      x: 10 + Math.random() * 80,
+      y: 10 + Math.random() * 70,
+    };
+    const position = getPosition
+      ? getPosition(defaultPosition)
+      : defaultPosition;
     return {
       id: Date.now() + Math.random(),
       type: "error-text",
       content: message,
-      position: getRandomPosition(),
-      size: Math.min(14 + Math.random() * 10, 24),
+      position,
+      size: Math.min(14 + Math.random() * 10, 36),
       color: "#ff0020",
     };
   };
   const createAlertTextElement = () => {
     const message =
       alertMessages[Math.floor(Math.random() * alertMessages.length)];
+    const defaultPosition = {
+      x: 10 + Math.random() * 80,
+      y: 10 + Math.random() * 70,
+    };
+    const position = getPosition
+      ? getPosition(defaultPosition)
+      : defaultPosition;
     return {
       id: Date.now() + Math.random(),
       type: "alert-text",
       content: message,
-      position: getRandomPosition(),
-      size: Math.min(14 + Math.random() * 12, 28),
+      position,
+      size: Math.min(18 + Math.random() * 10, 36),
       color: "#ffff20",
       font: "Quakerhack",
     };
-  };
-  const getRandomPosition = () => {
-    let x, y;
-    let attempts = 0;
-    const maxAttempts = 10;
-    do {
-      x = 10 + Math.random() * 80;
-      y = 10 + Math.random() * 80;
-      attempts++;
-    } while (hasCollision(x, y) && attempts < maxAttempts);
-    return { x, y };
-  };
-  const hasCollision = (x, y) => {
-    return errorElements.some((el) => {
-      const distance = Math.sqrt(
-        Math.pow(el.position.x - x, 2) + Math.pow(el.position.y - y, 2)
-      );
-      return distance < 15;
-    });
   };
   const shuffleArray = (array) => {
     const newArray = [...array];

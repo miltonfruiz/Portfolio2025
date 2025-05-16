@@ -130,7 +130,7 @@ body {
 }
 .radiation-icon {
   @apply text-[#00ff00];
-  animation: radiation-pulse 0.8s infinite alternate, glitch-shake 0.5s infinite;
+  animation: radiation-pulse 0.8s infinite alternate;
 }
 .alert-text {
   @apply text-[#ffff20] font-quakerhack;
@@ -146,7 +146,32 @@ body {
   transform: translate(-50%, -50%) rotate(2deg);
   animation: glitch-shake 0.5s infinite, glitch-appear 0.3s ease-out;
 }
-
 .glitch-text-element {
-  white-space: nowrap; /* Evita saltos de línea */
+  white-space: nowrap;
+}
+.static-element {
+  position: relative;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem;
+}
+.glitch-element {
+  pointer-events: none;
+  will-change: transform;
+}
+.static-content {
+  position: relative;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem 1rem;
+}
+.glitch-element {
+  pointer-events: none;
+  z-index: 40;
+  will-change: transform;
+}
+.glitch-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 90vw;
 }
