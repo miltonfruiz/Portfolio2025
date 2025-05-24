@@ -6,6 +6,8 @@ export default {
       fontFamily: {
         "bad-signal": ["Bad Signal", "monospace"],
         quakerhack: ["Quakerhack", "monospace"],
+        montserrat: ["Montserrat", "sans-serif"],
+        hacker: ["Hacker", "sans-serif"],
       },
       colors: {
         cyber: {

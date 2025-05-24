@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaTerminal,
-  FaMoon,
-  FaSkullCrossbones,
-  FaRadiation,
-} from "react-icons/fa";
+import { FaMoon, FaSkullCrossbones, FaRadiation } from "react-icons/fa";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { GiDeathSkull } from "react-icons/gi";
+import { FaDoorOpen } from "react-icons/fa6";
 import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
+
 const WelcomeScreen = () => {
   const navigate = useNavigate();
   const [glitchActive, setGlitchActive] = useState(false);
@@ -22,7 +19,7 @@ const WelcomeScreen = () => {
       "SYSTEM READY • [USER: miltonfruiz] • [PASSWORD: ******] • LOADING TERMINAL: 100% • MEMORY: 64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%",
   });
   const buttonBaseClasses =
-    "flex items-center justify-center gap-1 sm:gap-2 md:gap-3 w-full sm:w-auto md:w-48 rounded-none font-mono font-bold transition-all duration-200 border-2 hover:-translate-y-0.5 focus:outline-none";
+    "flex items-center justify-center gap-1 sm:gap-2 md:gap-1 w-full sm:w-auto md:w-48 h-12 rounded-sm font-mono font-semibold transition-all duration-200 border-2 hover:-translate-y-0.5 focus:outline-none";
   const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
   const triggerGlitch = () => {
     setGlitchActive(true);
@@ -63,7 +60,7 @@ const WelcomeScreen = () => {
   useEffect(() => {
     const randomGlitch = setInterval(() => {
       if (Math.random() > 0.7) triggerGlitch();
-    }, 8000 + Math.random() * 7000);
+    }, 1000 + Math.random() * 3000);
     return () => clearInterval(randomGlitch);
   }, []);
   const exclusionZones = useRef([
@@ -109,7 +106,7 @@ const WelcomeScreen = () => {
           <div className="absolute top-1/3 right-1/4 z-30 text-[#ffff00] text-4xl animate-pulse warning-icon">
             <BsFillExclamationDiamondFill />
           </div>
-          <div className="absolute bottom-1/2 left-2/1 z-30 text-[#00ff00] text-4xl animate-pulse radiation-icon">
+          <div className="absolute bottom-1/3 left-1/4 z-30 text-[#00ff00] text-4xl animate-pulse radiation-icon">
             <FaRadiation />
           </div>
         </>
@@ -132,14 +129,14 @@ const WelcomeScreen = () => {
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-50 justify-center">
         <button
           onClick={() => handleAccess("login")}
-          className={`${buttonBaseClasses} border-cyber-primary text-cyber-primary shadow-hacker-glow ${
+          className={`${buttonBaseClasses}  border-cyber-primary text-cyber-primary shadow-hacker-glow ${
             glitchActive ? "glitch-button" : ""
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Iniciar sesión"
         >
-          <FaTerminal className="text-[0.6rem] sm:text-[1rem] md:text-[1rem]" />
+          <FaDoorOpen className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
           <span
-            className={`ml-1 sm:ml-2 text-xs ${
+            className={`ml-1 sm:ml-2 text-[8px] tracking-[3px] font-hacker ${
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >
@@ -153,9 +150,9 @@ const WelcomeScreen = () => {
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Modo invitado"
         >
-          <FaMoon className="text-[0.6rem] sm:text-[1rem] md:text-[1rem]" />
+          <FaMoon className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
           <span
-            className={`ml-1 sm:ml-2 text-xs ${
+            className={`ml-1 sm:ml-2 text-xs text-[8px] tracking-[3px]  font-hacker${
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >

@@ -17,6 +17,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Hacker";
+  src: url("/fonts/Hacker.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 /*---------- Estilos base ----------*/
 body {
   @apply font-sans bg-black text-white;
