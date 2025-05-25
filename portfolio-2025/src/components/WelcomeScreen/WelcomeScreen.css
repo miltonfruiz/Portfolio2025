@@ -317,12 +317,7 @@ body {
 .static-content {
   position: relative;
   z-index: 50;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.7
-  ); /* Fondo semitransparente para mejor legibilidad */
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 0.5rem 1rem;
 }
 .glitch-element {

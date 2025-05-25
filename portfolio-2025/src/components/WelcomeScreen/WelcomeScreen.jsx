@@ -136,7 +136,7 @@ const WelcomeScreen = () => {
         >
           <FaDoorOpen className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
           <span
-            className={`ml-1 sm:ml-2 text-[8px] tracking-[3px] font-hacker ${
+            className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker ${
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >
@@ -152,7 +152,7 @@ const WelcomeScreen = () => {
         >
           <FaMoon className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
           <span
-            className={`ml-1 sm:ml-2 text-[8px] tracking-[3px]  font-hacker ${
+            className={`ml-1 sm:ml-2 text-[7px] tracking-[3px]  font-hacker ${
               glitchActive ? "glitch-effect-small" : ""
             }`}
           >
