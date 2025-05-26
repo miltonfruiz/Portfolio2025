@@ -18,6 +18,9 @@ export default {
           code: "#0fff50",
           glow: "rgba(0, 255, 157, 0.07)",
         },
+        red: {
+          500: "#ff0000",
+        },
       },
       boxShadow: {
         "hacker-glow": "0 0 10px #00ff9d, 0 0 20px rgba(0, 255, 157, 0.5)",

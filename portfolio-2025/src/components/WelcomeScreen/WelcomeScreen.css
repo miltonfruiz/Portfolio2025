@@ -93,6 +93,7 @@
   animation: scanline 0.5s linear infinite;
 }
 .glitch-button {
+  animation: glitch-border 0.1s infinite;
   animation: glitch-shake 0.1s infinite;
 }
 @keyframes glitch-anim {
@@ -386,4 +387,35 @@ body {
 .animate-terminal-blink {
   z-index: 10;
   position: relative;
+}
+.glitch-text-red {
+  animation: red-blink 0.3s infinite;
+  text-shadow: 0 0 5px #ff0000;
+}
+
+@keyframes red-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+.glitch-font-style {
+  font-family: "Courier New", monospace;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
+  animation: glitch-red-pulse 0.5s infinite alternate,
+    glitch-shake 0.1s infinite;
+}
+
+@keyframes glitch-red-pulse {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
 }

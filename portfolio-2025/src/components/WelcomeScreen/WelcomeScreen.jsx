@@ -130,36 +130,78 @@ const WelcomeScreen = () => {
         </>
       )}
       <div className="relative z-50 text-center mb-12 w-full max-w-2xl">
-        <div className="font-mono text-cyber-primary text-sm md:text-base mb-4 tracking-widest min-h-6">
+        <div
+          className={`font-mono mb-4 tracking-widest min-h-6 ${
+            glitchActive
+              ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
+              : "text-cyber-primary text-sm md:text-base"
+          }`}
+        >
           {displayTexts.terminal}
           {!glitchActive &&
             displayedTerminal.length < baseTexts.terminal.length && (
-              <span className="ml-2 animate-terminal-blink">_</span>
+              <span
+                className={`ml-2 animate-terminal-blink ${
+                  glitchActive ? "text-red-500" : ""
+                }`}
+              >
+                _
+              </span>
             )}
         </div>
-        <h1 className="text-3xl md:text-4xl font-mono font-bold text-cyber-primary tracking-tighter min-h-12">
+        <h1
+          className={`font-mono font-bold tracking-tighter min-h-12 ${
+            glitchActive
+              ? "text-[#ff0020] text-2xl md:text-4xl glitch-font-style italic"
+              : "text-cyber-primary text-3xl md:text-4xl"
+          }`}
+        >
           {displayTexts.title}
           {!glitchActive && isTyping && (
-            <span className="ml-2 animate-terminal-blink">_</span>
+            <span
+              className={`ml-2 animate-terminal-blink ${
+                glitchActive ? "text-red-600 text-4xl" : ""
+              }`}
+            >
+              _
+            </span>
           )}
         </h1>
-        <h1 className="text-sm md:text-base italic text-cyber-accent mt-6 mb-8 flex items-center justify-center gap-2 min-h-6 font-mono">
+        <h1
+          className={`flex items-center justify-center gap-2 min-h-6 font-mono mt-6 mb-8 ${
+            glitchActive
+              ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
+              : "text-cyber-accent text-sm md:text-base italic"
+          }`}
+        >
           <span>{displayTexts.subtitle}</span>
-          <FaSkullCrossbones className="animate-pulse" />
+          <FaSkullCrossbones
+            className={`animate-pulse ${
+              glitchActive ? "text-red-500 text-xl" : ""
+            }`}
+          />
         </h1>
       </div>
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-50 justify-center">
         <button
           onClick={() => handleAccess("login")}
           className={`${buttonBaseClasses} border-cyber-primary text-cyber-primary shadow-hacker-glow ${
-            glitchActive ? "glitch-button" : ""
+            glitchActive
+              ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
+              : ""
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Iniciar sesión"
         >
-          <FaDoorOpen className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
+          <FaDoorOpen
+            className={`${
+              glitchActive
+                ? "text-[#ff0020]"
+                : "text-[0.1rem] sm:text-[1rem] md:text-[1rem]"
+            }`}
+          />
           <span
             className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker ${
-              glitchActive ? "glitch-effect-small" : ""
+              glitchActive ? "glitch-effect-small text-[#ff0020]" : ""
             }`}
           >
             {glitchActive ? "ERROR_0x7F" : "ACCESS"}
@@ -168,14 +210,22 @@ const WelcomeScreen = () => {
         <button
           onClick={() => handleAccess("guest")}
           className={`${buttonBaseClasses} border-cyber-secondary text-cyber-secondary shadow-hacker-glow-blue ${
-            glitchActive ? "glitch-button" : ""
+            glitchActive
+              ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
+              : ""
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Modo invitado"
         >
-          <FaMoon className="text-[0.1rem] sm:text-[1rem] md:text-[1rem]" />
+          <FaMoon
+            className={`${
+              glitchActive
+                ? "text-[#ff0020]"
+                : "text-[0.1rem] sm:text-[1rem] md:text-[1rem]"
+            }`}
+          />
           <span
             className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker ${
-              glitchActive ? "glitch-effect-small" : ""
+              glitchActive ? "glitch-effect-small text-[#ff0020]" : ""
             }`}
           >
             {glitchActive ? "CORRUPTED" : "HIBERNATE"}
