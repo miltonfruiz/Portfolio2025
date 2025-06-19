@@ -419,3 +419,19 @@ body {
     opacity: 1;
   }
 }
+@keyframes gentleAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.gentle-appear {
+  animation: gentleAppear 3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}

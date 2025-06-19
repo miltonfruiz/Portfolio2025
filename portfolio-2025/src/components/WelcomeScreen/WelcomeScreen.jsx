@@ -11,6 +11,14 @@ import TypeWriter from "../../Hooks/Typewriter";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
+  const [subtitleVisible, setSubtitleVisible] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSubtitleVisible(true);
+    }, 8400);
+
+    return () => clearTimeout(timer);
+  }, []);
   const [glitchActive, setGlitchActive] = useState(false);
   const baseTexts = {
     terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
@@ -170,9 +178,12 @@ const WelcomeScreen = () => {
         <h1
           className={`flex items-center justify-center gap-2 min-h-6 font-mono mt-6 mb-8 ${
             glitchActive
-              ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
+              ? "text-[#ff0020] text-xs md:text-2xl"
               : "text-cyber-accent text-sm md:text-base italic"
-          }`}
+          } 
+            ${
+              !glitchActive && subtitleVisible ? "gentle-appear" : "opacity-0"
+            }`}
         >
           <span>{displayTexts.subtitle}</span>
           <FaSkullCrossbones
