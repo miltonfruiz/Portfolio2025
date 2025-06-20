@@ -11,22 +11,23 @@ import TypeWriter from "../../Hooks/Typewriter";
 
 const WelcomeScreen = () => {
   const navigate = useNavigate();
-  const [subtitleVisible, setSubtitleVisible] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSubtitleVisible(true);
-    }, 8400);
-
-    return () => clearTimeout(timer);
-  }, []);
   const [glitchActive, setGlitchActive] = useState(false);
   const baseTexts = {
     terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
     title: "$ ./welcome.sh",
-    subtitle: "# Are you ready? ",
+    subtitle: "# are you ready? ",
     footer:
       "SYSTEM READY • [USER: miltonfruiz] • [PASSWORD: ******] • LOADING TERMINAL: 100% • MEMORY: 64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%",
   };
+  const subtitleRef = useRef(null);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  useEffect(() => {
+    setShowSubtitle(false);
+    const timer = setTimeout(() => {
+      setShowSubtitle(true);
+    }, 7400);
+    return () => clearTimeout(timer);
+  }, []);
   const { displayedTerminal, displayedTitle, isTyping } = TypeWriter(
     [baseTexts.terminal, baseTexts.title],
     80,
@@ -51,7 +52,7 @@ const WelcomeScreen = () => {
   const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
   const triggerGlitch = () => {
     setGlitchActive(true);
-    setTimeout(() => setGlitchActive(false), 1000);
+    setTimeout(() => setGlitchActive(false), 1500);
     let iterations = 0;
     const glitchInterval = setInterval(() => {
       setGlitchedTexts({
@@ -84,10 +85,17 @@ const WelcomeScreen = () => {
     }, 500);
   };
   useEffect(() => {
-    const randomGlitch = setInterval(() => {
-      if (Math.random() > 0.7) triggerGlitch();
-    }, 1000 + Math.random() * 3000);
-    return () => clearInterval(randomGlitch);
+    let recurringInterval;
+    const initialGlitchTimer = setTimeout(() => {
+      triggerGlitch();
+      recurringInterval = setInterval(() => {
+        triggerGlitch();
+      }, 5000 + Math.random() * 1000);
+    }, 10000);
+    return () => {
+      clearTimeout(initialGlitchTimer);
+      if (recurringInterval) clearInterval(recurringInterval);
+    };
   }, []);
   const exclusionZones = useRef([
     { x: 25, y: 15, width: 50, height: 20 },
@@ -176,14 +184,22 @@ const WelcomeScreen = () => {
           )}
         </h1>
         <h1
-          className={`flex items-center justify-center gap-2 min-h-6 font-mono mt-6 mb-8 ${
+          ref={subtitleRef}
+          className={`flex items-center justify-center gap-2 min-h-6 font-extrabold mt-6 mb-8 ${
             glitchActive
-              ? "text-[#ff0020] text-xs md:text-2xl"
-              : "text-cyber-accent text-sm md:text-base italic"
-          } 
-            ${
-              !glitchActive && subtitleVisible ? "gentle-appear" : "opacity-0"
-            }`}
+              ? "text-[#ff0020] text-xs md:text-xl glitch-font-style hover:translate-y-0"
+              : `text-cyber-accent text-sm md:text-xs  tracking-wider
+  ${
+    showSubtitle
+      ? "opacity-100 translate-y-0 transition-all duration-500 ease-out"
+      : "opacity-0 translate-y-2"
+  }`
+          }`}
+          style={{
+            transition: glitchActive
+              ? "none"
+              : "opacity 0.5s ease-out, transform 0.5s ease-out",
+          }}
         >
           <span>{displayTexts.subtitle}</span>
           <FaSkullCrossbones
