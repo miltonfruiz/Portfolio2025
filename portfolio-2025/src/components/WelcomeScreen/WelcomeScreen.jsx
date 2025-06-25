@@ -10,6 +10,15 @@ import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
 
 const WelcomeScreen = () => {
+  const [showButtons, setShowButtons] = useState(false);
+  useEffect(() => {
+    setShowSubtitle(false);
+    const timer = setTimeout(() => {
+      setShowSubtitle(true);
+      setTimeout(() => setShowButtons(true), 1000);
+    }, 7400);
+    return () => clearTimeout(timer);
+  }, []);
   const navigate = useNavigate();
   const [glitchActive, setGlitchActive] = useState(false);
   const baseTexts = {
@@ -17,7 +26,7 @@ const WelcomeScreen = () => {
     title: "$ ./welcome.sh",
     subtitle: "# are you ready? ",
     footer:
-      "SYSTEM READY • [USER: miltonfruiz] • [PASSWORD: ******] • LOADING TERMINAL: 100% • MEMORY: 64GB • CPU: 12TH GEN i9 • GPU: RTX 4090 • [###-------] 30%",
+      "SYSTEM STATUS: OPERATIONAL    •    USER: miltonfruiz    •   ACCESS: ADMIN    •    CPU: 12TH GEN i9 @ 5.2GHz    •    GPU: RTX 4090    •    RAM: 64GB DDR5    •    STORAGE: 2TB NVMe    •    NETWORK: 10Gbps    •    THREATS BLOCKED: 0    •    LAST BACKUP: TODAY    •    UPTIME: 99.98%    •    ",
   };
   const subtitleRef = useRef(null);
   const [showSubtitle, setShowSubtitle] = useState(false);
@@ -185,7 +194,7 @@ const WelcomeScreen = () => {
         </h1>
         <h1
           ref={subtitleRef}
-          className={`flex items-center justify-center gap-2 min-h-6 font-extrabold mt-6 mb-8 ${
+          className={`flex items-center justify-center gap-2 min-h-6 font-bold mt-6 mb-8 ${
             glitchActive
               ? "text-[#ff0020] text-xs md:text-xl glitch-font-style hover:translate-y-0"
               : `text-cyber-accent text-sm md:text-xs  tracking-wider
@@ -209,13 +218,17 @@ const WelcomeScreen = () => {
           />
         </h1>
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-50 justify-center">
+      <div
+        className={`flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-50 justify-center transition-all duration-700 ${
+          showButtons ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
         <button
           onClick={() => handleAccess("login")}
-          className={`${buttonBaseClasses} border-cyber-primary text-cyber-primary shadow-hacker-glow ${
+          className={`${buttonBaseClasses}  text-cyber-primary shadow-hacker-glow ${
             glitchActive
               ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
-              : ""
+              : "border-cyber-primary"
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Iniciar sesión"
         >
@@ -236,10 +249,10 @@ const WelcomeScreen = () => {
         </button>
         <button
           onClick={() => handleAccess("guest")}
-          className={`${buttonBaseClasses} border-cyber-secondary text-cyber-secondary shadow-hacker-glow-blue ${
+          className={`${buttonBaseClasses}  text-cyber-secondary shadow-hacker-glow-blue ${
             glitchActive
               ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
-              : ""
+              : "border-cyber-secondary"
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Modo invitado"
         >
@@ -259,8 +272,20 @@ const WelcomeScreen = () => {
           </span>
         </button>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-10 bg-black border-t border-cyber-primary text-cyber-code text-xs font-mono px-4 py-2 overflow-hidden z-50">
-        <div className="animate-marquee whitespace-nowrap">
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-10 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
+          glitchActive
+            ? "border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]"
+            : "border-cyber-primary bg-black"
+        }`}
+      >
+        <div
+          className={`animate-marquee whitespace-pre flex items-center h-full ${
+            glitchActive
+              ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm "
+              : "text-cyber-code"
+          }`}
+        >
           {displayTexts.footer}
         </div>
       </div>
