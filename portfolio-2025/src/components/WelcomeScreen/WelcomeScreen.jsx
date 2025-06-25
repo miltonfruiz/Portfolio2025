@@ -134,7 +134,7 @@ const WelcomeScreen = () => {
   };
   return (
     <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
-      <MatrixRain speed={10} />
+      <MatrixRain speed={10} glitchActive={glitchActive} />
       <div className="scanlines" />
       <div className="crt-overlay" />
       <div className="crt-curvature" />
