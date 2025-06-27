@@ -8,6 +8,18 @@ import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
+import {
+  FaShieldAlt,
+  FaClock,
+  FaMemory,
+  FaServer,
+  FaSdCard,
+  FaNetworkWired,
+  FaUserShield,
+  FaUser,
+  FaCalendarCheck,
+  FaBolt,
+} from "react-icons/fa";
 
 const WelcomeScreen = () => {
   const [showButtons, setShowButtons] = useState(false);
@@ -21,12 +33,26 @@ const WelcomeScreen = () => {
   }, []);
   const navigate = useNavigate();
   const [glitchActive, setGlitchActive] = useState(false);
+  const footerData = [
+    { icon: <FaShieldAlt />, label: "System Status", value: "Operational" },
+    { icon: <FaUser />, label: "User", value: "miltonfruiz" },
+    { icon: <FaUserShield />, label: "Access", value: "ADMIN" },
+    { icon: <FaServer />, label: "CPU", value: "12TH GEN i9 @ 5.2GHz" },
+    { icon: <FaBolt />, label: "GPU", value: "RTX 4090" },
+    { icon: <FaMemory />, label: "RAM", value: "64GB DDR5" },
+    { icon: <FaSdCard />, label: "Storage", value: "2TB NVMe" },
+    { icon: <FaNetworkWired />, label: "Network", value: "10Gbps" },
+    { icon: <FaShieldAlt />, label: "Threats Blocked", value: "0" },
+    { icon: <FaCalendarCheck />, label: "Last Backup", value: "Today" },
+    { icon: <FaClock />, label: "Uptime", value: "99.98%" },
+  ];
   const baseTexts = {
     terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
     title: "$ ./welcome.sh",
     subtitle: "# are you ready? ",
-    footer:
-      "System Status: Operational       •       User: miltonfruiz       •      Access: ADMIN       •       CPU: 12TH GEN i9 @ 5.2GHz       •       GPU: RTX 4090       •       RAM: 64GB DDR5       •        Storage: 2TB NVMe       •       Network: 10Gbps       •       Threats Blocked: 0       •       Last Backup: Today       •       Uptime: 99.98%       •       ",
+    footer: footerData
+      .map((item) => `${item.label}: ${item.value}`)
+      .join(" • "),
   };
   const subtitleRef = useRef(null);
   const [showSubtitle, setShowSubtitle] = useState(false);
@@ -68,7 +94,11 @@ const WelcomeScreen = () => {
         terminal: glitchText(baseTexts.terminal, iterations, 10),
         title: glitchText(baseTexts.title, iterations, 8),
         subtitle: glitchText(baseTexts.subtitle, iterations, 5),
-        footer: glitchText(baseTexts.footer, iterations, 15),
+        footer: glitchText(
+          footerData.map((item) => `${item.label}: ${item.value}`).join(" • "),
+          iterations,
+          15
+        ),
       });
       iterations++;
       if (iterations > 10) {
@@ -240,7 +270,7 @@ const WelcomeScreen = () => {
             className={`${
               glitchActive
                 ? "text-[#ff0020]"
-                : "text-[0.1rem] sm:text-[1rem] md:text-[1rem]"
+                : "text-[0.1rem] sm:text-[1rem] md:text-[0.7rem]"
             }`}
           />
           <span
@@ -264,7 +294,7 @@ const WelcomeScreen = () => {
             className={`${
               glitchActive
                 ? "text-[#ff0020]"
-                : "text-[0.1rem] sm:text-[1rem] md:text-[1rem]"
+                : "text-[0.1rem] sm:text-[1rem] md:text-[0.7rem]"
             }`}
           />
           <span
@@ -277,20 +307,67 @@ const WelcomeScreen = () => {
         </button>
       </div>
       <div
-        className={`absolute bottom-0 left-0 right-0 h-10 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
+        className={`absolute bottom-0 left-0 right-0 h-8 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
           glitchActive
             ? "border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]"
             : "border-cyber-primary bg-black"
         }`}
       >
-        <div
-          className={`animate-marquee whitespace-pre flex items-center h-full font-montserrat text-[10px] ${
-            glitchActive
-              ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm "
-              : "text-cyber-code"
-          }`}
-        >
-          {displayTexts.footer}
+        <div className="relative h-full w-full overflow-hidden font-montserrat ">
+          <div
+            className={`absolute flex gap-4 items-center h-full ${
+              glitchActive
+                ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm"
+                : "text-cyber-code"
+            }`}
+            style={{
+              animation: "marquee 60s linear infinite",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {glitchActive ? (
+              <span className="flex gap-4">
+                {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
+              </span>
+            ) : (
+              footerData.map((item, index) => (
+                <span
+                  key={`original-${index}`}
+                  className="inline-flex items-center"
+                >
+                  <span className="mr-1 text-[11px]">{item.icon}</span>
+                  <span className="mr-1 font-bold tracking-wider">
+                    {item.label}:
+                  </span>
+                  <span className="mr-3">{item.value}</span>
+                  {index < footerData.length - 1 && (
+                    <span className="mx-4">•</span>
+                  )}
+                </span>
+              ))
+            )}
+            {glitchActive ? (
+              <span className="flex gap-4">
+                {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
+              </span>
+            ) : (
+              footerData.map((item, index) => (
+                <span
+                  key={`clone-${index}`}
+                  className="inline-flex items-center"
+                >
+                  <span className="mr-1 text-[11px]">{item.icon}</span>
+                  <span className="mr-1 font-bold tracking-wider">
+                    {item.label}:
+                  </span>
+                  <span className="mr-3">{item.value}</span>
+                  {index < footerData.length - 1 && (
+                    <span className="mx-4">•</span>
+                  )}
+                </span>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
