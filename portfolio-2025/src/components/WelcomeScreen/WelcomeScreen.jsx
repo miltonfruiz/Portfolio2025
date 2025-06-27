@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaMoon, FaSkullCrossbones, FaRadiation } from "react-icons/fa";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
@@ -26,7 +26,7 @@ const WelcomeScreen = () => {
     title: "$ ./welcome.sh",
     subtitle: "# are you ready? ",
     footer:
-      "SYSTEM STATUS: OPERATIONAL    •    USER: miltonfruiz    •   ACCESS: ADMIN    •    CPU: 12TH GEN i9 @ 5.2GHz    •    GPU: RTX 4090    •    RAM: 64GB DDR5    •    STORAGE: 2TB NVMe    •    NETWORK: 10Gbps    •    THREATS BLOCKED: 0    •    LAST BACKUP: TODAY    •    UPTIME: 99.98%    •    ",
+      "System Status: Operational       •       User: miltonfruiz       •      Access: ADMIN       •       CPU: 12TH GEN i9 @ 5.2GHz       •       GPU: RTX 4090       •       RAM: 64GB DDR5       •        Storage: 2TB NVMe       •       Network: 10Gbps       •       Threats Blocked: 0       •       Last Backup: Today       •       Uptime: 99.98%       •       ",
   };
   const subtitleRef = useRef(null);
   const [showSubtitle, setShowSubtitle] = useState(false);
@@ -77,15 +77,19 @@ const WelcomeScreen = () => {
       }
     }, 50);
   };
-  const glitchText = (text, iterations, intensity) => {
-    return text
-      .split("")
-      .map((char, index) => {
-        if (index < iterations || Math.random() > intensity / 10) return char;
-        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
-      })
-      .join("");
-  };
+  const glitchText = useCallback(
+    (text, iterations, intensity) => {
+      return text
+        .split("")
+        .map((char, index) =>
+          index < iterations || Math.random() > intensity / 10
+            ? char
+            : glitchChars[Math.floor(Math.random() * glitchChars.length)]
+        )
+        .join("");
+    },
+    [glitchChars]
+  );
   const handleAccess = (type) => {
     console.log(`[SYSTEM] Access: ${type.toUpperCase()}`);
     triggerGlitch();
@@ -230,7 +234,7 @@ const WelcomeScreen = () => {
               ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
               : "border-cyber-primary"
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
-          aria-label="Iniciar sesión"
+          aria-label={glitchActive ? "Error de sistema" : "Acceder"}
         >
           <FaDoorOpen
             className={`${
@@ -280,7 +284,7 @@ const WelcomeScreen = () => {
         }`}
       >
         <div
-          className={`animate-marquee whitespace-pre flex items-center h-full ${
+          className={`animate-marquee whitespace-pre flex items-center h-full font-montserrat text-[10px] ${
             glitchActive
               ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm "
               : "text-cyber-code"

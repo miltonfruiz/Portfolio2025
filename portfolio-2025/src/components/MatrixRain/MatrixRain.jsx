@@ -21,21 +21,22 @@ const MatrixRain = ({ speed = 5, glitchActive = false }) => {
   const dropSpeed = 0.02 * speedFactor;
   const audioRef = useRef(null);
   useEffect(() => {
-    if (glitchActive) {
-      setCurrentChars(glitchChars);
+    if (glitchActive && !audioRef.current) {
       audioRef.current = new Audio("/sounds/matrix-glitch.mp3");
       audioRef.current.volume = 0.1;
-      audioRef.current.play().catch((e) => console.log("Audio error:", e));
-    } else {
-      setCurrentChars(normalChars);
+      const handleInteraction = () => {
+        audioRef.current.play().catch(console.warn);
+        document.removeEventListener("click", handleInteraction);
+      };
+      document.addEventListener("click", handleInteraction);
     }
   }, [glitchActive]);
 
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
       });
     };
     window.addEventListener("resize", handleResize);
