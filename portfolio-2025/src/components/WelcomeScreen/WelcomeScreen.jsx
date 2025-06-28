@@ -19,7 +19,9 @@ import {
   FaUser,
   FaCalendarCheck,
   FaBolt,
+  FaArrowRight,
 } from "react-icons/fa";
+import { MdWavingHand } from "react-icons/md";
 
 const WelcomeScreen = () => {
   const [showButtons, setShowButtons] = useState(false);
@@ -49,7 +51,7 @@ const WelcomeScreen = () => {
   const baseTexts = {
     terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
     title: "$ ./welcome.sh",
-    subtitle: "# are you ready? ",
+    subtitle: "You're not ready",
     footer: footerData
       .map((item) => `${item.label}: ${item.value}`)
       .join(" • "),
@@ -83,7 +85,7 @@ const WelcomeScreen = () => {
         footer: baseTexts.footer,
       };
   const buttonBaseClasses =
-    "flex items-center justify-center gap-1 sm:gap-2 md:gap-2 w-full sm:w-auto md:w-44 h-11 rounded-md font-mono font-semibold transition-all duration-400 border-2 hover:-translate-y-0.5 focus:outline-none";
+    "flex items-center justify-center gap-1 sm:gap-2 md:gap-2 w-full sm:w-auto md:w-44 h-11 rounded-md font-mono font-semibold transition-all duration-400 border-2 focus:outline-none";
   const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
   const triggerGlitch = () => {
     setGlitchActive(true);
@@ -193,7 +195,7 @@ const WelcomeScreen = () => {
           className={`font-mono mb-4 tracking-widest min-h-6 ${
             glitchActive
               ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
-              : "text-cyber-primary text-sm md:text-base"
+              : "text-cyber-primary text-sm md:text-[13px]"
           }`}
         >
           {displayTexts.terminal}
@@ -228,15 +230,14 @@ const WelcomeScreen = () => {
         </h1>
         <h1
           ref={subtitleRef}
-          className={`flex items-center justify-center gap-2 min-h-6 font-bold mt-6 mb-8 ${
+          className={`flex items-center justify-center gap-2 min-h-6 mt-6 mb-8 font-quakerhack ${
             glitchActive
               ? "text-[#ff0020] text-xs md:text-xl glitch-font-style hover:translate-y-0"
-              : `text-cyber-accent text-sm md:text-xs  tracking-wider
-  ${
-    showSubtitle
-      ? "opacity-100 translate-y-0 transition-all duration-500 ease-out"
-      : "opacity-0 translate-y-2"
-  }`
+              : `text-cyber-accent text-sm md:text-base  tracking-widest ${
+                  showSubtitle
+                    ? "opacity-100 translate-y-0 transition-all duration-500 ease-out"
+                    : "opacity-0 translate-y-2"
+                }`
           }`}
           style={{
             transition: glitchActive
@@ -257,54 +258,100 @@ const WelcomeScreen = () => {
           showButtons ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <button
-          onClick={() => handleAccess("login")}
-          className={`${buttonBaseClasses}  bg-cyber-primary shadow-hacker-glow hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
-            glitchActive
-              ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent "
-              : "border-cyber-primary"
-          } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
-          aria-label={glitchActive ? "Error de sistema" : "Acceder"}
-        >
-          <FaDoorOpen
-            className={`${
+        <div className="group/access">
+          <button
+            onClick={() => handleAccess("login")}
+            className={`${buttonBaseClasses} bg-cyber-primary shadow-hacker-glow hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
               glitchActive
-                ? "text-[#ff0020]"
-                : "text-[0.1rem] sm:text-[1rem] md:text-[0.7rem]"
-            }`}
-          />
-          <span
-            className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker ${
-              glitchActive ? "glitch-effect-small text-[#ff0020]" : ""
-            }`}
+                ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
+                : "border-cyber-primary"
+            } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden group`} // ← Añade `group` aquí
+            aria-label={glitchActive ? "Error de sistema" : "Acceder"}
           >
-            {glitchActive ? "ERROR_0x7F" : "ACCESS"}
-          </span>
-        </button>
-        <button
-          onClick={() => handleAccess("guest")}
-          className={`${buttonBaseClasses}  bg-cyber-secondary shadow-hacker-glow-blue hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
-            glitchActive
-              ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
-              : "border-cyber-secondary"
-          } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
-          aria-label="Modo invitado"
-        >
-          <FaMoon
-            className={`${
+            <div className="relative w-4 h-4 flex items-center">
+              <FaDoorOpen
+                className={`absolute transition-all duration-300 ${
+                  glitchActive
+                    ? "text-[#ff0020]"
+                    : "text-current group-hover:opacity-0 group-hover:translate-x-[100px]"
+                }`}
+              />
+              <FaArrowRight
+                className={`absolute right-full transition-all duration-300 opacity-0 ${
+                  glitchActive
+                    ? "hidden"
+                    : "text-current group-hover:opacity-100 group-hover:translate-x-[100%]"
+                }`}
+              />
+            </div>
+            <div className="relative inline-flex items-center h-5 overflow-hidden">
+              <span
+                className={`absolute right-full text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                  glitchActive ? "hidden" : "group-hover:translate-x-[200%]"
+                }`}
+              >
+                go!
+              </span>
+              <span
+                className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                  glitchActive
+                    ? "glitch-effect-small text-[#ff0020]"
+                    : "group-hover:translate-x-[100%]"
+                }`}
+              >
+                ACCESS
+              </span>
+            </div>
+          </button>
+        </div>
+        <div className="group/hibernate">
+          <button
+            onClick={() => handleAccess("guest")}
+            className={`${buttonBaseClasses} bg-cyber-secondary shadow-hacker-glow-blue hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
               glitchActive
-                ? "text-[#ff0020]"
-                : "text-[0.1rem] sm:text-[1rem] md:text-[0.7rem]"
-            }`}
-          />
-          <span
-            className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker ${
-              glitchActive ? "glitch-effect-small text-[#ff0020]" : ""
-            }`}
+                ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
+                : "border-cyber-secondary"
+            } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden`}
+            aria-label="Modo invitado"
           >
-            {glitchActive ? "CORRUPTED" : "HIBERNATE"}
-          </span>
-        </button>
+            <div className="relative w-4 h-4 flex items-center">
+              <FaMoon
+                className={`absolute transition-all duration-300 ${
+                  glitchActive
+                    ? "text-[#ff0020]"
+                    : "text-current group-hover/hibernate:opacity-0 group-hover/hibernate:translate-x-[100px]"
+                }`}
+              />
+              <MdWavingHand
+                className={`absolute right-full transition-all duration-300 opacity-0 ${
+                  glitchActive
+                    ? "hidden"
+                    : "text-current group-hover/hibernate:opacity-100 group-hover/hibernate:translate-x-[100%]"
+                }`}
+              />
+            </div>
+            <div className="relative inline-flex items-center h-5 overflow-hidden">
+              <span
+                className={`absolute right-full ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                  glitchActive
+                    ? "hidden"
+                    : "group-hover/hibernate:translate-x-[200%]"
+                }`}
+              >
+                Bye!
+              </span>
+              <span
+                className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                  glitchActive
+                    ? "glitch-effect-small text-[#ff0020]"
+                    : "group-hover/hibernate:translate-x-[100%]"
+                }`}
+              >
+                HIBERNATE
+              </span>
+            </div>
+          </button>
+        </div>
       </div>
       <div
         className={`absolute bottom-0 left-0 right-0 h-8 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
