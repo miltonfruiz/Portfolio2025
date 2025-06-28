@@ -83,7 +83,7 @@ const WelcomeScreen = () => {
         footer: baseTexts.footer,
       };
   const buttonBaseClasses =
-    "flex items-center justify-center gap-1 sm:gap-2 md:gap-1 w-full sm:w-auto md:w-48 h-12 rounded-sm font-mono font-semibold transition-all duration-200 border-2 hover:-translate-y-0.5 focus:outline-none";
+    "flex items-center justify-center gap-1 sm:gap-2 md:gap-2 w-full sm:w-auto md:w-44 h-11 rounded-md font-mono font-semibold transition-all duration-400 border-2 hover:-translate-y-0.5 focus:outline-none";
   const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
   const triggerGlitch = () => {
     setGlitchActive(true);
@@ -253,15 +253,15 @@ const WelcomeScreen = () => {
         </h1>
       </div>
       <div
-        className={`flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-lg z-50 justify-center transition-all duration-700 ${
+        className={`flex flex-col sm:flex-row gap-2 sm:gap-33 md:gap-8 w-full max-w-lg z-50 justify-center transition-all duration-700 ${
           showButtons ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
         <button
           onClick={() => handleAccess("login")}
-          className={`${buttonBaseClasses}  text-cyber-primary shadow-hacker-glow ${
+          className={`${buttonBaseClasses}  bg-cyber-primary shadow-hacker-glow hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
             glitchActive
-              ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
+              ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent "
               : "border-cyber-primary"
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label={glitchActive ? "Error de sistema" : "Acceder"}
@@ -283,9 +283,9 @@ const WelcomeScreen = () => {
         </button>
         <button
           onClick={() => handleAccess("guest")}
-          className={`${buttonBaseClasses}  text-cyber-secondary shadow-hacker-glow-blue ${
+          className={`${buttonBaseClasses}  bg-cyber-secondary shadow-hacker-glow-blue hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
             glitchActive
-              ? "glitch-button border-[#ff0020] shadow-[#ff0020]"
+              ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
               : "border-cyber-secondary"
           } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4`}
           aria-label="Modo invitado"
