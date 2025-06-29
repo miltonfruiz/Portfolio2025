@@ -31,9 +31,22 @@ import { SiAlienware } from "react-icons/si";
 
 const Glitch = ({ glitchActive, getPosition }) => {
   const [showBackgroundImage, setShowBackgroundImage] = useState(false);
+  const [imgGlitchOffset, setImgGlitchOffset] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    if (!glitchActive) return;
+
+    const glitchInterval = setInterval(() => {
+      setImgGlitchOffset({
+        x: Math.floor(Math.random() * 20) - 10,
+        y: Math.floor(Math.random() * 20) - 10,
+      });
+    }, 50);
+
+    return () => clearInterval(glitchInterval);
+  }, [glitchActive]);
   useEffect(() => {
     const img = new Image();
-    img.src = "/images/img3.jpg";
+    img.src = "/images/img5.jpg";
   }, []);
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
@@ -219,19 +232,60 @@ const Glitch = ({ glitchActive, getPosition }) => {
   return (
     <>
       {showBackgroundImage && (
-        <div className="fixed inset-0 z-0 pointer-events-none">
-          <img
-            src="/images/img3.jpg"
-            alt="Glitch background"
-            className="w-full h-full object-cover"
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          <div
+            className="relative w-full h-full"
             style={{
-              opacity: 0.7,
-              filter: "grayscale(100%) contrast(200%) brightness(0.7)",
-              mixBlendMode: "hard-light",
-              animation: "glitchEffect 0.5s infinite",
+              clipPath: glitchActive
+                ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+                : "none",
+              filter: glitchActive ? "contrast(150%) brightness(0.8)" : "none",
             }}
-          />
-          <div className="absolute inset-0 bg-black opacity-40"></div>
+          >
+            <img
+              src="/images/img5.jpg"
+              alt="Glitch background"
+              className="absolute w-full h-full object-cover glitch-img"
+              style={{
+                transform: glitchActive
+                  ? `translate(${imgGlitchOffset.x}px, ${imgGlitchOffset.y}px)`
+                  : "none",
+                opacity: 0.9,
+                filter: "grayscale(80%) contrast(200%)",
+              }}
+            />
+            {glitchActive && (
+              <>
+                <img
+                  src="/images/img5.jpg"
+                  alt="Glitch layer"
+                  className="absolute w-full h-full object-cover"
+                  style={{
+                    transform: `translate(${imgGlitchOffset.x * 2}px, ${
+                      imgGlitchOffset.y * 1.5
+                    }px)`,
+                    opacity: 0.6,
+                    filter: "hue-rotate(90deg) contrast(200%)",
+                    mixBlendMode: "screen",
+                  }}
+                />
+                <img
+                  src="/images/img5.jpg"
+                  alt="Glitch layer"
+                  className="absolute w-full h-full object-cover"
+                  style={{
+                    transform: `translate(${-imgGlitchOffset.x * 1.5}px, ${
+                      -imgGlitchOffset.y * 2
+                    }px)`,
+                    opacity: 0.4,
+                    filter: "hue-rotate(180deg) contrast(300%)",
+                    mixBlendMode: "difference",
+                  }}
+                />
+              </>
+            )}
+          </div>
+          <div className="absolute inset-0 bg-black opacity-30"></div>
         </div>
       )}
       {errorElements.map((element) => (

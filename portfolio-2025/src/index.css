@@ -206,3 +206,27 @@ body {
     filter: grayscale(100%) contrast(200%) brightness(0.7) hue-rotate(360deg);
   }
 }
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-5px, 5px);
+  }
+  40% {
+    transform: translate(-5px, -5px);
+  }
+  60% {
+    transform: translate(5px, 5px);
+  }
+  80% {
+    transform: translate(5px, -5px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-img {
+  animation: glitch-anim 0.3s infinite alternate;
+}
