@@ -126,7 +126,7 @@ const Glitch = ({ glitchActive, getPosition }) => {
   ];
   useEffect(() => {
     audioRef.current = new Audio("/sounds/glitcherror.mp3");
-    audioRef.current.volume = 0.2;
+    audioRef.current.volume = 0.1;
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
