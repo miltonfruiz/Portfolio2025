@@ -30,6 +30,11 @@ import { IoIosLock } from "react-icons/io";
 import { SiAlienware } from "react-icons/si";
 
 const Glitch = ({ glitchActive, getPosition }) => {
+  const [showBackgroundImage, setShowBackgroundImage] = useState(false);
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/images/img3.jpg";
+  }, []);
   const audioRef = useRef(null);
   const [errorElements, setErrorElements] = useState([]);
   const allIcons = [
@@ -118,6 +123,7 @@ const Glitch = ({ glitchActive, getPosition }) => {
   }, []);
   useEffect(() => {
     if (glitchActive) {
+      setShowBackgroundImage(true);
       audioRef.current.currentTime = 0;
       audioRef.current.play().catch((e) => console.error("Audio error:", e));
       const elements = [];
@@ -131,11 +137,14 @@ const Glitch = ({ glitchActive, getPosition }) => {
       for (let i = 0; i < alertTextCount; i++)
         elements.push(createAlertTextElement());
       setErrorElements(shuffleArray(elements));
-      const timeout = setTimeout(
-        () => setErrorElements([]),
-        1000 + Math.random() * 1000
-      );
-      return () => clearTimeout(timeout);
+      const timeout = setTimeout(() => {
+        setErrorElements([]);
+        setShowBackgroundImage(false);
+      }, 1000 + Math.random() * 1000);
+      return () => {
+        clearTimeout(timeout);
+        setShowBackgroundImage(false);
+      };
     }
   }, [glitchActive]);
 
@@ -209,6 +218,22 @@ const Glitch = ({ glitchActive, getPosition }) => {
   };
   return (
     <>
+      {showBackgroundImage && (
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <img
+            src="/images/img3.jpg"
+            alt="Glitch background"
+            className="w-full h-full object-cover"
+            style={{
+              opacity: 0.7,
+              filter: "grayscale(100%) contrast(200%) brightness(0.7)",
+              mixBlendMode: "hard-light",
+              animation: "glitchEffect 0.5s infinite",
+            }}
+          />
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+        </div>
+      )}
       {errorElements.map((element) => (
         <div
           key={element.id}

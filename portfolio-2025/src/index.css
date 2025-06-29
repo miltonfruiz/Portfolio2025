@@ -189,3 +189,20 @@ body {
   text-overflow: ellipsis;
   max-width: 90vw;
 }
+@keyframes glitchEffect {
+  0% {
+    filter: grayscale(100%) contrast(200%) brightness(0.7) hue-rotate(0deg);
+  }
+  20% {
+    filter: grayscale(100%) contrast(250%) brightness(0.8) hue-rotate(90deg);
+  }
+  40% {
+    filter: grayscale(100%) contrast(300%) brightness(0.6) hue-rotate(180deg);
+  }
+  60% {
+    filter: grayscale(100%) contrast(250%) brightness(0.8) hue-rotate(270deg);
+  }
+  100% {
+    filter: grayscale(100%) contrast(200%) brightness(0.7) hue-rotate(360deg);
+  }
+}
