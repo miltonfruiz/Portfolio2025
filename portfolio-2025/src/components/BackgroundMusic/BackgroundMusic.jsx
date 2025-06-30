@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
-  const [volume, setVolume] = useState(0.4); // 0.2 / 0.4
-  const [startTime] = useState(2); // 2:34 minutos 156 / 2
+  const [volume, setVolume] = useState(0.6);
+  const [startTime] = useState(1);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -56,7 +56,7 @@ const BackgroundMusic = () => {
   }, [volume, startTime]);
   return (
     <audio ref={audioRef} preload="auto">
-      <source src="/music/background2.mp3" type="audio/mpeg" />
+      <source src="/music/background.mp3" type="audio/mpeg" />
       Tu navegador no soporta el elemento de audio.
     </audio>
   );
