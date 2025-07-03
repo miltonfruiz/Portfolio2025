@@ -1,64 +1,97 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
-  const [volume, setVolume] = useState(0.6);
-  const [startTime] = useState(1);
+  const [volume] = useState(0.2);
+  const [startTime] = useState(0);
+  const [showUnmuteButton, setShowUnmuteButton] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = volume;
+    audio.volume = 0.1;
     audio.loop = true;
-    const handlePlay = () => {
-      const onLoaded = () => {
-        audio.currentTime = startTime;
-        audio
-          .play()
-          .then(() => console.log("Reproducción automática exitosa"))
-          .catch((error) => console.log("Error en autoplay:", error));
-      };
-      if (audio.readyState > 0) {
-        onLoaded();
-      } else {
-        audio.addEventListener("loadedmetadata", onLoaded, { once: true });
-      }
-    };
-    const attemptAutoplay = () => {
-      audio.volume = 0;
+    audio.muted = true;
+
+    const startPlayback = () => {
+      audio.currentTime = startTime;
+      audio.muted = false;
+      audio.volume = volume;
       audio
         .play()
         .then(() => {
-          audio.volume = volume;
-          handlePlay();
+          console.log("Reproducción automática exitosa");
+          setShowUnmuteButton(false);
         })
         .catch((error) => {
-          console.log(
-            "Autoplay silenciado bloqueado, intentando con interacción"
-          );
-          const enableAudio = () => {
-            audio.volume = volume;
-            handlePlay();
-            document.removeEventListener("click", enableAudio);
-            document.removeEventListener("touchstart", enableAudio);
-          };
-          document.addEventListener("click", enableAudio);
-          document.addEventListener("touchstart", enableAudio);
+          console.log("Error en autoplay:", error);
+          setShowUnmuteButton(true);
         });
     };
-    attemptAutoplay();
+    audio
+      .play()
+      .then(() => {
+        setTimeout(startPlayback, 1000);
+      })
+      .catch((error) => {
+        console.log("Autoplay muteado bloqueado, intentando con carga");
+        window.addEventListener("load", () => {
+          startPlayback();
+        });
+        const retryInterval = setInterval(() => {
+          audio
+            .play()
+            .then(() => {
+              clearInterval(retryInterval);
+              startPlayback();
+            })
+            .catch((e) => console.log("Reintento fallido:", e));
+        }, 1000);
+        return () => clearInterval(retryInterval);
+      });
     return () => {
       if (audio) {
         audio.pause();
-        audio.removeEventListener("loadedmetadata", handlePlay);
       }
     };
   }, [volume, startTime]);
+  const handleUnmuteClick = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.muted = false;
+      audio.volume = volume;
+      audio
+        .play()
+        .then(() => setShowUnmuteButton(false))
+        .catch((e) => console.log("Error al desmutear:", e));
+    }
+  };
   return (
-    <audio ref={audioRef} preload="auto">
-      <source src="/music/background.mp3" type="audio/mpeg" />
-      Tu navegador no soporta el elemento de audio.
-    </audio>
+    <div>
+      <audio ref={audioRef} preload="auto">
+        <source src="/music/background.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+      {showUnmuteButton && (
+        <button
+          onClick={handleUnmuteClick}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            padding: "10px",
+            background: "rgba(0,0,0,0.7)",
+            color: "white",
+            borderRadius: "5px",
+            zIndex: 1000,
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Activar música
+        </button>
+      )}
+    </div>
   );
 };
 
