@@ -143,3 +143,105 @@
     background-position: 0 100%;
   }
 }
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 5s linear infinite;
+}
+.glitch-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 255, 255, 0.1),
+    rgba(0, 255, 255, 0.2) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+  animation: glitch-flicker 0.3s infinite;
+}
+
+@keyframes glitch-flicker {
+  0% {
+    opacity: 0.2;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(2px);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateX(0);
+  }
+}
+.glitch-error {
+  position: relative;
+  animation: glitchErrorFlicker 0.3s infinite;
+}
+
+@keyframes glitchErrorFlicker {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.2;
+    transform: translateX(2px);
+  }
+}
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  22%,
+  24%,
+  55% {
+    opacity: 0.2;
+  }
+}
+
+.animate-flicker {
+  animation: flicker 1s infinite;
+}
+
+@keyframes flicker-strong {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.1;
+  }
+}
+
+.animate-flicker-strong {
+  animation: flicker-strong 0.5s infinite;
+}

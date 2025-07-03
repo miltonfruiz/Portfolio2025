@@ -9,6 +9,8 @@ import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
 import SystemLoader from "../SystemLoader/SystemLoader";
+import { motion } from "framer-motion";
+
 import {
   FaShieldAlt,
   FaClock,
@@ -170,255 +172,263 @@ const WelcomeScreen = () => {
     return { x, y };
   };
   return (
-    <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
-      <MatrixRain speed={10} glitchActive={glitchActive} />
-      <div className="scanlines" />
-      <div className="crt-overlay" />
-      <div className="crt-curvature" />
-      <Glitch glitchActive={glitchActive} />
-      {glitchActive && (
-        <>
-          <div className="absolute inset-0 bg-cyber-primary opacity-10 z-20 pointer-events-none"></div>
-          <div className="glitch-lines absolute inset-0 z-20 pointer-events-none"></div>
-          <div className="absolute top-1/4 left-1/4 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
-            <GiDeathSkull />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5, duration: 1 }}
+    >
+      <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
+        <MatrixRain speed={10} glitchActive={glitchActive} />
+        <div className="scanlines" />
+        <div className="crt-overlay" />
+        <div className="crt-curvature" />
+        <Glitch glitchActive={glitchActive} />
+        {glitchActive && (
+          <>
+            <div className="absolute inset-0 bg-cyber-primary opacity-10 z-20 pointer-events-none"></div>
+            <div className="glitch-lines absolute inset-0 z-20 pointer-events-none"></div>
+            <div className="absolute top-1/4 left-1/4 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
+              <GiDeathSkull />
+            </div>
+            <div className="absolute top-1/3 right-1/4 z-30 text-[#ffff00] text-4xl animate-pulse warning-icon">
+              <BsFillExclamationDiamondFill />
+            </div>
+            <div className="absolute bottom-1/3 left-1/4 z-30 text-[#00ff00] text-4xl animate-pulse radiation-icon">
+              <FaRadiation />
+            </div>
+          </>
+        )}
+        <div className="relative z-50 text-center mb-12 w-full max-w-2xl">
+          <div
+            className={`font-mono mb-4 tracking-widest min-h-6 ${
+              glitchActive
+                ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
+                : "text-cyber-primary text-sm md:text-[13px]"
+            }`}
+          >
+            {displayTexts.terminal}
+            {!glitchActive &&
+              displayedTerminal.length < baseTexts.terminal.length && (
+                <span
+                  className={`ml-2 animate-terminal-blink ${
+                    glitchActive ? "text-red-500" : ""
+                  }`}
+                >
+                  _
+                </span>
+              )}
           </div>
-          <div className="absolute top-1/3 right-1/4 z-30 text-[#ffff00] text-4xl animate-pulse warning-icon">
-            <BsFillExclamationDiamondFill />
-          </div>
-          <div className="absolute bottom-1/3 left-1/4 z-30 text-[#00ff00] text-4xl animate-pulse radiation-icon">
-            <FaRadiation />
-          </div>
-        </>
-      )}
-      <div className="relative z-50 text-center mb-12 w-full max-w-2xl">
-        <div
-          className={`font-mono mb-4 tracking-widest min-h-6 ${
-            glitchActive
-              ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
-              : "text-cyber-primary text-sm md:text-[13px]"
-          }`}
-        >
-          {displayTexts.terminal}
-          {!glitchActive &&
-            displayedTerminal.length < baseTexts.terminal.length && (
+          <h1
+            className={`font-mono font-bold tracking-tighter min-h-12 ${
+              glitchActive
+                ? "text-[#ff0020] text-2xl md:text-4xl glitch-font-style italic"
+                : "text-cyber-primary text-3xl md:text-4xl"
+            }`}
+          >
+            {displayTexts.title}
+            {!glitchActive && isTyping && (
               <span
                 className={`ml-2 animate-terminal-blink ${
-                  glitchActive ? "text-red-500" : ""
+                  glitchActive ? "text-red-600 text-4xl" : ""
                 }`}
               >
                 _
               </span>
             )}
-        </div>
-        <h1
-          className={`font-mono font-bold tracking-tighter min-h-12 ${
-            glitchActive
-              ? "text-[#ff0020] text-2xl md:text-4xl glitch-font-style italic"
-              : "text-cyber-primary text-3xl md:text-4xl"
-          }`}
-        >
-          {displayTexts.title}
-          {!glitchActive && isTyping && (
-            <span
-              className={`ml-2 animate-terminal-blink ${
-                glitchActive ? "text-red-600 text-4xl" : ""
-              }`}
-            >
-              _
-            </span>
-          )}
-        </h1>
-        <h1
-          ref={subtitleRef}
-          className={`flex items-center justify-center gap-2 min-h-6 mt-6 mb-8 font-quakerhack ${
-            glitchActive
-              ? "text-[#ff0020] text-xs md:text-xl glitch-font-style hover:translate-y-0"
-              : `text-cyber-accent text-sm md:text-base  tracking-widest ${
-                  showSubtitle
-                    ? "opacity-100 translate-y-0 transition-all duration-500 ease-out"
-                    : "opacity-0 translate-y-2"
-                }`
-          }`}
-          style={{
-            transition: glitchActive
-              ? "none"
-              : "opacity 0.5s ease-out, transform 0.5s ease-out",
-          }}
-        >
-          <span>{displayTexts.subtitle}</span>
-          <FaSkullCrossbones
-            className={`animate-pulse ${
-              glitchActive ? "text-red-500 text-xl" : ""
-            }`}
-          />
-        </h1>
-      </div>
-      <div
-        className={`flex flex-col sm:flex-row gap-2 sm:gap-33 md:gap-8 w-full max-w-lg z-50 justify-center transition-all duration-700 ${
-          showButtons ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
-      >
-        <div className="group/access">
-          <button
-            onClick={() => handleAccess("login")}
-            className={`${buttonBaseClasses} bg-cyber-primary shadow-hacker-glow hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
+          </h1>
+          <h1
+            ref={subtitleRef}
+            className={`flex items-center justify-center gap-2 min-h-6 mt-6 mb-8 font-quakerhack ${
               glitchActive
-                ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
-                : "border-cyber-primary"
-            } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden group`} // ← Añade `group` aquí
-            aria-label={glitchActive ? "Error de sistema" : "Acceder"}
-          >
-            <div className="relative w-4 h-4 flex items-center">
-              <FaDoorOpen
-                className={`absolute transition-all duration-300 ${
-                  glitchActive
-                    ? "text-[#ff0020]"
-                    : "text-current group-hover:opacity-0 group-hover:translate-x-[100px]"
-                }`}
-              />
-              <FaArrowRight
-                className={`absolute right-full transition-all duration-300 opacity-0 ${
-                  glitchActive
-                    ? "hidden"
-                    : "text-current group-hover:opacity-100 group-hover:translate-x-[100%]"
-                }`}
-              />
-            </div>
-            <div className="relative inline-flex items-center h-5 overflow-hidden">
-              <span
-                className={`absolute right-full text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
-                  glitchActive ? "hidden" : "group-hover:translate-x-[200%]"
-                }`}
-              >
-                go!
-              </span>
-              <span
-                className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
-                  glitchActive
-                    ? "glitch-effect-small text-[#ff0020]"
-                    : "group-hover:translate-x-[100%]"
-                }`}
-              >
-                ACCESS
-              </span>
-            </div>
-          </button>
-        </div>
-        <div className="group/hibernate">
-          <button
-            onClick={() => handleAccess("guest")}
-            className={`${buttonBaseClasses} bg-cyber-secondary shadow-hacker-glow-blue hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
-              glitchActive
-                ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
-                : "border-cyber-secondary"
-            } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden`}
-            aria-label="Modo invitado"
-          >
-            <div className="relative w-4 h-4 flex items-center">
-              <FaMoon
-                className={`absolute transition-all duration-300 ${
-                  glitchActive
-                    ? "text-[#ff0020]"
-                    : "text-current group-hover/hibernate:opacity-0 group-hover/hibernate:translate-x-[100px]"
-                }`}
-              />
-              <MdWavingHand
-                className={`absolute right-full transition-all duration-300 opacity-0 ${
-                  glitchActive
-                    ? "hidden"
-                    : "text-current group-hover/hibernate:opacity-100 group-hover/hibernate:translate-x-[100%]"
-                }`}
-              />
-            </div>
-            <div className="relative inline-flex items-center h-5 overflow-hidden">
-              <span
-                className={`absolute right-full ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
-                  glitchActive
-                    ? "hidden"
-                    : "group-hover/hibernate:translate-x-[200%]"
-                }`}
-              >
-                Bye!
-              </span>
-              <span
-                className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
-                  glitchActive
-                    ? "glitch-effect-small text-[#ff0020]"
-                    : "group-hover/hibernate:translate-x-[100%]"
-                }`}
-              >
-                HIBERNATE
-              </span>
-            </div>
-          </button>
-        </div>
-      </div>
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-8 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
-          glitchActive
-            ? "border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]"
-            : "border-cyber-primary bg-black"
-        }`}
-      >
-        <div className="relative h-full w-full overflow-hidden font-montserrat ">
-          <div
-            className={`absolute flex gap-4 items-center h-full ${
-              glitchActive
-                ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm"
-                : "text-cyber-code"
+                ? "text-[#ff0020] text-xs md:text-xl glitch-font-style hover:translate-y-0"
+                : `text-cyber-accent text-sm md:text-base  tracking-widest ${
+                    showSubtitle
+                      ? "opacity-100 translate-y-0 transition-all duration-500 ease-out"
+                      : "opacity-0 translate-y-2"
+                  }`
             }`}
             style={{
-              animation: "marquee 60s linear infinite",
-              whiteSpace: "nowrap",
+              transition: glitchActive
+                ? "none"
+                : "opacity 0.5s ease-out, transform 0.5s ease-out",
             }}
           >
-            {glitchActive ? (
-              <span className="flex gap-4">
-                {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
-              </span>
-            ) : (
-              footerData.map((item, index) => (
+            <span>{displayTexts.subtitle}</span>
+            <FaSkullCrossbones
+              className={`animate-pulse ${
+                glitchActive ? "text-red-500 text-xl" : ""
+              }`}
+            />
+          </h1>
+        </div>
+        <div
+          className={`flex flex-col sm:flex-row gap-2 sm:gap-33 md:gap-8 w-full max-w-lg z-50 justify-center transition-all duration-700 ${
+            showButtons
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+          }`}
+        >
+          <div className="group/access">
+            <button
+              onClick={() => handleAccess("login")}
+              className={`${buttonBaseClasses} bg-cyber-primary shadow-hacker-glow hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
+                glitchActive
+                  ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
+                  : "border-cyber-primary"
+              } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden group`} // ← Añade `group` aquí
+              aria-label={glitchActive ? "Error de sistema" : "Acceder"}
+            >
+              <div className="relative w-4 h-4 flex items-center">
+                <FaDoorOpen
+                  className={`absolute transition-all duration-300 ${
+                    glitchActive
+                      ? "text-[#ff0020]"
+                      : "text-current group-hover:opacity-0 group-hover:translate-x-[100px]"
+                  }`}
+                />
+                <FaArrowRight
+                  className={`absolute right-full transition-all duration-300 opacity-0 ${
+                    glitchActive
+                      ? "hidden"
+                      : "text-current group-hover:opacity-100 group-hover:translate-x-[100%]"
+                  }`}
+                />
+              </div>
+              <div className="relative inline-flex items-center h-5 overflow-hidden">
                 <span
-                  key={`original-${index}`}
-                  className="inline-flex items-center"
+                  className={`absolute right-full text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                    glitchActive ? "hidden" : "group-hover:translate-x-[200%]"
+                  }`}
                 >
-                  <span className="mr-1 text-[11px]">{item.icon}</span>
-                  <span className="mr-1 font-bold tracking-wider">
-                    {item.label}:
-                  </span>
-                  <span className="mr-3">{item.value}</span>
-                  {index < footerData.length - 1 && (
-                    <span className="mx-4">•</span>
-                  )}
+                  go!
                 </span>
-              ))
-            )}
-            {glitchActive ? (
-              <span className="flex gap-4">
-                {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
-              </span>
-            ) : (
-              footerData.map((item, index) => (
                 <span
-                  key={`clone-${index}`}
-                  className="inline-flex items-center"
+                  className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                    glitchActive
+                      ? "glitch-effect-small text-[#ff0020]"
+                      : "group-hover:translate-x-[100%]"
+                  }`}
                 >
-                  <span className="mr-1 text-[11px]">{item.icon}</span>
-                  <span className="mr-1 font-bold tracking-wider">
-                    {item.label}:
-                  </span>
-                  <span className="mr-3">{item.value}</span>
-                  {index < footerData.length - 1 && (
-                    <span className="mx-4">•</span>
-                  )}
+                  ACCESS
                 </span>
-              ))
-            )}
+              </div>
+            </button>
+          </div>
+          <div className="group/hibernate">
+            <button
+              onClick={() => handleAccess("guest")}
+              className={`${buttonBaseClasses} bg-cyber-secondary shadow-hacker-glow-blue hover:bg-white hover:border-0 hover:shadow-white hover:text-black ${
+                glitchActive
+                  ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
+                  : "border-cyber-secondary"
+              } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden`}
+              aria-label="Modo invitado"
+            >
+              <div className="relative w-4 h-4 flex items-center">
+                <FaMoon
+                  className={`absolute transition-all duration-300 ${
+                    glitchActive
+                      ? "text-[#ff0020]"
+                      : "text-current group-hover/hibernate:opacity-0 group-hover/hibernate:translate-x-[100px]"
+                  }`}
+                />
+                <MdWavingHand
+                  className={`absolute right-full transition-all duration-300 opacity-0 ${
+                    glitchActive
+                      ? "hidden"
+                      : "text-current group-hover/hibernate:opacity-100 group-hover/hibernate:translate-x-[100%]"
+                  }`}
+                />
+              </div>
+              <div className="relative inline-flex items-center h-5 overflow-hidden">
+                <span
+                  className={`absolute right-full ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                    glitchActive
+                      ? "hidden"
+                      : "group-hover/hibernate:translate-x-[200%]"
+                  }`}
+                >
+                  Bye!
+                </span>
+                <span
+                  className={`ml-1 sm:ml-2 text-[7px] tracking-[3px] font-hacker transition-transform duration-300 ${
+                    glitchActive
+                      ? "glitch-effect-small text-[#ff0020]"
+                      : "group-hover/hibernate:translate-x-[100%]"
+                  }`}
+                >
+                  HIBERNATE
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-8 px-4 py-2 overflow-hidden z-50 border-t text-[10px] ${
+            glitchActive
+              ? "border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]"
+              : "border-cyber-primary bg-black"
+          }`}
+        >
+          <div className="relative h-full w-full overflow-hidden font-montserrat ">
+            <div
+              className={`absolute flex gap-4 items-center h-full ${
+                glitchActive
+                  ? "text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-sm"
+                  : "text-cyber-code"
+              }`}
+              style={{
+                animation: "marquee 60s linear infinite",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {glitchActive ? (
+                <span className="flex gap-4">
+                  {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
+                </span>
+              ) : (
+                footerData.map((item, index) => (
+                  <span
+                    key={`original-${index}`}
+                    className="inline-flex items-center"
+                  >
+                    <span className="mr-1 text-[11px]">{item.icon}</span>
+                    <span className="mr-1 font-bold tracking-wider">
+                      {item.label}:
+                    </span>
+                    <span className="mr-3">{item.value}</span>
+                    {index < footerData.length - 1 && (
+                      <span className="mx-4">•</span>
+                    )}
+                  </span>
+                ))
+              )}
+              {glitchActive ? (
+                <span className="flex gap-4">
+                  {glitchedTexts.footer || "SYSTEM FAILURE DETECTED ••• "}
+                </span>
+              ) : (
+                footerData.map((item, index) => (
+                  <span
+                    key={`clone-${index}`}
+                    className="inline-flex items-center"
+                  >
+                    <span className="mr-1 text-[11px]">{item.icon}</span>
+                    <span className="mr-1 font-bold tracking-wider">
+                      {item.label}:
+                    </span>
+                    <span className="mr-3">{item.value}</span>
+                    {index < footerData.length - 1 && (
+                      <span className="mx-4">•</span>
+                    )}
+                  </span>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default WelcomeScreen;
