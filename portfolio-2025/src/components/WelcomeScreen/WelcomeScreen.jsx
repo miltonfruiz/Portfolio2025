@@ -8,6 +8,7 @@ import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
+import SystemLoader from "../SystemLoader/SystemLoader";
 import {
   FaShieldAlt,
   FaClock,

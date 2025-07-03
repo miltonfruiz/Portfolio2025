@@ -12,7 +12,11 @@
   "dependencies": {
     "@fontsource/montserrat": "^5.2.5",
     "@fontsource/share-tech-mono": "^5.2.5",
+    "@react-icons/all-files": "^4.1.0",
+    "framer-motion": "^12.23.0",
+    "gsap": "^3.13.0",
     "react": "^19.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.5.3",
