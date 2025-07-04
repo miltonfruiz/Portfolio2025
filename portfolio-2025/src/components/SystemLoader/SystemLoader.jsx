@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import {
@@ -7,20 +7,84 @@ import {
   FaBolt,
   FaMemory,
   FaNetworkWired,
+  FaDatabase,
+  FaMicrochip,
 } from "react-icons/fa";
 
 const SystemLoader = ({ onComplete }) => {
   const containerRef = useRef(null);
   const binaryElements = useRef([]);
   const hexagonRefs = useRef([]);
+  const [activeModules, setActiveModules] = useState([]);
+  const [finalStage, setFinalStage] = useState(false);
 
-  const systemMessages = [
-    "Inicializando núcleo del sistema...",
-    "Cargando módulos de seguridad...",
-    "Conectando a la red neural...",
-    "Verificando integridad del sistema...",
-    "Sincronizando bases de datos...",
-    "Activando protocolos cibernéticos...",
+  const systemModules = [
+    {
+      icon: <FaShieldAlt />,
+      label: "SECURITY",
+      color: "text-green-500",
+      messages: [
+        "Loading security protocols...",
+        "Encrypting data channels...",
+        "Activating firewalls...",
+        "Security systems online",
+      ],
+    },
+    {
+      icon: <FaBolt />,
+      label: "POWER",
+      color: "text-yellow-500",
+      messages: [
+        "Initializing power systems...",
+        "Calibrating energy flow...",
+        "Stabilizing reactors...",
+        "Power systems nominal",
+      ],
+    },
+    {
+      icon: <FaMemory />,
+      label: "MEMORY",
+      color: "text-blue-500",
+      messages: [
+        "Allocating memory...",
+        "Optimizing neural cache...",
+        "Testing RAM modules...",
+        "Memory systems ready",
+      ],
+    },
+    {
+      icon: <FaNetworkWired />,
+      label: "NETWORK",
+      color: "text-purple-500",
+      messages: [
+        "Establishing connections...",
+        "Synchronizing nodes...",
+        "Testing bandwidth...",
+        "Network operational",
+      ],
+    },
+    {
+      icon: <FaDatabase />,
+      label: "DATABASE",
+      color: "text-cyan-500",
+      messages: [
+        "Accessing data banks...",
+        "Verifying integrity...",
+        "Indexing records...",
+        "Databases connected",
+      ],
+    },
+    {
+      icon: <FaMicrochip />,
+      label: "PROCESSOR",
+      color: "text-red-500",
+      messages: [
+        "Booting processors...",
+        "Calibrating cores...",
+        "Testing calculations...",
+        "CPU online",
+      ],
+    },
   ];
 
   useEffect(() => {
@@ -46,42 +110,117 @@ const SystemLoader = ({ onComplete }) => {
     });
 
     const loadProgress = { value: 0 };
-    gsap.to(loadProgress, {
+    const masterTimeline = gsap.timeline();
+    const messageElement = document.getElementById("system-message");
+
+    const activateModule = (moduleIndex, progressStart, progressEnd) => {
+      const module = systemModules[moduleIndex];
+      const steps = module.messages.length;
+      const stepDuration = (progressEnd - progressStart) / steps;
+
+      for (let i = 0; i < steps; i++) {
+        masterTimeline.to(
+          loadProgress,
+          {
+            value: progressStart + (i + 1) * stepDuration,
+            duration: (stepDuration / 100) * 25,
+            onUpdate: () => updateProgress(loadProgress.value),
+            onStart: () => {
+              messageElement.textContent = module.messages[i];
+              gsap.fromTo(
+                messageElement,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3 }
+              );
+
+              if (i === steps - 1) {
+                setActiveModules((prev) => [...prev, moduleIndex]);
+                gsap.to(`.module-${moduleIndex}`, {
+                  color: module.color,
+                  duration: 0.5,
+                });
+                gsap.to(`.module-icon-${moduleIndex}`, {
+                  color: module.color,
+                  scale: 1.1,
+                  duration: 0.3,
+                  yoyo: true,
+                  repeat: 1,
+                });
+              }
+            },
+          },
+          `>+=${i === 0 ? 0 : 0.2}`
+        );
+      }
+    };
+    const moduleCount = systemModules.length;
+    const moduleProgressSegment = 100 / moduleCount;
+    systemModules.forEach((_, i) => {
+      const start = i * moduleProgressSegment;
+      const end = (i + 1) * moduleProgressSegment;
+      activateModule(i, start, end);
+    });
+    masterTimeline.to(loadProgress, {
       value: 100,
-      duration: 5,
-      ease: "power2.inOut",
-      onUpdate: () => {
-        document.getElementById(
-          "progress-bar"
-        ).style.width = `${loadProgress.value}%`;
-        document.getElementById("progress-text").textContent = `${Math.floor(
-          loadProgress.value
-        )}%`;
-      },
+      duration: 4,
+      onUpdate: () => updateProgress(loadProgress.value),
       onComplete: () => {
-        gsap.to(containerRef.current, {
-          opacity: 0,
+        setFinalStage(true);
+        showFinalMessage();
+      },
+    });
+    return () => masterTimeline.kill();
+  }, [onComplete]);
+  const updateProgress = (value) => {
+    document.getElementById("progress-bar").style.width = `${value}%`;
+    document.getElementById("progress-text").textContent = `${Math.floor(
+      value
+    )}%`;
+  };
+  const showFinalMessage = () => {
+    const messageElement = document.getElementById("system-message");
+    const progressText = document.getElementById("progress-text");
+    gsap.to(progressText, {
+      textContent: "100%",
+      duration: 0.5,
+      ease: "power2.out",
+    });
+    gsap.to(messageElement, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        messageElement.textContent = "Initializing system...";
+        messageElement.className =
+          "text-[10px] text-green-500 font-mono mt-2 font-bold tracking-wider";
+        gsap.to(messageElement, {
+          opacity: 1,
           duration: 0.5,
-          onComplete: onComplete,
         });
       },
     });
-
-    const messageElement = document.getElementById("system-message");
-    let messageIndex = 0;
-    const messageInterval = setInterval(() => {
-      messageIndex = (messageIndex + 1) % systemMessages.length;
-      gsap.to(messageElement, {
+    gsap.to("#progress-bar", {
+      boxShadow: "0 0 15px 3px rgba(0, 255, 100, 0.8)",
+      duration: 0.5,
+      yoyo: true,
+      repeat: 3,
+    });
+    gsap.to(".module-icon", {
+      scale: 1.2,
+      duration: 0.3,
+      yoyo: true,
+      repeat: 3,
+      stagger: 0.1,
+    });
+    setTimeout(() => {
+      gsap.to(containerRef.current, {
         opacity: 0,
-        duration: 0.3,
-        onComplete: () => {
-          messageElement.textContent = systemMessages[messageIndex];
-          gsap.to(messageElement, { opacity: 1, duration: 0.3 });
-        },
+        duration: 1.5,
+        delay: 1,
+        onComplete: onComplete,
       });
-    }, 1500);
-    return () => clearInterval(messageInterval);
-  }, [onComplete]);
+    }, 2000);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -123,18 +262,22 @@ const SystemLoader = ({ onComplete }) => {
             />
           ))}
         </div>
-        <div className="relative z-10 w-full max-w-2xl px-6">
+        <div className="relative z-10 w-full max-w-3xl px-6">
           <div className="flex items-center mb-6 space-x-4">
-            <FaServer className="text-3xl text-cyber-accent animate-pulse" />
+            <FaServer
+              className={`text-3xl text-cyber-accent ${
+                finalStage ? "animate-pulse-fast" : "animate-pulse"
+              }`}
+            />
             <div>
-              <h1 className="text-sm font-bold text-cyber-primary tracking-wider font-hacker">
-                CYBER_SYSTEM v4.2.1
+              <h1 className="text-xs font-bold text-cyber-primary tracking-wider font-hacker">
+                CYBER_SYSTEM v4.2.5
               </h1>
               <p
                 id="system-message"
                 className="text-[10px] text-cyber-secondary font-mono mt-2"
               >
-                {systemMessages[0]}
+                Initializing core systems...
               </p>
             </div>
           </div>
@@ -158,31 +301,25 @@ const SystemLoader = ({ onComplete }) => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {
-                icon: <FaShieldAlt />,
-                label: "SECURITY",
-                color: "text-green-500",
-              },
-              { icon: <FaBolt />, label: "POWER", color: "text-yellow-500" },
-              { icon: <FaMemory />, label: "MEMORY", color: "text-blue-500" },
-              {
-                icon: <FaNetworkWired />,
-                label: "NETWORK",
-                color: "text-purple-500",
-              },
-            ].map((item, i) => (
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
+            {systemModules.map((module, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                className={`module-${i} flex flex-col items-center p-2 ${
+                  activeModules.includes(i)
+                    ? `${module.color} bg-black/10`
+                    : "text-gray-500"
+                }`}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.2, duration: 0.5 }}
-                className={`flex items-center space-x-2 p-2 bg-black/30 border border-cyber-dark rounded ${item.color}`}
+                transition={{ delay: i * 0.1 }}
               >
-                <span className="text-lg">{item.icon}</span>
-                <span className="text-[9px] font-montserrat">{item.label}</span>
-                <div className="ml-auto h-2 w-2 rounded-full bg-current animate-pulse" />
+                <span className={`module-icon module-icon-${i} text-xl mb-1`}>
+                  {module.icon}
+                </span>
+                <span className="text-[8px] font-montserrat text-center">
+                  {module.label}
+                </span>
               </motion.div>
             ))}
           </div>
@@ -197,7 +334,12 @@ const SystemLoader = ({ onComplete }) => {
         </div>
         <div className="absolute inset-0 pointer-events-none">
           <div className="scanlines" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70" />
+          {finalStage && (
+            <>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-pulse-fast" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,255,100,0.05)_100%)]" />
+            </>
+          )}
         </div>
       </div>
     </motion.div>
