@@ -52,7 +52,7 @@ const WelcomeScreen = () => {
     { icon: <FaClock />, label: "Uptime", value: "99.98%" },
   ];
   const baseTexts = {
-    terminal: "[root@portfolio ~]$ run miltonfruiz.exe",
+    terminal: "[root@miltonfruiz ~]$ run portfolio-v2.5.exe",
     title: "$ ./welcome.sh",
     subtitle: "You're not ready",
     footer: footerData
@@ -203,7 +203,7 @@ const WelcomeScreen = () => {
             className={`font-mono mb-4 tracking-widest min-h-6 ${
               glitchActive
                 ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
-                : "text-cyber-primary text-sm md:text-[13px]"
+                : "text-cyber-primary text-sm md:text-[11px]"
             }`}
           >
             {displayTexts.terminal}
@@ -275,7 +275,7 @@ const WelcomeScreen = () => {
                 glitchActive
                   ? "glitch-button border-[#ff0020] shadow-[#ff0020] bg-transparent"
                   : "border-cyber-primary"
-              } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden group`} // ← Añade `group` aquí
+              } text-xs sm:text-sm md:text-base px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 md:py-4 overflow-hidden group`}
               aria-label={glitchActive ? "Error de sistema" : "Acceder"}
             >
               <div className="relative w-4 h-4 flex items-center">

@@ -14,7 +14,6 @@ const SystemLoader = ({ onComplete }) => {
   const binaryElements = useRef([]);
   const hexagonRefs = useRef([]);
 
-  // Textos de estado del sistema
   const systemMessages = [
     "Inicializando núcleo del sistema...",
     "Cargando módulos de seguridad...",
@@ -25,7 +24,6 @@ const SystemLoader = ({ onComplete }) => {
   ];
 
   useEffect(() => {
-    // Animación de elementos binarios
     binaryElements.current.forEach((el, i) => {
       gsap.to(el, {
         opacity: [0.2, 0.8],
@@ -38,7 +36,6 @@ const SystemLoader = ({ onComplete }) => {
       });
     });
 
-    // Animación de hexágonos
     hexagonRefs.current.forEach((hex, i) => {
       gsap.to(hex, {
         rotation: 360,
@@ -48,7 +45,6 @@ const SystemLoader = ({ onComplete }) => {
       });
     });
 
-    // Simular progreso de carga
     const loadProgress = { value: 0 };
     gsap.to(loadProgress, {
       value: 100,
@@ -71,7 +67,6 @@ const SystemLoader = ({ onComplete }) => {
       },
     });
 
-    // Cambiar mensajes periódicamente
     const messageElement = document.getElementById("system-message");
     let messageIndex = 0;
     const messageInterval = setInterval(() => {
@@ -85,10 +80,8 @@ const SystemLoader = ({ onComplete }) => {
         },
       });
     }, 1500);
-
     return () => clearInterval(messageInterval);
   }, [onComplete]);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -100,7 +93,6 @@ const SystemLoader = ({ onComplete }) => {
         ref={containerRef}
         className="fixed inset-0 z-50 bg-black flex items-center justify-center crt-effect"
       >
-        {/* Fondo de elementos binarios */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(50)].map((_, i) => (
             <div
@@ -116,8 +108,6 @@ const SystemLoader = ({ onComplete }) => {
             </div>
           ))}
         </div>
-
-        {/* Hexágonos animados */}
         <div className="absolute inset-0 flex items-center justify-center">
           {[200, 150, 100].map((size, i) => (
             <div
@@ -133,28 +123,24 @@ const SystemLoader = ({ onComplete }) => {
             />
           ))}
         </div>
-
-        {/* Contenido principal */}
         <div className="relative z-10 w-full max-w-2xl px-6">
           <div className="flex items-center mb-6 space-x-4">
             <FaServer className="text-3xl text-cyber-accent animate-pulse" />
             <div>
-              <h1 className="text-2xl font-bold text-cyber-primary font-mono tracking-wider">
+              <h1 className="text-sm font-bold text-cyber-primary tracking-wider font-hacker">
                 CYBER_SYSTEM v4.2.1
               </h1>
               <p
                 id="system-message"
-                className="text-sm text-cyber-secondary font-mono"
+                className="text-[10px] text-cyber-secondary font-mono mt-2"
               >
                 {systemMessages[0]}
               </p>
             </div>
           </div>
-
-          {/* Barra de progreso */}
           <div className="mb-8">
             <div className="flex justify-between mb-2">
-              <span className="text-xs text-cyber-primary font-mono">
+              <span className="text-[11px] text-cyber-primary font-mono">
                 BOOT_SEQUENCE
               </span>
               <span
@@ -172,9 +158,7 @@ const SystemLoader = ({ onComplete }) => {
               />
             </div>
           </div>
-
-          {/* Indicadores del sistema */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               {
                 icon: <FaShieldAlt />,
@@ -197,24 +181,20 @@ const SystemLoader = ({ onComplete }) => {
                 className={`flex items-center space-x-2 p-2 bg-black/30 border border-cyber-dark rounded ${item.color}`}
               >
                 <span className="text-lg">{item.icon}</span>
-                <span className="text-xs font-mono">{item.label}</span>
+                <span className="text-[9px] font-montserrat">{item.label}</span>
                 <div className="ml-auto h-2 w-2 rounded-full bg-current animate-pulse" />
               </motion.div>
             ))}
           </div>
-
-          {/* Mensaje de copyright */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.5 }}
             transition={{ delay: 1, duration: 1 }}
-            className="mt-8 text-center text-xs text-cyber-secondary font-mono"
+            className="mt-8 text-center text-xs text-cyber-secondary font-quakerhack"
           >
-            © 2025 CYBERNETIC SYSTEMS • ALL RIGHTS RESERVED
+            © CYBERNETIC SYSTEMS • ALL RIGHTS RESERVED
           </motion.p>
         </div>
-
-        {/* Efectos visuales adicionales */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="scanlines" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70" />
