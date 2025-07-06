@@ -14,6 +14,15 @@ const HexagonGrid = ({ sizes = [200, 150, 100] }) => {
       });
     });
   }, []);
+  useEffect(() => {
+    const pulse = gsap.timeline({ repeat: -1, yoyo: true });
+    pulse.to(hexagonRefs.current, {
+      scale: 1.1,
+      duration: 2,
+      stagger: 0.2,
+      ease: "power1.inOut",
+    });
+  }, []);
 
   return (
     <div className="absolute inset-0 flex items-center justify-center">

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
-import BinaryBackground from "./Modules/BinaryBackground";
+import ParticlesBackground from "./Modules/ParticlesBackground";
 import HexagonGrid from "./Modules/HexagonGrid";
 import SystemHeader from "./Modules/SystemHeader";
 import ProgressBar from "./Modules/ProgressBar";
@@ -68,7 +68,7 @@ const SystemLoader = ({ onComplete }) => {
             delay: 1,
             onComplete: onComplete,
           });
-        }, 2000);
+        }, 4000);
       },
     });
 
@@ -86,11 +86,21 @@ const SystemLoader = ({ onComplete }) => {
         ref={containerRef}
         className="fixed inset-0 z-50 bg-black flex items-center justify-center crt-effect"
       >
-        <BinaryBackground />
+        <ParticlesBackground
+          key={finalStage ? (progress >= 100 ? "neon" : "cian") : "off"}
+          progress={progress}
+          finalStage={finalStage}
+        />
+
         <HexagonGrid />
 
         <div className="relative z-10 w-full max-w-3xl px-6">
-          <SystemHeader finalStage={finalStage} message={currentMessage} />
+          <SystemHeader
+            finalStage={finalStage}
+            message={currentMessage}
+            progress={progress}
+          />
+
           <ProgressBar progress={progress} finalStage={finalStage} />
           <ModuleGrid modules={systemModules} activeModules={activeModules} />
 
@@ -107,10 +117,14 @@ const SystemLoader = ({ onComplete }) => {
         <div className="absolute inset-0 pointer-events-none">
           <div className="scanlines" />
           {finalStage && (
-            <>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-pulse-fast" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,255,100,0.05)_100%)]" />
-            </>
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 2 }}
+              className="absolute bottom-10 w-full text-center text-green-500 font-hacker text-xl glitch"
+            >
+              SYSTEM READY
+            </motion.h2>
           )}
         </div>
       </div>
