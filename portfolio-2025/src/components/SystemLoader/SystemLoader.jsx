@@ -31,7 +31,8 @@ const SystemLoader = ({ onComplete }) => {
           loadProgress,
           {
             value: progressStart + (i + 1) * stepDuration,
-            duration: (stepDuration / 100) * 25,
+            duration: 0.7,
+
             onUpdate: () => setProgress(loadProgress.value),
             onStart: () => {
               setCurrentMessage(module.messages[i]);
@@ -68,7 +69,7 @@ const SystemLoader = ({ onComplete }) => {
             delay: 1,
             onComplete: onComplete,
           });
-        }, 4000);
+        }, 10000);
       },
     });
 
