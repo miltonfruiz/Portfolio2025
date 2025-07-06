@@ -17,7 +17,7 @@ const ProgressBar = ({ progress, finalStage }) => {
   return (
     <div className="mb-8">
       <div className="flex justify-between mb-2">
-        <span className="text-[11px] text-cyber-primary font-mono">
+        <span className="text-[11px] text-green-700 font-mono">
           BOOT_SEQUENCE
         </span>
         <span

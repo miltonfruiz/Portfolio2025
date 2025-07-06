@@ -66,7 +66,7 @@ export const systemModules = [
   {
     icon: <FaMicrochip />,
     label: "PROCESSOR",
-    color: "text-red-500",
+    color: "text-green-100",
     messages: [
       "Booting processors...",
       "Calibrating cores...",

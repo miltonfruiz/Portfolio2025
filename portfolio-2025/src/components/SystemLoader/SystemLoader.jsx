@@ -7,6 +7,7 @@ import SystemHeader from "./Modules/SystemHeader";
 import ProgressBar from "./Modules/ProgressBar";
 import ModuleGrid from "./Modules/ModuleGrid";
 import { systemModules } from "./Modules/systemModulesConfig";
+import { FaPowerOff } from "react-icons/fa";
 
 const SystemLoader = ({ onComplete }) => {
   const containerRef = useRef(null);
@@ -104,15 +105,6 @@ const SystemLoader = ({ onComplete }) => {
 
           <ProgressBar progress={progress} finalStage={finalStage} />
           <ModuleGrid modules={systemModules} activeModules={activeModules} />
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="mt-8 text-center text-xs text-cyber-secondary font-quakerhack"
-          >
-            © CYBERNETIC SYSTEMS • ALL RIGHTS RESERVED
-          </motion.p>
         </div>
 
         <div className="absolute inset-0 pointer-events-none">
@@ -122,12 +114,21 @@ const SystemLoader = ({ onComplete }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 2 }}
-              className="absolute bottom-10 w-full text-center text-green-500 font-hacker text-xl glitch"
+              className="absolute bottom-28 w-full text-center text-cyber-primary font-hacker text-base glitch"
             >
-              SYSTEM READY
+              <FaPowerOff className="inline-block text-cyber-primary animate-pulse" />
+              <span className="ml-2">SYSTEM READY</span>
             </motion.h2>
           )}
         </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="fixed bottom-6 w-full text-center text-[10px] text-cyber-secondary font-quakerhack"
+        >
+          © CYBERNETIC SYSTEMS • ALL RIGHTS RESERVED
+        </motion.p>
       </div>
     </motion.div>
   );
