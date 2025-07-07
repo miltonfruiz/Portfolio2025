@@ -127,7 +127,7 @@ const SystemLoader = ({ onComplete }) => {
           transition={{ delay: 1, duration: 1 }}
           className="fixed bottom-6 w-full text-center text-[10px] text-cyber-secondary font-quakerhack"
         >
-          © CYBERNETIC SYSTEMS • ALL RIGHTS RESERVED
+          © CYBERNETIC SYSTEMS • Designed by Milton
         </motion.p>
       </div>
     </motion.div>
