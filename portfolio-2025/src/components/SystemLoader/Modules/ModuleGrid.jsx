@@ -27,7 +27,7 @@ const ModuleGrid = ({ modules, activeModules }) => {
             key={i}
             className={`module-${i} flex flex-col items-center p-2 transition-colors duration-[3000ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
               activeAnimations.includes(i)
-                ? `${module.color} bg-black/10`
+                ? `${module.color} `
                 : "text-gray-500"
             }`}
             initial={{ opacity: 0, y: 5 }}

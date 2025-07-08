@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import ParticlesBackground from "./Modules/ParticlesBackground";
-import HexagonGrid from "./Modules/HexagonGrid";
+import ReactorCore from "./Modules/Reactor/ReactorCore";
 import SystemHeader from "./Modules/SystemHeader";
 import ProgressBar from "./Modules/ProgressBar";
 import ModuleGrid from "./Modules/ModuleGrid";
@@ -94,7 +94,7 @@ const SystemLoader = ({ onComplete }) => {
           finalStage={finalStage}
         />
 
-        <HexagonGrid />
+        <ReactorCore progress={progress} finalStage={finalStage} />
 
         <div className="relative z-10 w-full max-w-3xl px-6">
           <SystemHeader

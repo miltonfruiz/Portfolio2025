@@ -10,7 +10,7 @@ import {
   FaWifi,
   FaSkullCrossbones,
 } from "react-icons/fa";
-import MatrixRain from "../MatrixRain/MatrixRain";
+import MatrixRain from "../../MatrixRain/MatrixRain";
 import "./SystemLoader.css";
 
 const SystemLoader = ({ onComplete }) => {
