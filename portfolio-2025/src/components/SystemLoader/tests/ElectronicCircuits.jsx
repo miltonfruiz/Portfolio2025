@@ -48,7 +48,7 @@ const ElectronicCircuits = ({ progress, finalStage }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Efecto glow estilo cyberpunk */}
+      {" "}
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="4" result="blur" />
@@ -58,8 +58,6 @@ const ElectronicCircuits = ({ progress, finalStage }) => {
           </feMerge>
         </filter>
       </defs>
-
-      {/* Circuitos (puedes agregar más) */}
       <path d="M 100 100 L 300 100 L 300 300" stroke="#333" strokeWidth="2" />
       <path d="M 300 300 L 500 300 L 500 500" stroke="#333" strokeWidth="2" />
       <path

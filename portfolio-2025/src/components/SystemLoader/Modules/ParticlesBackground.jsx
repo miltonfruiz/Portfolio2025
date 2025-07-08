@@ -24,7 +24,6 @@ const ParticlesBackground = ({ progress, finalStage }) => {
             setParticleSpeed(t.speedValue);
           },
           onComplete: () => {
-            // cuando termina la transición del color
             gsap.to(
               { widthValue: 0.5, opacityValue: 0.1 },
               {
@@ -49,8 +48,6 @@ const ParticlesBackground = ({ progress, finalStage }) => {
       setLinkOpacity(0.1);
     }
   }, [finalStage]);
-
-  // detectar el key “neon”
   const particleColors =
     progress >= 100 && finalStage
       ? ["#ff00ff", "#00ffff", "#ffea00", "#9d00ff"]

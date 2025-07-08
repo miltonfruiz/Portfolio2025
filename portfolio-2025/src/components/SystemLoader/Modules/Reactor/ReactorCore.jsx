@@ -1,4 +1,3 @@
-// ReactorCore.jsx
 import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -32,15 +31,10 @@ const ReactorCore = ({ finalStage }) => {
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: true }}
       >
-        {/* Iluminación */}
         <ambientLight intensity={0.2} />
         <pointLight position={[0, 0, 5]} intensity={1} color="#00ffff" />
         <pointLight position={[0, 0, -5]} intensity={1} color="#ff00ff" />
-
-        {/* Núcleo animado */}
         <CoreSphere active={finalStage} />
-
-        {/* Efectos visuales si está encendido */}
         {finalStage && (
           <>
             <FloatingParticles />
@@ -53,8 +47,6 @@ const ReactorCore = ({ finalStage }) => {
             </EffectComposer>
           </>
         )}
-
-        {/* OrbitControls solo debug */}
         <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
     </div>

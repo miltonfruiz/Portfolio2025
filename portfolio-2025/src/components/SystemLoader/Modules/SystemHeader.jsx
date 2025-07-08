@@ -11,7 +11,6 @@ const SystemHeader = ({ finalStage, message, progress }) => {
             : "text-[#555555] animate-pulse shadow-[#555555]"
         }`}
       />
-
       <div>
         <h1 className="text-xs font-bold text-cyber-primary tracking-wider font-hacker">
           CYBER_SYSTEM v4.2.5

@@ -1,4 +1,3 @@
-// components/ReactorSmoke.jsx
 import { Cloud, Clouds } from "@react-three/drei";
 
 export const ReactorSmoke = () => {

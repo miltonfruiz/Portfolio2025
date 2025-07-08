@@ -1,4 +1,3 @@
-// components/FloatingParticles.jsx
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
