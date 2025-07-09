@@ -17,12 +17,12 @@ const ProgressBar = ({ progress, finalStage }) => {
   return (
     <div className="mb-8">
       <div className="flex justify-between mb-2">
-        <span className="text-[11px] text-green-700 font-mono">
+        <span className="text-[10px] text-green-700 font-mono">
           BOOT_SEQUENCE
         </span>
         <span
           id="progress-text"
-          className="text-xs text-cyber-accent font-mono"
+          className="text-[10px] text-green-700 font-mono"
         >
           {Math.floor(progress)}%
         </span>
@@ -32,7 +32,13 @@ const ProgressBar = ({ progress, finalStage }) => {
           id="progress-bar"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          className="h-full bg-gradient-to-r from-cyber-primary to-cyber-accent"
+          style={{
+            background:
+              "linear-gradient(to right, #000000, #00b8ff, #00ff9d, #ffffff)",
+            boxShadow:
+              "0 0 5px #00b8ff, 0 0 10px #00ff9d, 0 0 15px rgba(255,255,255,0.3)",
+          }}
+          className="h-full rounded-full"
         />
       </div>
     </div>
