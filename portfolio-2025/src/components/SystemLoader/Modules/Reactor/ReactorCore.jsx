@@ -2,27 +2,8 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { useSpring, a } from "@react-spring/three";
-
 import { FloatingParticles } from "./FloatingParticles";
-
-const CoreSphere = ({ active }) => {
-  const { emissiveIntensity } = useSpring({
-    emissiveIntensity: active ? 5 : 0.1,
-    config: { mass: 1, tension: 280, friction: 30 },
-  });
-
-  return (
-    <a.mesh>
-      <sphereGeometry args={[0.13, 32, 32]} />
-      <a.meshStandardMaterial
-        color="#222"
-        emissive="#00ffff"
-        emissiveIntensity={emissiveIntensity}
-      />
-    </a.mesh>
-  );
-};
+import CoreSphere from "./CoreSphere";
 
 const ReactorCore = ({ finalStage }) => {
   return (
@@ -38,6 +19,7 @@ const ReactorCore = ({ finalStage }) => {
         {finalStage && (
           <>
             <FloatingParticles />
+
             <EffectComposer>
               <Bloom
                 luminanceThreshold={0}
@@ -47,6 +29,7 @@ const ReactorCore = ({ finalStage }) => {
             </EffectComposer>
           </>
         )}
+
         <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
     </div>
