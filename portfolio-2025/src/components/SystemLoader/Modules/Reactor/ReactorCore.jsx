@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { FloatingParticles } from "./FloatingParticles";
 import CoreSphere from "./CoreSphere";
+import { ElectricArcs } from "./ElectricArcs";
 
 const ReactorCore = ({ finalStage }) => {
   return (
@@ -19,7 +20,7 @@ const ReactorCore = ({ finalStage }) => {
         {finalStage && (
           <>
             <FloatingParticles />
-
+            <ElectricArcs active={finalStage} radius={0.4} count={8} />
             <EffectComposer>
               <Bloom
                 luminanceThreshold={0}

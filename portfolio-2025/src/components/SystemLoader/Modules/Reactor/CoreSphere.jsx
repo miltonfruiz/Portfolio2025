@@ -8,7 +8,7 @@ const CoreSphere = ({ active }) => {
 
   return (
     <a.mesh>
-      <sphereGeometry args={[0.13, 32, 32]} />
+      <sphereGeometry args={[0.11, 32, 32]} />
       <a.meshStandardMaterial
         color="#222"
         emissive="#00ffff"

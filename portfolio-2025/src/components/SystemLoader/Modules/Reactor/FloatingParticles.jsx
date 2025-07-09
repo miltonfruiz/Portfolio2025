@@ -31,7 +31,7 @@ export function FloatingParticles({ count = 100, radius = 2 }) {
     <group>
       {positions.map((pos, i) => (
         <mesh key={i} ref={(el) => (meshRefs.current[i] = el)} position={pos}>
-          <sphereGeometry args={[0.013, 6, 6]} />
+          <sphereGeometry args={[0.01, 6, 6]} />
           <meshBasicMaterial
             color="#00ffff"
             transparent
