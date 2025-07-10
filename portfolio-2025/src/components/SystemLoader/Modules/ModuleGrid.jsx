@@ -9,7 +9,7 @@ const ModuleGrid = ({ modules, activeModules }) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
+    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4 w-full max-w-xl mx-auto mt-8">
       {modules.map((module, i) => {
         const isActive = activeModules.includes(i);
 

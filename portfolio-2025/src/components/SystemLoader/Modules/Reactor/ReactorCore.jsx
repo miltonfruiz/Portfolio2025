@@ -5,10 +5,12 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { FloatingParticles } from "./FloatingParticles";
 import CoreSphere from "./CoreSphere";
 import { ElectricArcs } from "./ElectricArcs";
+// ReactorCore.jsx
+import { motion } from "framer-motion";
 
 const ReactorCore = ({ finalStage }) => {
   return (
-    <div className="absolute inset-0 z-10 pointer-events-none">
+    <motion.div className="absolute inset-0 z-10 pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: true }}
@@ -33,7 +35,7 @@ const ReactorCore = ({ finalStage }) => {
 
         <OrbitControls enableZoom={false} enablePan={false} />
       </Canvas>
-    </div>
+    </motion.div>
   );
 };
 

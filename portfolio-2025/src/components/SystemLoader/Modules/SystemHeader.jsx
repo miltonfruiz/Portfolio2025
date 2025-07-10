@@ -3,7 +3,7 @@ import { FaServer } from "react-icons/fa";
 
 const SystemHeader = ({ finalStage, message, progress }) => {
   return (
-    <div className="flex items-center mb-6 space-x-4">
+    <div className="flex items-center mb-4 mt-6 space-x-4 w-full max-w-xl mx-auto px-4">
       <FaServer
         className={`text-3xl transition-colors duration-7000 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           progress > 99.9
