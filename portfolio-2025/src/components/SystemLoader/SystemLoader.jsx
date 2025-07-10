@@ -6,8 +6,8 @@ import ReactorCore from "./Modules/Reactor/ReactorCore";
 import SystemHeader from "./Modules/SystemHeader";
 import ProgressBar from "./Modules/ProgressBar";
 import ModuleGrid from "./Modules/ModuleGrid";
+import CyberFooter from "./Modules/CyberFooter";
 import { systemModules } from "./Modules/systemModulesConfig";
-import { FaPowerOff } from "react-icons/fa";
 
 const SystemLoader = ({ onComplete }) => {
   const containerRef = useRef(null);
@@ -21,19 +21,16 @@ const SystemLoader = ({ onComplete }) => {
   useEffect(() => {
     const loadProgress = { value: 0 };
     const masterTimeline = gsap.timeline();
-
     const activateModule = (moduleIndex, progressStart, progressEnd) => {
       const module = systemModules[moduleIndex];
       const steps = module.messages.length;
       const stepDuration = (progressEnd - progressStart) / steps;
-
       for (let i = 0; i < steps; i++) {
         masterTimeline.to(
           loadProgress,
           {
             value: progressStart + (i + 1) * stepDuration,
             duration: 0.7,
-
             onUpdate: () => setProgress(loadProgress.value),
             onStart: () => {
               setCurrentMessage(module.messages[i]);
@@ -46,16 +43,13 @@ const SystemLoader = ({ onComplete }) => {
         );
       }
     };
-
     const moduleCount = systemModules.length;
     const moduleProgressSegment = 100 / moduleCount;
-
     systemModules.forEach((_, i) => {
       const start = i * moduleProgressSegment;
       const end = (i + 1) * moduleProgressSegment;
       activateModule(i, start, end);
     });
-
     masterTimeline.to(loadProgress, {
       value: 100,
       duration: 4,
@@ -73,10 +67,8 @@ const SystemLoader = ({ onComplete }) => {
         }, 10000);
       },
     });
-
     return () => masterTimeline.kill();
   }, [onComplete]);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -93,42 +85,17 @@ const SystemLoader = ({ onComplete }) => {
           progress={progress}
           finalStage={finalStage}
         />
-
         <ReactorCore progress={progress} finalStage={finalStage} />
-
         <div className="relative z-10 w-full max-w-3xl px-6">
           <SystemHeader
             finalStage={finalStage}
             message={currentMessage}
             progress={progress}
           />
-
           <ProgressBar progress={progress} finalStage={finalStage} />
           <ModuleGrid modules={systemModules} activeModules={activeModules} />
         </div>
-
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="scanlines" />
-          {finalStage && (
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 2 }}
-              className="absolute bottom-28 w-full text-center text-cyber-primary font-hacker text-base glitch"
-            >
-              <FaPowerOff className="inline-block text-cyber-primary animate-pulse" />
-              <span className="ml-2">SYSTEM READY</span>
-            </motion.h2>
-          )}
-        </div>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
-          transition={{ delay: 1, duration: 1 }}
-          className="fixed bottom-6 w-full text-center text-[10px] text-cyber-secondary font-quakerhack"
-        >
-          © CYBERNETIC SYSTEMS • Designed by Milton
-        </motion.p>
+        <CyberFooter finalStage={finalStage} />
       </div>
     </motion.div>
   );

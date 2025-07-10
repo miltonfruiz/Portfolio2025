@@ -27,7 +27,7 @@ const ProgressBar = ({ progress, finalStage }) => {
           {Math.floor(progress)}%
         </span>
       </div>
-      <div className="relative h-3 bg-[#0c0f11] rounded-full overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300">
+      <div className="relative h-2.5 bg-[#0c0f11] rounded-full overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300">
         <motion.div
           id="progress-bar"
           initial={{ width: 0 }}
