@@ -10,6 +10,13 @@ import CyberFooter from "./Modules/CyberFooter";
 import { systemModules } from "./Modules/systemModulesConfig";
 
 const SystemLoader = ({ onComplete }) => {
+  const [animationsReady, setAnimationsReady] = useState(false);
+  useEffect(() => {
+    const handleReady = () => setAnimationsReady(true);
+    window.addEventListener("animationsReady", handleReady);
+    return () => window.removeEventListener("animationsReady", handleReady);
+  }, []);
+
   const containerRef = useRef(null);
   const [activeModules, setActiveModules] = useState([]);
   const [finalStage, setFinalStage] = useState(false);
@@ -19,8 +26,11 @@ const SystemLoader = ({ onComplete }) => {
   );
 
   useEffect(() => {
+    if (!animationsReady) return;
+
     const loadProgress = { value: 0 };
     const masterTimeline = gsap.timeline();
+
     const activateModule = (moduleIndex, progressStart, progressEnd) => {
       const module = systemModules[moduleIndex];
       const steps = module.messages.length;
@@ -30,7 +40,8 @@ const SystemLoader = ({ onComplete }) => {
           loadProgress,
           {
             value: progressStart + (i + 1) * stepDuration,
-            duration: 0.7,
+            duration: 0.8,
+            ease: "power3.out",
             onUpdate: () => setProgress(loadProgress.value),
             onStart: () => {
               setCurrentMessage(module.messages[i]);
@@ -43,6 +54,7 @@ const SystemLoader = ({ onComplete }) => {
         );
       }
     };
+
     const moduleCount = systemModules.length;
     const moduleProgressSegment = 100 / moduleCount;
     systemModules.forEach((_, i) => {
@@ -50,6 +62,7 @@ const SystemLoader = ({ onComplete }) => {
       const end = (i + 1) * moduleProgressSegment;
       activateModule(i, start, end);
     });
+
     masterTimeline.to(loadProgress, {
       value: 100,
       duration: 4,
@@ -67,8 +80,10 @@ const SystemLoader = ({ onComplete }) => {
         }, 10000);
       },
     });
+
     return () => masterTimeline.kill();
-  }, [onComplete]);
+  }, [animationsReady, onComplete]);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

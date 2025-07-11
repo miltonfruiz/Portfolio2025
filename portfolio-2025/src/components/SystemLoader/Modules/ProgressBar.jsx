@@ -21,6 +21,10 @@ const ProgressBar = ({ progress, finalStage }) => {
       variants={{
         visible: { transition: { staggerChildren: 0.1 } },
       }}
+      onAnimationComplete={() => {
+        const event = new CustomEvent("animationsReady");
+        window.dispatchEvent(event);
+      }}
       className="w-full max-w-[90vw] sm:max-w-md md:max-w-lg xl:max-w-xl mx-auto mb-4 px-4"
     >
       <div className="flex justify-between mb-2">
@@ -60,6 +64,7 @@ const ProgressBar = ({ progress, finalStage }) => {
           id="progress-bar"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           style={{
             background:
               "linear-gradient(to right, #000000, #00b8ff, #00ff9d, #ffffff)",
