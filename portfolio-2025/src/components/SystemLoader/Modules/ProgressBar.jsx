@@ -15,19 +15,47 @@ const ProgressBar = ({ progress, finalStage }) => {
   }, [finalStage]);
 
   return (
-    <div className="w-full max-w-xl mx-auto mb-4 px-4">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={{
+        visible: { transition: { staggerChildren: 0.1 } },
+      }}
+      className="w-full max-w-[90vw] sm:max-w-md md:max-w-lg xl:max-w-xl mx-auto mb-4 px-4"
+    >
       <div className="flex justify-between mb-2">
-        <span className="text-[10px] text-green-600 font-mono">
+        <motion.span
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="text-[9px] sm:text-[10px] md:text-[11px] xl:text-[10px] text-green-600 font-mono"
+        >
           BOOT_SEQUENCE
-        </span>
-        <span
+        </motion.span>
+
+        <motion.span
           id="progress-text"
-          className="text-[10px] text-green-600 font-mono"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="text-[9px] sm:text-[10px] md:text-[11px] xl:text-[10px] text-green-600 font-mono"
         >
           {Math.floor(progress)}%
-        </span>
+        </motion.span>
       </div>
-      <div className="relative h-2.5 bg-[#0c0f11] rounded-full overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300">
+
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1 },
+        }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+        className="relative h-[8px] sm:h-[10px] md:h-[12px] xl:h-2.5 bg-[#0c0f11] rounded-full overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300"
+      >
         <motion.div
           id="progress-bar"
           initial={{ width: 0 }}
@@ -40,8 +68,8 @@ const ProgressBar = ({ progress, finalStage }) => {
           }}
           className="h-full rounded-full"
         />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
