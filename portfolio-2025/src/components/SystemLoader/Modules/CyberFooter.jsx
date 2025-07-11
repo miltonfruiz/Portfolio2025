@@ -11,19 +11,24 @@ const CyberFooter = ({ finalStage }) => {
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 2 }}
-            className="absolute bottom-28 w-full text-center text-cyber-primary font-hacker text-base glitch"
+            transition={{
+              duration: 1.2,
+              ease: "easeOut",
+              delay: 1,
+            }}
+            className="absolute bottom-28 sm:bottom-32 md:bottom-28 w-full text-center text-cyber-primary font-hacker glitch text-sm sm:text-sm md:text-base"
           >
             <FaPowerOff className="inline-block text-cyber-primary animate-pulse" />
             <span className="ml-2">SYSTEM READY</span>
           </motion.h2>
         )}
       </div>
+
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-        className="fixed bottom-4 w-full text-center text-[10px] font-quakerhack tracking-wider pointer-events-none"
+        transition={{ duration: 1.2, ease: "easeOut", delay: 1 }}
+        className="fixed bottom-4 w-full text-center text-[10px] sm:text-[11px] md:text-[10px] font-quakerhack tracking-wider pointer-events-none"
       >
         {finalStage ? (
           <span
