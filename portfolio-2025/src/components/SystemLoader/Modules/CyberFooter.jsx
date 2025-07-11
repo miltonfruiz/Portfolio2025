@@ -23,7 +23,6 @@ const CyberFooter = ({ finalStage }) => {
           </motion.h2>
         )}
       </div>
-
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
