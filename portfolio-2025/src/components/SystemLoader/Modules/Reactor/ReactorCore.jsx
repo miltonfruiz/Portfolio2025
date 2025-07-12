@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { FloatingParticles } from "./FloatingParticles";
 import CoreSphere from "./CoreSphere";
 import { ElectricArcs } from "./ElectricArcs";
-// ReactorCore.jsx
 import { motion } from "framer-motion";
 
 const ReactorCore = ({ finalStage }) => {
+  const soundPlayedRef = useRef(false);
+
+  useEffect(() => {
+    if (finalStage && !soundPlayedRef.current) {
+      const audio = new Audio("/sounds/reactor.mp3");
+      audio.volume = 0.2;
+      audio.play().catch((e) => console.warn("Reactor sound failed:", e));
+      soundPlayedRef.current = true;
+    }
+  }, [finalStage]);
+
   return (
     <motion.div className="absolute inset-0 z-10 pointer-events-none">
       <Canvas

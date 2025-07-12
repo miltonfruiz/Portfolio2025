@@ -6,8 +6,8 @@ const ActivationIcon = ({ module, index, isActive }) => {
     if (isActive) {
       const delay = index * 100;
       const timeout = setTimeout(() => {
-        const audio = new Audio("/music/activation.mp3");
-        audio.volume = 0.07;
+        const audio = new Audio("/sounds/activation.mp3");
+        audio.volume = 0.12;
         audio.play().catch((e) => console.warn("Audio playback failed:", e));
       }, delay);
       return () => clearTimeout(timeout);
