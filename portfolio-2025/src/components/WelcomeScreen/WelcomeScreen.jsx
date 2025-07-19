@@ -8,7 +8,6 @@ import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
-import SystemLoader from "../SystemLoader/SystemLoader";
 import { motion } from "framer-motion";
 
 import {
@@ -178,7 +177,12 @@ const WelcomeScreen = () => {
       transition={{ delay: 0.5, duration: 1 }}
     >
       <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
-        <MatrixRain speed={10} glitchActive={glitchActive} />
+        <MatrixRain
+          density={0.3} // Más densidad para ver mejor el efecto
+          speed={60} // Velocidad moderada
+          showGrid={false}
+          className="opacity-100" // Ligeramente más visible
+        />
         <div className="scanlines" />
         <div className="crt-overlay" />
         <div className="crt-curvature" />
