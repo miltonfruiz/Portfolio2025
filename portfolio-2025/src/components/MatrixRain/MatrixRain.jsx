@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 const MatrixRain = ({
   density = 0.3,
@@ -119,8 +120,11 @@ const MatrixRain = ({
     };
   }, [density, speed, characters]);
   return (
-    <canvas
+    <motion.canvas
       ref={canvasRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 4, delay: 1, ease: "easeInOut" }}
       className={`absolute inset-0 w-full h-full ${className}`}
       style={{
         background:
