@@ -65,7 +65,7 @@ const SystemLoader = ({ onComplete }) => {
 
     masterTimeline.to(loadProgress, {
       value: 100,
-      duration: 4,
+      duration: 1.5,
       onUpdate: () => setProgress(loadProgress.value),
       onComplete: () => {
         setFinalStage(true);
@@ -77,7 +77,7 @@ const SystemLoader = ({ onComplete }) => {
             delay: 1,
             onComplete: onComplete,
           });
-        }, 10000);
+        }, 15000);
       },
     });
 
