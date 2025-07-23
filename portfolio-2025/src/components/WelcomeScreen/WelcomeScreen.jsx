@@ -178,10 +178,10 @@ const WelcomeScreen = () => {
     >
       <div className="app-container min-h-screen flex flex-col items-center justify-center bg-cyber-dark p-4 crt-container relative overflow-hidden">
         <MatrixRain
-          density={0.3} // Más densidad para ver mejor el efecto
-          speed={60} // Velocidad moderada
+          density={0.3}
+          speed={60}
           showGrid={false}
-          className="opacity-100" // Ligeramente más visible
+          className="opacity-100"
         />
         <div className="scanlines" />
         <div className="crt-overlay" />
