@@ -8,6 +8,7 @@ import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
 import MatrixRain from "../MatrixRain/MatrixRain";
 import TypeWriter from "../../Hooks/Typewriter";
+import GlitchOverlay from "./Modules/GlitchOverlay";
 import { motion } from "framer-motion";
 
 import {
@@ -187,21 +188,7 @@ const WelcomeScreen = () => {
         <div className="crt-overlay" />
         <div className="crt-curvature" />
         <Glitch glitchActive={glitchActive} />
-        {glitchActive && (
-          <>
-            <div className="absolute inset-0 bg-cyber-primary opacity-10 z-20 pointer-events-none"></div>
-            <div className="glitch-lines absolute inset-0 z-20 pointer-events-none"></div>
-            <div className="absolute top-1/4 left-1/4 z-30 text-[#ff0020] text-4xl animate-pulse error-icon">
-              <GiDeathSkull />
-            </div>
-            <div className="absolute top-1/3 right-1/4 z-30 text-[#ffff00] text-4xl animate-pulse warning-icon">
-              <BsFillExclamationDiamondFill />
-            </div>
-            <div className="absolute bottom-1/3 left-1/4 z-30 text-[#00ff00] text-4xl animate-pulse radiation-icon">
-              <FaRadiation />
-            </div>
-          </>
-        )}
+        {glitchActive && <GlitchOverlay />}
         <div className="relative z-50 text-center mb-12 w-full max-w-2xl">
           <div
             className={`font-mono mb-4 tracking-widest min-h-6 ${
