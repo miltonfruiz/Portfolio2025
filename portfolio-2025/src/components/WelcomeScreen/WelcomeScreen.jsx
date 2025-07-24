@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./WelcomeScreen.css";
 import Glitch from "../../Hooks/Glitch";
@@ -8,8 +8,7 @@ import GlitchOverlay from "./Modules/GlitchOverlay";
 import TerminalTexts from "./Modules/TerminalTexts";
 import ActionButtons from "./Modules/ActionButtons";
 import FooterMarquee from "./Modules/FooterMarquee";
-import { GlitchEffectLogic } from "./Modules/GlitchEffectLogic";
-
+import { useGlitchEffect } from "./Modules/GlitchEffectLogic";
 import { motion } from "framer-motion";
 
 import {
@@ -27,6 +26,10 @@ import {
 
 const WelcomeScreen = () => {
   const [showButtons, setShowButtons] = useState(false);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const navigate = useNavigate();
+  const subtitleRef = useRef(null);
+
   useEffect(() => {
     setShowSubtitle(false);
     const timer = setTimeout(() => {
@@ -35,7 +38,6 @@ const WelcomeScreen = () => {
     }, 7400);
     return () => clearTimeout(timer);
   }, []);
-  const navigate = useNavigate();
 
   const footerData = [
     { icon: <FaShieldAlt />, label: "System Status", value: "Operational" },
@@ -50,6 +52,7 @@ const WelcomeScreen = () => {
     { icon: <FaCalendarCheck />, label: "Last Backup", value: "Today" },
     { icon: <FaClock />, label: "Uptime", value: "99.98%" },
   ];
+
   const baseTexts = {
     terminal: "[root@miltonfruiz ~]$ run portfolio-v2.5.exe",
     title: "$ ./welcome.sh",
@@ -58,19 +61,12 @@ const WelcomeScreen = () => {
       .map((item) => `${item.label}: ${item.value}`)
       .join(" • "),
   };
-  const { glitchActive, glitchedTexts, triggerGlitch } = GlitchEffectLogic(
+
+  const { glitchActive, glitchedTexts, triggerGlitch } = useGlitchEffect(
     baseTexts,
     footerData
   );
-  const subtitleRef = useRef(null);
-  const [showSubtitle, setShowSubtitle] = useState(false);
-  useEffect(() => {
-    setShowSubtitle(false);
-    const timer = setTimeout(() => {
-      setShowSubtitle(true);
-    }, 7400);
-    return () => clearTimeout(timer);
-  }, []);
+
   const { displayedTerminal, displayedTitle, isTyping } = TypeWriter(
     [baseTexts.terminal, baseTexts.title],
     80,
@@ -85,6 +81,7 @@ const WelcomeScreen = () => {
         subtitle: baseTexts.subtitle,
         footer: baseTexts.footer,
       };
+
   const handleAccess = (type) => {
     console.log(`[SYSTEM] Access: ${type.toUpperCase()}`);
     triggerGlitch();
@@ -93,32 +90,6 @@ const WelcomeScreen = () => {
     }, 500);
   };
 
-  const exclusionZones = useRef([
-    { x: 25, y: 15, width: 50, height: 20 },
-    { x: 20, y: 60, width: 60, height: 20 },
-    { x: 0, y: 85, width: 100, height: 15 },
-  ]);
-  const getGlitchPosition = (defaultPosition) => {
-    let x = defaultPosition.x;
-    let y = defaultPosition.y;
-    let attempts = 0;
-    const maxAttempts = 50;
-    const isInExclusionZone = (x, y) => {
-      return exclusionZones.current.some(
-        (zone) =>
-          x >= zone.x &&
-          x <= zone.x + zone.width &&
-          y >= zone.y &&
-          y <= zone.y + zone.height
-      );
-    };
-    while (isInExclusionZone(x, y) && attempts < maxAttempts) {
-      x = 10 + Math.random() * 80;
-      y = 10 + Math.random() * 70;
-      attempts++;
-    }
-    return { x, y };
-  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -137,6 +108,7 @@ const WelcomeScreen = () => {
         <div className="crt-curvature" />
         <Glitch glitchActive={glitchActive} />
         {glitchActive && <GlitchOverlay />}
+
         <TerminalTexts
           glitchActive={glitchActive}
           displayTexts={displayTexts}
@@ -144,11 +116,13 @@ const WelcomeScreen = () => {
           showSubtitle={showSubtitle}
           subtitleRef={subtitleRef}
         />
+
         <ActionButtons
           glitchActive={glitchActive}
           showButtons={showButtons}
           handleAccess={handleAccess}
         />
+
         <FooterMarquee
           glitchActive={glitchActive}
           glitchedFooter={glitchedTexts.footer}
@@ -158,4 +132,5 @@ const WelcomeScreen = () => {
     </motion.div>
   );
 };
+
 export default WelcomeScreen;

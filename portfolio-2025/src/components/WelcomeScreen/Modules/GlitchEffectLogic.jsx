@@ -12,7 +12,7 @@ const glitchText = (text, iterations, intensity) => {
     .join("");
 };
 
-export const GlitchEffectLogic = (baseTexts, footerData) => {
+export const useGlitchEffect = (baseTexts, footerData) => {
   const [glitchActive, setGlitchActive] = useState(false);
   const [glitchedTexts, setGlitchedTexts] = useState({
     terminal: "",
