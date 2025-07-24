@@ -8,6 +8,7 @@ import GlitchOverlay from "./Modules/GlitchOverlay";
 import TerminalTexts from "./Modules/TerminalTexts";
 import ActionButtons from "./Modules/ActionButtons";
 import FooterMarquee from "./Modules/FooterMarquee";
+import { GlitchEffectLogic } from "./Modules/GlitchEffectLogic";
 
 import { motion } from "framer-motion";
 
@@ -35,7 +36,7 @@ const WelcomeScreen = () => {
     return () => clearTimeout(timer);
   }, []);
   const navigate = useNavigate();
-  const [glitchActive, setGlitchActive] = useState(false);
+
   const footerData = [
     { icon: <FaShieldAlt />, label: "System Status", value: "Operational" },
     { icon: <FaUser />, label: "User", value: "miltonfruiz" },
@@ -57,6 +58,10 @@ const WelcomeScreen = () => {
       .map((item) => `${item.label}: ${item.value}`)
       .join(" • "),
   };
+  const { glitchActive, glitchedTexts, triggerGlitch } = GlitchEffectLogic(
+    baseTexts,
+    footerData
+  );
   const subtitleRef = useRef(null);
   const [showSubtitle, setShowSubtitle] = useState(false);
   useEffect(() => {
@@ -71,12 +76,7 @@ const WelcomeScreen = () => {
     80,
     1500
   );
-  const [glitchedTexts, setGlitchedTexts] = useState({
-    terminal: "",
-    title: "",
-    subtitle: "",
-    footer: "",
-  });
+
   const displayTexts = glitchActive
     ? glitchedTexts
     : {
@@ -85,44 +85,6 @@ const WelcomeScreen = () => {
         subtitle: baseTexts.subtitle,
         footer: baseTexts.footer,
       };
-  const buttonBaseClasses =
-    "flex items-center justify-center gap-1 sm:gap-2 md:gap-2 w-full sm:w-auto md:w-44 h-11 rounded-md font-mono font-semibold transition-all duration-400 border-2 focus:outline-none";
-  const glitchChars = "!@#$%^&*()_+-=[]{}|;:,.<>?/\\";
-  const triggerGlitch = () => {
-    setGlitchActive(true);
-    setTimeout(() => setGlitchActive(false), 1500);
-    let iterations = 0;
-    const glitchInterval = setInterval(() => {
-      setGlitchedTexts({
-        terminal: glitchText(baseTexts.terminal, iterations, 10),
-        title: glitchText(baseTexts.title, iterations, 8),
-        subtitle: glitchText(baseTexts.subtitle, iterations, 5),
-        footer: glitchText(
-          footerData.map((item) => `${item.label}: ${item.value}`).join(" • "),
-          iterations,
-          15
-        ),
-      });
-      iterations++;
-      if (iterations > 10) {
-        clearInterval(glitchInterval);
-        setGlitchActive(false);
-      }
-    }, 50);
-  };
-  const glitchText = useCallback(
-    (text, iterations, intensity) => {
-      return text
-        .split("")
-        .map((char, index) =>
-          index < iterations || Math.random() > intensity / 10
-            ? char
-            : glitchChars[Math.floor(Math.random() * glitchChars.length)]
-        )
-        .join("");
-    },
-    [glitchChars]
-  );
   const handleAccess = (type) => {
     console.log(`[SYSTEM] Access: ${type.toUpperCase()}`);
     triggerGlitch();
@@ -130,19 +92,7 @@ const WelcomeScreen = () => {
       if (type === "login") navigate("/auth");
     }, 500);
   };
-  useEffect(() => {
-    let recurringInterval;
-    const initialGlitchTimer = setTimeout(() => {
-      triggerGlitch();
-      recurringInterval = setInterval(() => {
-        triggerGlitch();
-      }, 5000 + Math.random() * 1000);
-    }, 10000);
-    return () => {
-      clearTimeout(initialGlitchTimer);
-      if (recurringInterval) clearInterval(recurringInterval);
-    };
-  }, []);
+
   const exclusionZones = useRef([
     { x: 25, y: 15, width: 50, height: 20 },
     { x: 20, y: 60, width: 60, height: 20 },
