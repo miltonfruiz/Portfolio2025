@@ -124,55 +124,53 @@ const CyberpunkFooter = () => {
   const Icon = currentData.icon;
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 h-10 bg-black/98 backdrop-blur-xl z-50 overflow-hidden border-t border-cyan-400/20">
-      {/* Scanning Line Effect */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
-      </div>
+    <footer className="fixed bottom-0 left-0 right-0 h-40 bg-black/98 backdrop-blur-xl z-50 overflow-hidden">
+      {/* Layer 3: Content */}
+      <div className="relative h-full flex items-center justify-between px-8 z-20">
+        {/* Left System Status Panel */}
+        <div className="w-48 flex flex-col items-center justify-center space-y-2 py-4">
+          <div className="text-cyan-400/80 text-xs font-mono uppercase tracking-wider mb-1">
+            SYSTEM STATUS
+          </div>
 
-      {/* Main Content */}
-      <div className="relative h-full flex items-center justify-between px-6 z-20">
-        {/* Left Status Panel */}
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
-              <div className="absolute inset-0 w-2 h-2 bg-green-400 rounded-full animate-ping opacity-40" />
+              <div className="w-6 h-6 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
+              <div className="absolute inset-0 w-6 h-6 bg-green-400 rounded-full animate-ping opacity-40" />
+              <div className="absolute inset-1 w-4 h-4 bg-white/90 rounded-full animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="text-green-400 text-[10px] font-mono font-medium leading-tight">
+              <span className="text-green-400 text-sm font-mono tracking-wide font-bold">
                 {systemMode}
               </span>
-              <span className="text-green-400/60 text-[10px] font-mono leading-tight">
+              <span className="text-green-400/60 text-xs font-mono">
                 CPU: {cpuTemp.toFixed(0)}°C
               </span>
             </div>
           </div>
 
-          <div className="h-8 w-px bg-cyan-400/30" />
+          <div className="text-cyan-400/50 text-[10px] font-mono mt-1">
+            THREAT LEVEL: LOW
+          </div>
 
-          <div className="flex flex-col items-center">
-            <span className="text-cyan-400/70 text-[10px] font-mono uppercase">
-              THREATS
-            </span>
-            <span className="text-cyan-400 text-xs font-mono font-bold">
-              {threatsBlocked}
-            </span>
+          <div className="text-cyan-400/50 text-[10px] font-mono">
+            BLOCKS: {threatsBlocked}
           </div>
         </div>
 
-        {/* Central HUD Display */}
-        <div className="flex-1 flex items-center justify-center space-x-6 max-w-md">
-          <div className="flex items-center space-x-3">
+        {/* Central HUD Interface */}
+        <div className="flex-1 flex flex-col items-center justify-center space-y-4 max-w-lg mx-8">
+          {/* Main Data Display */}
+          <div className="flex items-center space-x-8">
             <div
-              className={`relative p-2 rounded-full bg-${
+              className={`relative p-4 rounded-full bg-${
                 currentData.color === "green" ? "green" : "cyan"
-              }-400/10 border border-${
+              }-400/10 border-2 border-${
                 currentData.color === "green" ? "green" : "cyan"
               }-400/50`}
             >
               <Icon
-                size={10}
+                size={24}
                 className={`${
                   currentData.color === "green"
                     ? "text-green-400"
@@ -180,19 +178,24 @@ const CyberpunkFooter = () => {
                 }`}
               />
               <div
-                className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-${
+                className={`absolute inset-0 rounded-full border-2 border-${
+                  currentData.color === "green" ? "green" : "cyan"
+                }-400/30 animate-ping`}
+              />
+              <div
+                className={`absolute -top-1 -right-1 w-3 h-3 bg-${
                   currentData.color === "green" ? "green" : "cyan"
                 }-400 rounded-full animate-pulse`}
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col text-center">
               <span
                 className={`${
                   currentData.color === "green"
                     ? "text-green-400/70"
                     : "text-cyan-400/70"
-                } text-[9px] font-mono uppercase tracking-wider leading-tight py-1`}
+                } text-xs font-mono uppercase tracking-wider`}
               >
                 [{currentData.sector}] {currentData.label}
               </span>
@@ -201,19 +204,28 @@ const CyberpunkFooter = () => {
                   currentData.color === "green"
                     ? "text-green-400"
                     : "text-cyan-400"
-                } text-[10px] font-mono font-medium tracking-wide leading-tight`}
+                } text-xl font-mono font-bold tracking-wide mt-1`}
               >
                 {currentData.value}
+              </span>
+              <span
+                className={`${
+                  currentData.color === "green"
+                    ? "text-green-400/50"
+                    : "text-cyan-400/50"
+                } text-[10px] font-mono mt-1`}
+              >
+                TEMP: {currentData.temp}°C | NOMINAL
               </span>
             </div>
           </div>
 
-          {/* Compact Progress Indicators */}
-          <div className="flex items-center space-x-1">
+          {/* Progress Indicators */}
+          <div className="flex items-center space-x-3 mt-6">
             {footerData.map((_, index) => (
               <div key={index} className="relative">
                 <div
-                  className={`w-1 h-1 rounded-full transition-all duration-500 ${
+                  className={`w-3 h-3 rounded-full transition-all duration-500 ${
                     index === currentDataIndex
                       ? "bg-cyan-400 shadow-lg shadow-cyan-400/50 scale-125"
                       : index < currentDataIndex
@@ -222,7 +234,7 @@ const CyberpunkFooter = () => {
                   }`}
                 />
                 {index === currentDataIndex && (
-                  <div className="absolute inset-0 w-1 h-1 bg-cyan-400 rounded-full animate-ping opacity-60" />
+                  <div className="absolute inset-0 w-3 h-3 bg-cyan-400 rounded-full animate-ping opacity-60" />
                 )}
               </div>
             ))}
@@ -230,31 +242,32 @@ const CyberpunkFooter = () => {
         </div>
 
         {/* Right Network Panel */}
-        <div className="flex items-center space-x-4">
-          <div className="flex flex-col items-center">
-            <span className="text-cyan-400/70 text-[10px] font-mono uppercase">
-              UPTIME
-            </span>
-            <span className="text-cyan-400 text-xs font-mono font-bold">
-              {uptime}%
-            </span>
+        <div className="w-48 flex flex-col items-center justify-center space-y-2 py-4">
+          <div className="text-cyan-400/80 text-xs font-mono uppercase tracking-wider mb-1">
+            NETWORK STATUS
           </div>
 
-          <div className="h-8 w-px bg-cyan-400/30" />
-
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
-              <div className="absolute inset-0 w-2 h-2 bg-green-400 rounded-full animate-ping opacity-40" />
+              <div className="w-5 h-5 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
+              <div className="absolute inset-0 w-5 h-5 bg-green-400 rounded-full animate-ping opacity-40" />
             </div>
             <div className="flex flex-col">
-              <span className="text-green-400 text-xs font-mono font-bold leading-tight">
+              <div className="text-green-400 text-sm font-mono font-bold">
                 {networkActivity}%
-              </span>
-              <span className="text-green-400/60 text-[10px] font-mono leading-tight">
-                NETWORK
-              </span>
+              </div>
+              <div className="text-green-400/60 text-xs font-mono">
+                ACTIVITY
+              </div>
             </div>
+          </div>
+
+          <div className="text-cyan-400/50 text-[10px] font-mono mt-1">
+            UPTIME: {uptime}%
+          </div>
+
+          <div className="text-cyan-400/50 text-[10px] font-mono">
+            LATENCY: 12ms
           </div>
         </div>
       </div>
@@ -267,16 +280,30 @@ const CyberpunkFooter = () => {
             opacity: 0;
           }
           30% {
-            transform: translateY(10px) scaleX(1);
+            transform: translateY(20px) scaleX(1);
             opacity: 1;
           }
           70% {
-            transform: translateY(60px) scaleX(1);
+            transform: translateY(120px) scaleX(1);
             opacity: 1;
           }
           80%,
           100% {
-            transform: translateY(80px) scaleX(0);
+            transform: translateY(160px) scaleX(0);
+            opacity: 0;
+          }
+        }
+
+        @keyframes secondaryScan {
+          0% {
+            transform: translateY(-10px);
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.4;
+          }
+          100% {
+            transform: translateY(170px);
             opacity: 0;
           }
         }
