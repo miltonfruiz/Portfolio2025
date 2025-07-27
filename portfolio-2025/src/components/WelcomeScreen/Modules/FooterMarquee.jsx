@@ -12,16 +12,15 @@ import {
   FaNetworkWired as Network,
 } from "react-icons/fa";
 
-const CyberpunkFooter = () => {
+const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
   const [currentDataIndex, setCurrentDataIndex] = useState(0);
   const [threatsBlocked] = useState(Math.floor(Math.random() * 5));
   const [uptime] = useState((99.95 + Math.random() * 0.04).toFixed(2));
   const [systemMode, setSystemMode] = useState("OPERATIONAL");
-
   const [networkActivity, setNetworkActivity] = useState(0);
   const [cpuTemp, setCpuTemp] = useState(45);
 
-  const footerData = [
+  const cyberpunkFooterData = [
     {
       icon: Shield,
       label: "System Status",
@@ -111,28 +110,46 @@ const CyberpunkFooter = () => {
     }, 1000);
 
     const dataTimer = setInterval(() => {
-      setCurrentDataIndex((prev) => (prev + 1) % footerData.length);
+      setCurrentDataIndex((prev) => (prev + 1) % cyberpunkFooterData.length);
     }, 4000);
 
     return () => {
       clearInterval(timer);
       clearInterval(dataTimer);
     };
-  }, [footerData.length]);
+  }, [cyberpunkFooterData.length]);
 
-  const currentData = footerData[currentDataIndex];
+  const currentData = cyberpunkFooterData[currentDataIndex];
   const Icon = currentData.icon;
+
+  if (glitchActive) {
+    return (
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-10 overflow-hidden z-50 border-t text-[10px] border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]`}
+      >
+        <div className="relative h-full w-full overflow-hidden font-montserrat flex items-center justify-center">
+          <div
+            className={`flex gap-4 items-center h-full text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-[10px]`}
+            style={{
+              animation: "marquee 60s linear infinite",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span className="flex gap-4">
+              {glitchedFooter || "SYSTEM FAILURE DETECTED ••• "}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 h-10 bg-black/98 backdrop-blur-xl z-50 overflow-hidden border-t border-cyan-400/20">
-      {/* Scanning Line Effect */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
       </div>
-
-      {/* Main Content */}
       <div className="relative h-full flex items-center justify-between px-6 z-20">
-        {/* Left Status Panel */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <div className="relative">
@@ -148,9 +165,7 @@ const CyberpunkFooter = () => {
               </span>
             </div>
           </div>
-
           <div className="h-8 w-px bg-cyan-400/30" />
-
           <div className="flex flex-col items-center">
             <span className="text-cyan-400/70 text-[10px] font-mono uppercase">
               THREATS
@@ -160,8 +175,6 @@ const CyberpunkFooter = () => {
             </span>
           </div>
         </div>
-
-        {/* Central HUD Display */}
         <div className="flex-1 flex items-center justify-center space-x-6 max-w-md">
           <div className="flex items-center space-x-3">
             <div
@@ -185,7 +198,6 @@ const CyberpunkFooter = () => {
                 }-400 rounded-full animate-pulse`}
               />
             </div>
-
             <div className="flex flex-col">
               <span
                 className={`${
@@ -207,10 +219,8 @@ const CyberpunkFooter = () => {
               </span>
             </div>
           </div>
-
-          {/* Compact Progress Indicators */}
           <div className="flex items-center space-x-1">
-            {footerData.map((_, index) => (
+            {cyberpunkFooterData.map((_, index) => (
               <div key={index} className="relative">
                 <div
                   className={`w-1 h-1 rounded-full transition-all duration-500 ${
@@ -228,8 +238,6 @@ const CyberpunkFooter = () => {
             ))}
           </div>
         </div>
-
-        {/* Right Network Panel */}
         <div className="flex items-center space-x-4">
           <div className="flex flex-col items-center">
             <span className="text-cyan-400/70 text-[10px] font-mono uppercase">
@@ -239,9 +247,7 @@ const CyberpunkFooter = () => {
               {uptime}%
             </span>
           </div>
-
           <div className="h-8 w-px bg-cyan-400/30" />
-
           <div className="flex items-center space-x-2">
             <div className="relative">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
@@ -258,7 +264,6 @@ const CyberpunkFooter = () => {
           </div>
         </div>
       </div>
-
       <style jsx>{`
         @keyframes scan {
           0%,
@@ -305,9 +310,18 @@ const CyberpunkFooter = () => {
             opacity: 0;
           }
         }
+
+        @keyframes marquee {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
       `}</style>
     </footer>
   );
 };
 
-export default CyberpunkFooter;
+export default FooterMarquee;
