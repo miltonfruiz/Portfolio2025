@@ -40,7 +40,7 @@ const SystemLoader = ({ onComplete }) => {
           loadProgress,
           {
             value: progressStart + (i + 1) * stepDuration,
-            duration: 0.63,
+            duration: 0.61,
             ease: "power3.out",
             onUpdate: () => setProgress(loadProgress.value),
             onStart: () => {
@@ -65,7 +65,7 @@ const SystemLoader = ({ onComplete }) => {
 
     masterTimeline.to(loadProgress, {
       value: 100,
-      duration: 1.5,
+      duration: 3.26,
       onUpdate: () => setProgress(loadProgress.value),
       onComplete: () => {
         setFinalStage(true);
@@ -77,7 +77,7 @@ const SystemLoader = ({ onComplete }) => {
             delay: 1,
             onComplete: onComplete,
           });
-        }, 15000);
+        }, 17500);
       },
     });
 

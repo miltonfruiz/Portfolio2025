@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
   const [volume] = useState(0.5);
-  const [startTime] = useState(2);
+  const [startTime] = useState(0);
   const [showUnmuteButton, setShowUnmuteButton] = useState(false);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const BackgroundMusic = () => {
   return (
     <div>
       <audio ref={audioRef} preload="auto">
-        <source src="/music/interstellar.mp3" type="audio/mpeg" />
+        <source src="/music/epic.mp3" type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>
       {showUnmuteButton && (
