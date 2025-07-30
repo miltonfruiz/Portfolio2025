@@ -40,7 +40,7 @@ const SystemLoader = ({ onComplete }) => {
           loadProgress,
           {
             value: progressStart + (i + 1) * stepDuration,
-            duration: 0.61,
+            duration: 0.6,
             ease: "power3.out",
             onUpdate: () => setProgress(loadProgress.value),
             onStart: () => {
@@ -77,7 +77,7 @@ const SystemLoader = ({ onComplete }) => {
             delay: 1,
             onComplete: onComplete,
           });
-        }, 17500);
+        }, 10700);
       },
     });
 

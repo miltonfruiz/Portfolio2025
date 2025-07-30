@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaShieldAlt as Shield,
   FaUser as User,
@@ -7,16 +8,17 @@ import {
   FaBolt as Zap,
   FaHdd as HardDrive,
   FaCalendarAlt as Calendar,
-  FaTerminal as Terminal,
   FaChartLine as Activity,
   FaNetworkWired as Network,
 } from "react-icons/fa";
 
-const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
+const FooterMarquee = ({ glitchActive, glitchedFooter }) => {
+  const hasAnimated = useRef(false);
+
   const [currentDataIndex, setCurrentDataIndex] = useState(0);
   const [threatsBlocked] = useState(Math.floor(Math.random() * 5));
   const [uptime] = useState((99.95 + Math.random() * 0.04).toFixed(2));
-  const [systemMode, setSystemMode] = useState("OPERATIONAL");
+  const [systemMode] = useState("OPERATIONAL");
   const [networkActivity, setNetworkActivity] = useState(0);
   const [cpuTemp, setCpuTemp] = useState(45);
 
@@ -111,7 +113,7 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
 
     const dataTimer = setInterval(() => {
       setCurrentDataIndex((prev) => (prev + 1) % cyberpunkFooterData.length);
-    }, 4000);
+    }, 7000);
 
     return () => {
       clearInterval(timer);
@@ -124,12 +126,10 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
 
   if (glitchActive) {
     return (
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-10 overflow-hidden z-50 border-t text-[10px] border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]`}
-      >
+      <div className="absolute bottom-0 left-0 right-0 h-10 overflow-hidden z-50 border-t text-[10px] border-red-500 bg-black/90 shadow-[0_0_10px_#ff0000]">
         <div className="relative h-full w-full overflow-hidden font-montserrat flex items-center justify-center">
           <div
-            className={`flex gap-4 items-center h-full text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-[10px]`}
+            className="flex gap-4 items-center h-full text-red-500 font-bold [text-shadow:_0_0_5px_#ff0000] text-[10px]"
             style={{
               animation: "marquee 60s linear infinite",
               whiteSpace: "nowrap",
@@ -145,12 +145,32 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 h-10 bg-black/98 backdrop-blur-xl z-50 overflow-hidden border-t border-cyan-400/20">
+    <motion.footer
+      initial={hasAnimated.current ? false : { opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 4.2, ease: "easeOut" }}
+      className="fixed bottom-0 left-0 right-0 h-10 bg-black/98 backdrop-blur-xl z-50 overflow-hidden border-t border-cyan-400/20"
+      onAnimationComplete={() => (hasAnimated.current = true)}
+    >
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" />
       </div>
-      <div className="relative h-full flex items-center justify-between px-6 z-20">
-        <div className="flex items-center space-x-4">
+
+      <motion.div
+        initial={hasAnimated.current ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 4.2, duration: 1.2 }}
+        className="relative h-full flex items-center justify-between px-6 z-20"
+        onAnimationComplete={() => (hasAnimated.current = true)}
+      >
+        {/* Left Panel */}
+        <motion.div
+          initial={hasAnimated.current ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 4.2, duration: 4.2 }}
+          className="flex items-center space-x-4"
+          onAnimationComplete={() => (hasAnimated.current = true)}
+        >
           <div className="flex items-center space-x-2">
             <div className="relative">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/60" />
@@ -174,51 +194,43 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
               {threatsBlocked}
             </span>
           </div>
-        </div>
-        <div className="flex-1 flex items-center justify-center space-x-6 max-w-md">
-          <div className="flex items-center space-x-3">
-            <div
-              className={`relative p-2 rounded-full bg-${
-                currentData.color === "green" ? "green" : "cyan"
-              }-400/10 border border-${
-                currentData.color === "green" ? "green" : "cyan"
-              }-400/50`}
+        </motion.div>
+
+        {/* HUD Center */}
+        <motion.div className="overflow-hidden flex-1 flex items-center justify-center space-x-6 max-w-md">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentDataIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              className="flex items-center space-x-3 "
             >
-              <Icon
-                size={10}
-                className={`${
-                  currentData.color === "green"
-                    ? "text-green-400"
-                    : "text-cyan-400"
-                }`}
-              />
               <div
-                className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-${
-                  currentData.color === "green" ? "green" : "cyan"
-                }-400 rounded-full animate-pulse`}
-              />
-            </div>
-            <div className="flex flex-col">
-              <span
-                className={`${
-                  currentData.color === "green"
-                    ? "text-green-400/70"
-                    : "text-cyan-400/70"
-                } text-[9px] font-mono uppercase tracking-wider leading-tight py-1`}
+                className={`relative p-2 rounded-full bg-${currentData.color}-400/10 border border-${currentData.color}-400/50`}
               >
-                [{currentData.sector}] {currentData.label}
-              </span>
-              <span
-                className={`${
-                  currentData.color === "green"
-                    ? "text-green-400"
-                    : "text-cyan-400"
-                } text-[10px] font-mono font-medium tracking-wide leading-tight`}
-              >
-                {currentData.value}
-              </span>
-            </div>
-          </div>
+                <Icon size={10} className={`text-${currentData.color}-400`} />
+                <div
+                  className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-${currentData.color}-400 rounded-full animate-pulse`}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span
+                  className={`text-${currentData.color}-400/70 text-[9px] font-mono uppercase tracking-wider leading-tight py-1`}
+                >
+                  [{currentData.sector}] {currentData.label}
+                </span>
+                <span
+                  className={`text-${currentData.color}-400 text-[10px] font-mono font-medium tracking-wide leading-tight`}
+                >
+                  {currentData.value}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Progress Points */}
           <div className="flex items-center space-x-1">
             {cyberpunkFooterData.map((_, index) => (
               <div key={index} className="relative">
@@ -237,8 +249,16 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
               </div>
             ))}
           </div>
-        </div>
-        <div className="flex items-center space-x-4">
+        </motion.div>
+
+        {/* Right Panel */}
+        <motion.div
+          initial={hasAnimated.current ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 4.2, duration: 4.2 }}
+          className="flex items-center space-x-4"
+          onAnimationComplete={() => (hasAnimated.current = true)}
+        >
           <div className="flex flex-col items-center">
             <span className="text-cyan-400/70 text-[10px] font-mono uppercase">
               UPTIME
@@ -262,55 +282,10 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
       <style jsx>{`
-        @keyframes scan {
-          0%,
-          20% {
-            transform: translateY(0) scaleX(0);
-            opacity: 0;
-          }
-          30% {
-            transform: translateY(10px) scaleX(1);
-            opacity: 1;
-          }
-          70% {
-            transform: translateY(60px) scaleX(1);
-            opacity: 1;
-          }
-          80%,
-          100% {
-            transform: translateY(80px) scaleX(0);
-            opacity: 0;
-          }
-        }
-
-        @keyframes glitch {
-          0%,
-          94% {
-            transform: translateX(0);
-            opacity: 0;
-          }
-          95% {
-            transform: translateX(-1px);
-            opacity: 0.1;
-          }
-          96% {
-            transform: translateX(1px);
-            opacity: 0.2;
-          }
-          97% {
-            transform: translateX(-0.5px);
-            opacity: 0.1;
-          }
-          98%,
-          100% {
-            transform: translateX(0);
-            opacity: 0;
-          }
-        }
-
         @keyframes marquee {
           0% {
             transform: translateX(100%);
@@ -320,7 +295,7 @@ const FooterMarquee = ({ glitchActive, glitchedFooter, footerData }) => {
           }
         }
       `}</style>
-    </footer>
+    </motion.footer>
   );
 };
 
