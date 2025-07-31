@@ -208,116 +208,123 @@ const FooterMarquee = ({ glitchActive, glitchedFooter }) => {
             </div>
           </motion.div>
 
-          {/* HUD Center */}
-          <motion.div className="overflow-hidden flex-1 flex items-center justify-center space-x-6 max-w-md">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentDataIndex}
-                initial={
-                  initialAnimationComplete
-                    ? { opacity: 0, y: 10 }
-                    : { opacity: 0 }
-                }
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={
-                  initialAnimationComplete
-                    ? { duration: 0.6, ease: "easeInOut" }
-                    : {
-                        delay: 4.2,
-                        duration: 4.2,
-                        ease: [0.16, 1, 0.3, 1],
-                      }
-                }
-                onAnimationComplete={() => setInitialAnimationComplete(true)}
-                className="flex items-center space-x-3"
-              >
+          {/* HUD Center - Contenedores fijos */}
+          <div className="overflow-hidden flex-1 flex items-center justify-center max-w-md">
+            {/* Contenedor fijo para el HUD de datos */}
+            <div className="flex-1 flex justify-center">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  initial={initialAnimationComplete ? {} : { scale: 0.8 }}
-                  animate={{ scale: 1 }}
+                  key={currentDataIndex}
+                  initial={
+                    initialAnimationComplete
+                      ? { opacity: 0, y: 10 }
+                      : { opacity: 0 }
+                  }
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={
                     initialAnimationComplete
-                      ? {}
+                      ? { duration: 0.6, ease: "easeInOut" }
                       : {
                           delay: 4.2,
                           duration: 4.2,
                           ease: [0.16, 1, 0.3, 1],
                         }
                   }
-                  className={`relative p-2 rounded-full bg-${currentData.color}-400/10 border border-${currentData.color}-400/50`}
+                  onAnimationComplete={() => setInitialAnimationComplete(true)}
+                  className="flex items-center space-x-3"
                 >
-                  <Icon size={10} className={`text-${currentData.color}-400`} />
-                  <div
-                    className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-${currentData.color}-400 rounded-full animate-pulse`}
-                  />
-                </motion.div>
-                <div className="flex flex-col">
-                  <span
-                    className={`text-${currentData.color}-400/70 text-[9px] font-mono uppercase tracking-wider leading-tight py-1`}
+                  <motion.div
+                    initial={initialAnimationComplete ? {} : { scale: 0.8 }}
+                    animate={{ scale: 1 }}
+                    transition={
+                      initialAnimationComplete
+                        ? {}
+                        : {
+                            delay: 4.2,
+                            duration: 4.2,
+                            ease: [0.16, 1, 0.3, 1],
+                          }
+                    }
+                    className={`relative p-2 rounded-full bg-${currentData.color}-400/10 border border-${currentData.color}-400/50`}
                   >
-                    [{currentData.sector}] {currentData.label}
-                  </span>
-                  <span
-                    className={`text-${currentData.color}-400 text-[10px] font-mono font-medium tracking-wide leading-tight`}
-                  >
-                    {currentData.value}
-                  </span>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Progress Points - Perfectamente sincronizados */}
-            <motion.div
-              className="flex items-center space-x-1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 4.2, duration: 0.6 }}
-            >
-              {cyberpunkFooterData.map((_, index) => (
-                <motion.div
-                  key={index}
-                  className="relative"
-                  animate={{
-                    scale: index === currentDataIndex ? [1, 1.2, 1] : 1,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    times: [0, 0.5, 1],
-                    repeatDelay: 7000,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    delay:
-                      index === currentDataIndex && isTransitioning ? 0.3 : 0,
-                  }}
-                >
-                  <div
-                    className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                      index === currentDataIndex
-                        ? "bg-cyan-400 shadow-lg shadow-cyan-400/50"
-                        : index < currentDataIndex
-                        ? "bg-green-400/80"
-                        : "bg-gray-600/50"
-                    }`}
-                  />
-                  {index === currentDataIndex && (
-                    <motion.div
-                      className="absolute inset-0 w-1 h-1 bg-cyan-400 rounded-full"
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{
-                        opacity: [0, 0.6, 0],
-                        scale: [0.5, 1.5, 0.5],
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        repeat: Infinity,
-                        repeatDelay: 7000 - 1.2,
-                      }}
+                    <Icon
+                      size={10}
+                      className={`text-${currentData.color}-400`}
                     />
-                  )}
+                    <div
+                      className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-${currentData.color}-400 rounded-full animate-pulse`}
+                    />
+                  </motion.div>
+                  <div className="flex flex-col">
+                    <span
+                      className={`text-${currentData.color}-400/70 text-[9px] font-mono uppercase tracking-wider leading-tight py-1`}
+                    >
+                      [{currentData.sector}] {currentData.label}
+                    </span>
+                    <span
+                      className={`text-${currentData.color}-400 text-[10px] font-mono font-medium tracking-wide leading-tight`}
+                    >
+                      {currentData.value}
+                    </span>
+                  </div>
                 </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Contenedor fijo para los puntos de progreso */}
+            <div className="flex items-center mr-32">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 4.2, duration: 0.6 }}
+              >
+                {cyberpunkFooterData.map((_, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative inline-block ml-1"
+                    animate={{
+                      scale: index === currentDataIndex ? [1, 1.2, 1] : 1,
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      times: [0, 0.5, 1],
+                      repeatDelay: 7000,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      delay:
+                        index === currentDataIndex && isTransitioning ? 0.3 : 0,
+                    }}
+                  >
+                    <div
+                      className={`w-1 h-1 rounded-full transition-all duration-300 ${
+                        index === currentDataIndex
+                          ? "bg-cyan-400 shadow-lg shadow-cyan-400/50"
+                          : index < currentDataIndex
+                          ? "bg-green-400/80"
+                          : "bg-gray-600/50"
+                      }`}
+                    />
+                    {index === currentDataIndex && (
+                      <motion.div
+                        className="absolute inset-0 w-1 h-1 bg-cyan-400 rounded-full"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{
+                          opacity: [0, 0.6, 0],
+                          scale: [0.5, 1.5, 0.5],
+                        }}
+                        transition={{
+                          duration: 1.2,
+                          repeat: Infinity,
+                          repeatDelay: 7000 - 1.2,
+                        }}
+                      />
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
 
           {/* Right Panel */}
           <motion.div
