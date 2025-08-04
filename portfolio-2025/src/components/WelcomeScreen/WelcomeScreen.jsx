@@ -56,7 +56,7 @@ const WelcomeScreen = () => {
   const baseTexts = {
     terminal: "[root@miltonfruiz ~]$ run portfolio-v2.5.exe",
     title: "$ ./welcome.sh",
-    subtitle: "You're not ready",
+    subtitle: "You're not alone",
     footer: footerData
       .map((item) => `${item.label}: ${item.value}`)
       .join(" • "),

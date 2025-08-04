@@ -9,12 +9,12 @@ const TerminalTexts = ({
   subtitleRef,
 }) => {
   return (
-    <div className="relative z-50 text-center mb-12 w-full max-w-2xl">
+    <div className="relative z-50 text-center mb-8 w-full max-w-2xl">
       {/* Terminal Line */}
       <div
         className={`font-mono mb-4 tracking-widest min-h-6 ${
           glitchActive
-            ? "text-[#ff0020] text-xs md:text-2xl glitch-font-style hover:translate-y-0"
+            ? "text-[#ff0020] text-xs md:text-[18px] glitch-font-style hover:translate-y-0"
             : "text-cyber-primary text-sm md:text-[11px]"
         }`}
       >
