@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaSkullCrossbones } from "react-icons/fa";
 
 const TerminalTexts = ({
@@ -8,6 +8,48 @@ const TerminalTexts = ({
   showSubtitle,
   subtitleRef,
 }) => {
+  const [typedTerminalText, setTypedTerminalText] = useState("");
+  const [startTyping, setStartTyping] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
+  const hasTyped = useRef(false);
+
+  useEffect(() => {
+    if (!glitchActive && !hasTyped.current) {
+      const delay = setTimeout(() => {
+        setStartTyping(true);
+      }, 7000); // Esperar 7s antes de empezar a escribir Terminal Line
+
+      return () => clearTimeout(delay);
+    }
+  }, [glitchActive]);
+
+  useEffect(() => {
+    if (startTyping && !hasTyped.current && displayTexts.terminal) {
+      let currentIndex = 0;
+      const totalDuration = 3000; // 3 segundos
+      const intervalTime = Math.floor(
+        totalDuration / displayTexts.terminal.length
+      );
+
+      const typingInterval = setInterval(() => {
+        currentIndex++;
+        setTypedTerminalText(displayTexts.terminal.slice(0, currentIndex));
+
+        if (currentIndex >= displayTexts.terminal.length) {
+          clearInterval(typingInterval);
+          hasTyped.current = true;
+
+          // Mostrar el título después de 2s
+          setTimeout(() => {
+            setShowTitle(true);
+          }, 2000);
+        }
+      }, intervalTime);
+
+      return () => clearInterval(typingInterval);
+    }
+  }, [startTyping, displayTexts.terminal]);
+
   return (
     <div className="relative z-50 text-center mb-8 w-full max-w-2xl">
       {/* Terminal Line */}
@@ -18,37 +60,29 @@ const TerminalTexts = ({
             : "text-cyber-primary text-sm md:text-[11px]"
         }`}
       >
-        {displayTexts.terminal}
-        {!glitchActive && displayTexts.terminal?.length < 36 && (
-          <span
-            className={`ml-2 animate-terminal-blink ${
-              glitchActive ? "text-red-500" : ""
-            }`}
-          >
-            _
-          </span>
-        )}
+        {glitchActive ? displayTexts.terminal : typedTerminalText}
+
+        {!glitchActive &&
+          typedTerminalText.length < displayTexts.terminal.length && (
+            <span className="ml-2 animate-terminal-blink">_</span>
+          )}
       </div>
 
       {/* Title */}
-      <h1
-        className={`font-mono font-bold tracking-tighter min-h-12 ${
-          glitchActive
-            ? "text-[#ff0020] text-2xl md:text-4xl glitch-font-style italic"
-            : "text-cyber-primary text-3xl md:text-4xl"
-        }`}
-      >
-        {displayTexts.title}
-        {!glitchActive && isTyping && (
-          <span
-            className={`ml-2 animate-terminal-blink ${
-              glitchActive ? "text-red-600 text-4xl" : ""
-            }`}
-          >
-            _
-          </span>
-        )}
-      </h1>
+      {showTitle && (
+        <h1
+          className={`font-mono font-bold tracking-tighter min-h-12 transition-opacity duration-500 ${
+            glitchActive
+              ? "text-[#ff0020] text-2xl md:text-4xl glitch-font-style italic"
+              : "text-cyber-primary text-3xl md:text-4xl"
+          }`}
+        >
+          {displayTexts.title}
+          {!glitchActive && isTyping && (
+            <span className="ml-2 animate-terminal-blink">_</span>
+          )}
+        </h1>
+      )}
 
       {/* Subtitle */}
       <h1
