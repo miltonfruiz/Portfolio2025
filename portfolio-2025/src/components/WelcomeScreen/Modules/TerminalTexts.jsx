@@ -17,7 +17,7 @@ const TerminalTexts = ({
     if (!glitchActive && !hasTyped.current) {
       const delay = setTimeout(() => {
         setStartTyping(true);
-      }, 7000); // Esperar 7s antes de empezar a escribir Terminal Line
+      }, 8100); // Esperar 8.1s antes de empezar a escribir Terminal Line
 
       return () => clearTimeout(delay);
     }
@@ -26,9 +26,9 @@ const TerminalTexts = ({
   useEffect(() => {
     if (startTyping && !hasTyped.current && displayTexts.terminal) {
       let currentIndex = 0;
-      const totalDuration = 3000; // 3 segundos
+      const totalDuration = 5000; // 5 segundos
       const intervalTime = Math.floor(
-        totalDuration / displayTexts.terminal.length
+        totalDuration / displayTexts.terminal.length,
       );
 
       const typingInterval = setInterval(() => {

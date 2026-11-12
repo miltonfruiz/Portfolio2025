@@ -58,7 +58,7 @@ const ProgressBar = ({ progress, finalStage }) => {
           visible: { opacity: 1 },
         }}
         transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-        className="relative h-[8px] sm:h-[10px] md:h-[12px] xl:h-2.5 bg-[#0c0f11] rounded-full overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300"
+        className="relative h-[8px] sm:h-[10px] md:h-[12px] xl:h-2.5 bg-[#0c0f11] rounded-sm overflow-hidden border-0 shadow-[0_0_6px_#00ff9d55] transition-all duration-300"
       >
         <motion.div
           id="progress-bar"
@@ -71,7 +71,7 @@ const ProgressBar = ({ progress, finalStage }) => {
             boxShadow:
               "0 0 5px #00b8ff, 0 0 10px #00ff9d, 0 0 15px rgba(255,255,255,0.3)",
           }}
-          className="h-full rounded-full"
+          className="h-full rounded-sm"
         />
       </motion.div>
     </motion.div>

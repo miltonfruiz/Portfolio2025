@@ -54,7 +54,7 @@ const WelcomeScreen = () => {
   ];
 
   const baseTexts = {
-    terminal: "[root@miltonfruiz ~]$ run portfolio-v2.5.exe",
+    terminal: "[root@miltonfruiz ~]$ run portfolio-v2.6.exe",
     title: "$ ./welcome.sh",
     subtitle: "You're not alone",
     footer: footerData
@@ -64,13 +64,13 @@ const WelcomeScreen = () => {
 
   const { glitchActive, glitchedTexts, triggerGlitch } = useGlitchEffect(
     baseTexts,
-    footerData
+    footerData,
   );
 
   const { displayedTerminal, displayedTitle, isTyping } = TypeWriter(
     [baseTexts.terminal, baseTexts.title],
     80,
-    1500
+    1500,
   );
 
   const displayTexts = glitchActive
