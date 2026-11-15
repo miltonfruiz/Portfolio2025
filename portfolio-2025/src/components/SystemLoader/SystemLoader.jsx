@@ -22,7 +22,7 @@ const SystemLoader = ({ onComplete }) => {
   const [finalStage, setFinalStage] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentMessage, setCurrentMessage] = useState(
-    "Initializing core systems..."
+    "Initializing core systems...",
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const SystemLoader = ({ onComplete }) => {
               }
             },
           },
-          `>+=${i === 0 ? 0 : 0.2}`
+          `>+=${i === 0 ? 0 : 0.2}`,
         );
       }
     };
@@ -95,11 +95,8 @@ const SystemLoader = ({ onComplete }) => {
         ref={containerRef}
         className="fixed inset-0 z-50 bg-black flex items-center justify-center crt-effect"
       >
-        <ParticlesBackground
-          key={finalStage ? (progress >= 100 ? "neon" : "cian") : "off"}
-          progress={progress}
-          finalStage={finalStage}
-        />
+        <ParticlesBackground progress={progress} finalStage={finalStage} />
+
         <ReactorCore progress={progress} finalStage={finalStage} />
         <div className="relative z-10 w-full max-w-3xl px-6">
           <SystemHeader

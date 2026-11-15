@@ -2,20 +2,17 @@ import React, { useCallback, useMemo } from "react";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 
+import "./ParticlesBackground.css";
+
 const ParticlesBackground = ({ progress, finalStage }) => {
   const isComplete = progress >= 100 && finalStage;
-
-  // Paleta de colores
-  const particleColors = isComplete
-    ? ["#00ffff", "#00d9ff", "#9d00ff", "#ff00ff", "#ffea00"]
-    : ["#087f91", "#08758a", "#15516b", "#00a6b8"];
 
   // Inicialización de tsParticles
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
 
-  // Configuración optimizada
+  // Configuración estática: nunca cambia durante la carga
   const particlesOptions = useMemo(
     () => ({
       fullScreen: {
@@ -33,36 +30,46 @@ const ParticlesBackground = ({ progress, finalStage }) => {
 
       particles: {
         color: {
-          value: particleColors,
+          value: [
+            "#087f91",
+            "#08758a",
+            "#15516b",
+            "#00a6b8",
+            "#00ffff",
+            "#9d00ff",
+            "#ff00ff",
+            "#ffea00",
+          ],
         },
 
         links: {
           enable: true,
           distance: 130,
-          color: "#087f91",
+          color: "#ffea00",
           opacity: 0.24,
           width: 0.65,
 
           triangles: {
             enable: true,
-            color: "#008caa",
+            color: "#00a6b8",
             opacity: 0.008,
           },
         },
 
         move: {
           enable: true,
-          speed: isComplete ? 0.8 : 0.4,
+          speed: 0.4,
           direction: "none",
           random: true,
           straight: false,
+
           outModes: {
             default: "bounce",
           },
         },
 
         number: {
-          value: isComplete ? 190 : 150,
+          value: 180,
           density: {
             enable: true,
             area: 800,
@@ -101,7 +108,6 @@ const ParticlesBackground = ({ progress, finalStage }) => {
           },
         },
 
-        // Pequeños destellos
         twinkle: {
           particles: {
             enable: true,
@@ -140,15 +146,21 @@ const ParticlesBackground = ({ progress, finalStage }) => {
 
       detectRetina: true,
     }),
-    [isComplete],
+    [],
   );
 
   return (
-    <Particles
-      id="tsparticles"
-      init={particlesInit}
-      options={particlesOptions}
-    />
+    <div
+      className={`particles-background ${
+        isComplete ? "particles-active" : "particles-inactive"
+      }`}
+    >
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        options={particlesOptions}
+      />
+    </div>
   );
 };
 
