@@ -39,7 +39,7 @@ const ParticlesBackground = ({ progress, finalStage }) => {
         links: {
           enable: true,
           distance: 130,
-          color: "#00cce8",
+          color: "#087f91",
           opacity: 0.24,
           width: 0.65,
 
